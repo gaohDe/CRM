@@ -1,0 +1,119 @@
+/***********设置公共资源样式*********/
+.pub_resource {
+    font-family: "宋体";
+}
+
+.pub_resource .numInput {
+    margin: 10px 0px -41px 0px;
+    position: relative;
+}
+
+/*****标签栏样式******/
+.pub_resource .title {
+    border-bottom: 1px solid #d9d9d9;
+}
+.panel-heading label {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 0px;
+}
+
+/******表格样式*******/
+.resUpLimit {
+    float: left;
+    width: 630px;
+    margin: 10px 15px 20px 0px
+}
+
+.resUpLimit tr td {
+    width: 33%;
+}
+
+.resTimeLimit {
+    float: left;
+    margin: 10px 0px 20px 0px;
+    width: 460px;
+}
+
+table {
+    text-align: center;
+    font-size: 14px;
+}
+
+table .tableTitle {
+    height: 60px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+table .tableContent {
+    height: 100px;
+}
+
+table .numSet {
+    font-size: 35px;
+    font-style:italic;
+    color: #1fbba6;
+}
+
+table .unitSet {
+    float: right;
+    margin: 60px 0px 0px 0px;
+    color: #9ca0a3;
+}
+
+/********阶段展示部分样式***********/
+.stepArea p {
+    padding: 0px 0px 10px 0px;
+}
+
+.stepArea p .tipOne{
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.stepArea p .tip {
+    font-size: 14px;
+}
+
+.stepContent {
+    float: left;
+    margin: -1px 0px 0px -1px;
+    width: 200px;
+    height: 163px;
+    border: 1px solid #ddd;
+}
+
+.stepContent .stepTitle {
+    height: 60px;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0px 0px 10px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+.stepContent .stepDate p {
+    font-style: italic;
+    font-size: 40px;
+    color: #1fbba6;
+    padding: 15px 0px 0px 70px;
+}
+
+.stepContent .stepDate span {
+    font-size: 12px;
+    color: #9ca0a3;
+    float: right;
+    margin: -10px 5px 0px 0px;
+}
+
+.stepContent .stepDate .addStyle {
+    position: relative;
+    margin: 20px 0px 30px 25px;
+    width: 150px;
+}
+
+.dealIcon {
+    float: left;
+    clear: both;
+    margin: 50px 0px 0px 40%;
+}

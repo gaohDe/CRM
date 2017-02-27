@@ -1,0 +1,32 @@
+<div ng-controller="LoginController" class="block-center login_main" style="background: #373c4a;">
+
+   <div style="/*border:1px solid red;*/width: 100%">
+      <a href="#">
+         <img src="app/img/logo-large-icon.png" alt="Image" class="block-center img-rounded"/>
+      </a>
+   </div>
+
+   <div style="/*border:1px solid red;*/width: 100%;margin-top: 30px;">
+      <p class="text-center" style="font-size: 22px;color: #ffffff">登&nbsp;&nbsp;录</p>
+         <form role="form" ng-submit="login()" name="loginForm" novalidate="" class="form-validate mb-lg" style="text-align: left;width: 350px;margin-left: auto;margin-right: auto;">
+            <div class="form-group has-feedback">
+               <input id="exampleInputEmail1" type="text" name="account_email" placeholder="用户名" autocomplete="off" ng-model="account.email" required="" class="form-control" />
+               <span class="fa fa-user form-control-feedback text-muted"></span>
+               <span ng-show="loginForm.account_email.$dirty &amp;&amp; loginForm.account_email.$error.required" class="text-danger">请填写用户名！</span>
+               <!--<span ng-show="loginForm.account_email.$dirty &amp;&amp; loginForm.account_email.$error.email" class="text-danger">邮箱格式不正确！</span>-->
+               <span ng-show="login_status==false" class="text-danger">用户名或密码不正确！</span>
+            </div>
+            <div class="form-group has-feedback">
+               <input id="exampleInputPassword1" type="password" name="account_password" placeholder="密码" ng-model="account.password" required="" class="form-control" />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="loginForm.account_password.$dirty &amp;&amp; loginForm.account_password.$error.required" class="text-danger">请填写密码！</span>
+            </div>
+            <button type="submit" class="btn btn-block btn-green">Login</button>
+         </form>
+   </div>
+   <div style="/*border:1px solid red;*/width: 100%;text-align: center;margin-top: 30px;">
+      <p> <span>南京岱恩教育科技有限公司(客户关系管理系统)</span> <a href="#" class="light-grey ">微信公众平台</a> <span>|</span> <a href="#" class="light-grey">关于岱恩教育</a> <span>|</span> <a href="#" class="light-grey">联系我们</a></p>
+      <p>版权所有 &copy; 2013-2016上海徐汇区迪乐进修学校：岱恩英语官方培训机构</p>
+      <p><span>沪ICP备09007790-4 </span> 021-64280980</p>
+   </div>
+</div>

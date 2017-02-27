@@ -1,0 +1,102 @@
+<div ng-controller="business_opportunitiesCtrl" style="background: #fff;">
+    <div class="panel-heading bus_oppor_head">
+        <span style="font-size:20px;font-weight: 600;">商机</span>
+        <!--<div class="form-group pull-right" style="margin:0;padding: 0">-->
+            <!--&lt;!&ndash;<button type="button" class="btn btn-default">导入</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button type="button" class="btn btn-default">导出</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button type="button" class="btn btn-default">批量删除</button>&ndash;&gt;-->
+            <!--<input type="text" class="materialManage_input_search1" placeholder="输入关键字搜索" ng-model="opportunityItems.business_opportunities_name"/>-->
+            <!--<button type="button" class="materialManage_button_search"  ng-click="opportunitySearch()"><i class="icon-magnifier"></i></button>-->
+        <!--</div>-->
+        <div class="business_opportunity_search pull-right">
+            <input type="text" placeholder="输入搜索内容" class="form-control" ng-model="opportunityItems.business_opportunities_name"/>
+            <button type="button" class="btn btn-default business_opportunity_findButton" ng-click="opportunitySearch()"><i class="icon-magnifier"></i></button>
+        </div>
+    </div>
+
+    <div style="padding:15px 15px;">
+        <div class="table-responsive"  ng-style="body_height" style="padding:0;border:1px solid #eee;">
+            <script type="text/ng-template" id="opportunity/pager">
+                <div class="bottom" style="position: absolute;bottom:20px;right:20px;">
+                    <div ng-if="params.settings().counts.length"  class="dataTables_length">
+                        <div class="dataTables_paginate paging_bs_normal">
+                            <ul class="pagination ng-table-pagination pull-right">
+                                <li ng-class="{disabled: !page.active}">
+                                    <span style="color: #999999; border: none;">共有{{params.settings().total}}条记录</span>
+                                </li>
+                                <li ng-class="{disabled: !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+                                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""><span class="fa fa-angle-left"></span>&nbsp;</a>
+                                    <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                                    <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&nbsp;<span class="fa fa-angle-right"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <table ng-table="opportunityTableParams" export-csv="csv" class="table table-hover opportunity_table" style="border-bottom:1px solid #eee;" template-pagination="opportunity/pager">
+                <thead style="border:none;background: #e8e8e8;">
+                    <tr class="opportunity_head">
+                        <td style="padding-left:12px;">商机名</td>
+                        <td>商机阶段</td>
+                        <td>预计金额</td>
+                        <td>预计成交日期</td>
+                        <td>成功率(%)</td>
+                        <td>联系人</td>
+                        <td>归属人</td>
+                        <td style="float:right;text-align: right;">
+                            <i class="fa fa-plus"></i>&nbsp;&nbsp;
+                            操作
+                        </td>
+                    </tr>
+                </thead>
+                <tbody style="border:none;">
+                    <tr ng-repeat="opportunity in opportunities" ng-class="{'oppportunity_selected': opportunities.id==opportunity.id}" class="opportunity_tr"
+                        ng-mouseover="mouseover_opportunity(opportunity)" ng-mouseout="mouseout_opportunity(opportunity)" ng-click="selectedOpportunity(opportunity)">
+                        <td style="padding-left:12px;">{{opportunity.business_opportunities_name}}</td>
+                        <td>{{opportunity.stage_name}}</td>
+                        <td>{{opportunity.expected_transaction_amount}}</td>
+                        <td>{{opportunity.expected_transaction_time|date :"yyyy-MM-dd"}}</td>
+                        <td>{{opportunity.probability_of_success}}</td>
+                        <td>{{opportunity.contacts_name}}</td>
+                        <td>{{opportunity.tracking_user_name}}</td>
+                        <td style="text-align:right;line-height:18px;width:90px;">
+                            <span class="mouseover_opacity" ng-show="mouse_id==opportunity.id" data-target="#addOpportunity" data-toggle="modal" ng-click=""><i class="fa fa-pencil"></i></span>
+                            <span class="mouseover_opacity" ng-show="mouse_id==opportunity.id" ng-click=""><i class="fa fa-trash"></i></span>
+                            <span class="mouseover_opacity1" style="margin-right:20%;"><i class="fa fa-ellipsis-v"></i></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="addOpportunity" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="opportunityform" class="form-horizontal" ng-submit="saveOpportunity()" novalidate>
+                    <div class="modal-header" style="font-size:18px;padding:10px 10px;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size:18px;font-weight:800;line-height:30px;">&times;</span></button>
+                        <span>{{materialItems.id==null?'添加':'修改'}}商机</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                <label>商机名称</label>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="submit">保存</button>
+                        <button class="btn btn-default" ng-click="">取消</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

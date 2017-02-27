@@ -1,0 +1,106 @@
+.left_role{
+    padding: 0;
+    background: #f7f7f7;
+    border:solid 1px #eee;
+}
+.roleTree_ul{
+    padding:0;
+
+}
+.roleTree_ul li{
+    list-style: none;
+    padding:5px 5px 5px 10px;
+    border-bottom:1px solid #eee;
+    font-size:12px;
+    height:38px;
+    line-height:28px;
+}
+.role_selected{
+    /*border:none;*/
+    position:relative;
+    top:-1px;
+    border-left:3px solid #5d9ceb;
+    background:#edf1f2 !important;
+}
+.panel_height{
+    min-height: 985px;
+    height: 100%;
+}
+
+/*tab*/
+.role_menu_tab_head{
+    background: #e8e8e8;
+    border-top:solid #ddd 1px;
+    border-right: solid #eee 1px;
+    border-left: solid #eee 1px
+}
+.nav-tabs{
+    border-top:none;
+}
+.nav-tabs > li.active > a{
+    border-top:none !important;
+    border-left:none !important;
+    border-right: solid #ddd 1px !important;
+}
+.nav-tabs > li> a{
+    background:#e8e8e8;
+    border:none;
+}
+.roleEdit_nav{
+    padding:0;
+    display:block; /* 以块显示 */
+    position:absolute;
+    top:-1px; /* 相对于一级类别所在位置的顶端 */
+    left:100%; /* 相对于一级类别显示的位置 */
+    width:100px; /* 宽度 */
+    background-color:#fff; /* 定义背景色 */
+    border:#eee solid 1px;
+    z-index:100;
+    list-style: none;
+}
+.roleEdit_nav>li{ /* 鼠标划过时触发显示二级类别 */
+background-color:#fff; /* 定义背景色 */
+padding:5px 20px;
+}
+.roleEdit_nav>li:hover{
+background: #eee;
+}
+.role_level{
+    width:21px;
+    text-align:center;
+    height:100%;
+}
+.role_level i{
+    opacity:0.5;
+}
+.role_level:hover i{
+    opacity:1;
+}
+.c-checkbox span:before, .c-radio span:before{
+    /*top: -4px;*/
+    line-height:12px;
+}
+/*.y-role-list{}*/
+/*.y-role-list .angular-ui-tree-empty{ border: none;background: none;}*/
+/*.y-role-list .tree-node{border: none; background-color: transparent;}*/
+/*.y-role-list .tree-node .tree-node-content{margin: 0px;}*/
+/*!*.y-role-list .role-list-icon{display:inline-block; height:24px; width:22px; background: url("../images/dark_dot2.png") -4px -30px no-repeat;margin-right: -5px;margin-top: -8px;}*!*/
+/*.y-role-list li:last-child .role-list-icon{!*background-image: url("../images/dark_dot3.png");*!}*/
+/*.y-role-list ol{!* background: url("../images/dark_dot1.png") -4px bottom repeat-y;*!}*/
+
+/*.y-role-list .role-list-icon:before ,.y-role-list .role-list-icon:after{content: '.'; display:inline-block;text-indent: -9999px; overflow: hidden;position: absolute;border-color: red;}*/
+/*.y-role-list .role-list-icon:before{ height: 100%; border-left: 1px solid #cccccc; left: -15px;top:-11px;}*/
+/*.y-role-list .role-list-icon:after{ border-top:1px solid #cccccc; width: 15px; left: -15px; top: 10px;}*/
+/*.y-role-list-only>.angular-ui-tree>.angular-ui-tree-nodes>.angular-ui-tree-node:first-child>.tree-node>.tree-node-content>.role-list-icon:after{top: 25px !important;}*/
+/*.y-role-list-only li:first-child>.tree-node>.tree-node-content>.role-list-icon:before{top:-6px;}*/
+/*.y-role-list-only li:last-child>.tree-node>.tree-node-content>.role-list-icon:before{height: 22px;}*/
+
+
+/*.y-course-list{}*/
+/*.y-course-list ol{ padding-left: 31px !important; background-position: 20px bottom;}*/
+/*.y-course-list li{padding: 10px 0px 0 0;}*/
+/*.y-course-list .role-list-icon:before{ height: 100%; border-left: 1px solid #cccccc; left: -15px;top:-18px;}*/
+/*.y-course-list .role-list-icon:after{ border-top:1px solid #cccccc; width: 15px; left: -15px; top: 25px;}*/
+/*!*.y-course-list li:first-child>.tree-node>.tree-node-content>.role-list-icon:before{top:0px !important;}*!*/
+/*.y-course-list li:last-child>.tree-node>.tree-node-content>.role-list-icon:before{height: 44px;}*/
+/*.y-course-list .btn {  z-index: 10; }*/

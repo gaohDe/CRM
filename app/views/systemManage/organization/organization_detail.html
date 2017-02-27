@@ -1,0 +1,161 @@
+<div ng-controller="organizationDetailCtrl">
+
+    <div class="row">
+        <div class="col-md-12">
+            <form name="userform"  novalidate="" ng-submit="save_user()" class="form-horizontal">
+                <!-- START panel-->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title"> <h4>用户信息</h4></div>
+                    </div>
+                    <div class="panel-body" style="width: 100%">
+
+                            <input type="hidden" ng-model="userManageItems.id">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">登录名：</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="login_name" ng-model="userManageItems.login_name" required="required" class="form-control" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <code ng-show="validateInput('login_name', 'required')">请填写登录名！</code>
+                                </div>
+                            </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">姓名：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="user_cn_name" required="required"  ng-model="userManageItems.user_cn_name" class="form-control" />
+                            </div>
+                            <div class="col-sm-4">
+                                <code  ng-show="validateInput('user_cn_name', 'required')">请填写姓名！</code>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">性别：</label>
+                                <div class="col-sm-6">
+                                    <div class="radio c-radio">
+                                        <label>
+                                            <input type="radio"  name="sex" value="1" ng-checked="true" ng-model="userManageItems.sex" />
+                                            <span class="fa fa-circle"></span>男
+                                        </label>
+                                        <label>
+                                            <input type="radio"  name="sex" value="2" ng-model="userManageItems.sex" />
+                                            <span class="fa fa-circle"></span>女
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">手机：</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="cellphone" required="required"  ng-model="userManageItems.cellphone" class="form-control" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <code ng-show="validateInput('cellphone', 'required')">请填写手机号！</code>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">邮箱：</label>
+                                <div class="col-sm-6">
+                                    <input type="email" name="email" required="required" ng-model="userManageItems.email"  class="form-control" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <code ng-show="validateInput('email', 'required')">请填写邮箱！</code>
+                                    <code ng-show="validateInput('email', 'email')">邮箱格式不正确！</code>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">部门：</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <ui-select required="required" name="department_id"  ng-model="userManageItems.department_id" theme="bootstrap" >
+                                            <ui-select-match placeholder="选择部门">
+                                                {{$select.selected.department_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="department.id as department in department_items | filter: $select.search">
+                                                <small ng-bind-html="department.department_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <span class="input-group-btn">
+                                            <button type="button" ng-click="select_items_reset('department_id')" class="btn btn-default" >
+                                                <span class="fa fa-trash-o"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <code ng-show="validateInput('department_id', 'required')">请选择部门！</code>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">角色：</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <ui-select name="role_id" required="required"  ng-model="userManageItems.role_id" theme="bootstrap" >
+                                            <ui-select-match placeholder="选择角色">
+                                                {{$select.selected.role_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="role.id as role in role_items | filter: $select.search">
+                                                <small ng-bind-html="role.role_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <span class="input-group-btn">
+                                            <button type="button" ng-click="select_items_reset('role_id')" class="btn btn-default" >
+                                                <span class="fa fa-trash-o"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <code ng-show="validateInput('role_id', 'required')">请选择角色！</code>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">职务：</label>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <ui-select name="dict_job_id" required="required"  ng-model="userManageItems.dict_job_id" theme="bootstrap">
+                                            <ui-select-match placeholder="选择职务">
+                                                {{$select.selected.dict_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="job.id as job in job_items | filter: $select.search">
+                                                <small ng-bind-html="job.dict_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <span class="input-group-btn">
+                                            <button type="button" ng-click="select_items_reset('dict_job_id')" class="btn btn-default" >
+                                                <span class="fa fa-trash-o"></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <code ng-show="validateInput('dict_job_id', 'required')">请选择职务！</code>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-2 control-label">是否离职：</label>-->
+                                <!--<div class="col-sm-6">-->
+                                    <!--<ui-select  name="is_quit_job" ng-model="userManageItems.is_quit_job" theme="bootstrap" on-select="qole_item_select_change($item, $model)">-->
+                                        <!--<ui-select-match placeholder="是否离职">-->
+                                            <!--{{$select.selected.label}}-->
+                                        <!--</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="is_quit_job.value as is_quit_job in is_quit_job_items | filter: $select.search">-->
+                                            <!--<small ng-bind-html="is_quit_job.label"></small>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash;<div class="col-sm-4">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<code>data-rangewords='[6,10]'</code>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--</div>-->
+                    </div>
+                    <div class="panel-footer text-center">
+                        <a ui-sref="app.org.sys_mgr.framework" class="mb-sm btn btn-default"><i class="fa fa-times-circle"></i> 取消</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="mb-sm btn btn-info"><i class="fa fa-save"></i> 保存</button>
+                    </div>
+                </div>
+                <!-- END panel-->
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,143 @@
+/**********求助管理界面样式***********/
+.helpApproveManage {
+	font-family: "宋体";
+}
+
+/**********标题样式************/
+.helpApproveManage .title {
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.helpApproveManage .title label {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 0px;
+}
+
+/******搜索******/
+.search {
+	float: right;
+	margin: 0px 0px 0px 0px;
+}
+.search input {
+	width: 177px;
+	height: 36px;
+	margin: 5px 100px -3px 0px;
+}
+.search .findButton {
+	width: 36px;
+	height: 36px;
+	margin: -55px 0px 0px 200px;
+}
+.search .findButton i {
+	margin: 0px 0px 0px -5px;
+}
+.search .findMore {
+	width: 36px;
+	height: 36px;
+	margin: -55px 0px 0px -8px;
+}
+/***********高级搜索栏位**************/
+.searchArea {
+	padding: 15px 15px;
+}
+.searchArea div {
+	float: left;
+/*	margin-right: 50px;*/
+}
+.searchArea .setHighSearch {
+	margin-left: 30px;
+}
+.searchArea span {
+	margin: 0px 0px 0px -8px;
+}
+
+.searchArea input {
+    font-size:14px;
+    display:inline-block;
+    border:1px solid #eee;
+    line-height:29px;
+    border-radius:4px;
+}
+.helpStatusSearch {
+	display: inline-block;
+    margin: -2px 0px 0px 0px;
+}
+.searchArea select {
+	width: 150px;
+}
+/**********表格样式********************/
+.helpApproveManage .dataTable {
+	margin: 0px 0px 0px 0px;
+}
+
+.dataTable table {
+	min-width: 800px;
+}
+
+.dataTable table thead {
+	background-color: #e8e8e8;
+}
+.dataTable table thead tr {
+	height: 42px;
+}
+.dataTable table thead tr th {
+	text-align: left;
+}
+.dataTable .a {
+	width: 15%;
+}
+
+.dataTable .aa {
+	width: 15%;
+}
+
+.dataTable .c {
+	width: 25%;
+}
+
+.dataTable .d {
+	width: 20%;
+}
+
+.dataTable .e {
+	width: 10%;
+}
+
+.dataTable .f {
+	width: 10%;
+}
+
+.dataTable .g {
+	width: 5%;
+}
+
+/********审批拒绝理由弹框样式***********/
+#addItem .reasonArea {
+	height: 100px;
+    margin: 20px 20px;
+    width: 550px;
+}
+#addItem .modal-footer button {
+	float: left;
+}
+#addItem .modal-footer .closeButton {
+	margin-left: 36%;
+}
+
+.mouseover_opacity1{
+	opacity:0.5;
+}
+.material_tr:hover .mouseover_opacity1{
+	opacity:1;
+}
+
+.mouseover_opacity:hover{
+	opacity:1;
+	text-decoration: none;
+	background:#fafbfc !important;
+}
+.mouseover_opacity{
+	opacity:0.5;
+	margin-right:4%;
+}

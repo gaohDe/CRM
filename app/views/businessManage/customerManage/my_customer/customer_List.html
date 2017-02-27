@@ -1,0 +1,713 @@
+<!---UI-gird集成所有功能----->
+<!--<div ng-controller="customerListCtrl">-->
+    <!--<div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-resize-columns ui-grid-pinning  ui-grid-move-columns-->
+         <!--ui-grid-importer  ui-grid-exporter ui-grid-pagination class="grid" >-->
+    <!--</div>-->
+<!--</div>-->
+
+<div ng-controller="customerListCtrl" style="height: 100%;">
+
+    <div style="/*border: 1px solid red;*/width: 100%;height: 66px;line-height: 66px; border-bottom: 1px solid #d9d9d9;padding-left: 15px;">
+        <span style="font-size: 20px;font-weight: 600;"> 客户管理</span>
+    </div>
+
+    <div style="/*border: 1px solid red*/    padding: 15px;height: 100%" class="layout_row">
+
+
+
+
+    <!--<div id="customer_menu" class="panel panel-default col-md-2"  ng-style="body_height" style="/*border: 1px solid red;*/background: #f7f7f7;">-->
+        <!--&lt;!&ndash;<div class="panel-heading" >客户管理</div>&ndash;&gt;-->
+        <!--<div class="panel-body" style="padding: 0;">-->
+                <!--<ul>-->
+                    <!--<li><a href="#">今日安排回访的客户</a></li>-->
+                    <!--<li><a href="#">今日新增客户</a></li>-->
+                    <!--<li><a href="#">今日已联系的客户</a></li>-->
+                <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div id="customer_table" style="/*border: 1px solid red;*/padding: 0;height: 100%;" >
+        <!--<div class="panel-heading"></div>-->
+        <div style="height: 100%;">
+            <!--<button id='toggleFilterinick="toggleFiltering()" class="mb-sm btn btn-primary">搜索</button>-->
+            <div  style="float: left">
+                <!--<p style="font-size: 18px;">所有客户</p>-->
+                   </span>
+
+            </div>
+            <div  style="text-align: right;">
+                <button  ng-click="" class="mb-sm btn btn-default" >新增</button>
+                <button  ng-click="" class="mb-sm btn btn-default" >更改状态</button>
+                <button  ng-click="" class="mb-sm btn btn-default" >导入</button>
+                <button  ng-click="" class="mb-sm btn btn-default" >导出</button>
+                <button  ng-click="batch_delete_customer()" class="mb-sm btn btn-default" >删除</button>
+
+                <input type="text" name="customer_name"   ng-model="customer_querys.query.customer_name" placeholder="搜索客户名称" class="custom_form_control" style="width: 30%;float: initial;height: 30px">
+
+
+                <button type="button"  class="mb-sm btn btn-default" ng-click="customer_search_fn()" style="margin-top: 5px;"><i class="fa fa-search"></i></button>
+                <button  ng-click="show_senior_search_panel_fn()" class="mb-sm btn btn-default" style="margin-top: 4.5px;margin-left: -8px;" >
+                    <i ng-if="senior_search_panel_state==false" class="fa fa-angle-double-down" style="font-size: 18px;font-weight: 600"></i>
+                    <i ng-if="senior_search_panel_state==true" class="fa fa-angle-double-up" style="font-size: 18px;font-weight: 600"></i>
+                </button>
+            </div>
+
+            <div id="senior_search_panel" class="panel panel-primary" ng-show="senior_search_panel_state==true" >
+                <div class="panel-heading portlet-handler ui-sortable-handle" style="height: 1px;padding: 0;background-color: #ffffff;">
+                    <paneltool tool-collapse="tool-collapse" class="pull-right">
+                        <!--<a href="javascirpt:void(0)" panel-collapse=""  ng-click="close_senior_search_panel_fn()" class="ng-scope" style="margin-top: 5px;">-->
+                            <!--<em  class="fa fa-remove" style="font-size: 18px;color: #333333;"></em>-->
+                        <!--</a>-->
+                    </paneltool>
+                </div>
+                <div collapse="panelPortlet2" class="panel-wrapper in collapsing" style="height: 167px;">
+                    <div class="panel-body">
+                        <div style="font-size: 12px;">
+                                <label style="width: 60px;" >跟踪人：</label>
+                                <select id="dep_user_select" onchange="dep_user_select_fn()">
+                                    <option value="0">全部</option>
+                                    <option ng-repeat="dep_user in dep_user_items" value="{{dep_user.id}}">{{dep_user.user_cn_name}}</option>
+                                </select>
+
+                            <!--<select ng-model="customer_querys.query.tracking_user_id" placeholder="全部" ng-options="dep_user.id as dep_user.user_cn_name for dep_user in dep_user_items" >-->
+                                <!--<option value="">全部</option>-->
+                            <!--</select>-->
+
+
+                                <label >客户状态：</label>
+                                <select id="customer_status_select" onchange="customer_status_select_fn()">
+                                    <option value="0">全部</option>
+                                    <option ng-repeat="customer_status in customer_status_items" value="{{customer_status.id}}">{{customer_status.label}}</option>
+                                </select>
+
+
+                                <label class=" ">联系时间：</label>
+                                <input type="text"    ng-model="customer_querys.query.contact_time_begin" datepicker-popup="yyyy-MM-dd"  is-open="contact_time_startOpened" ng-init="contact_time_startOpened = false" min-date="'1970-12-31'" max-date="customer_querys.query.contact_time_end" close-text="Close" ng-disabled="true">
+                                <span class="fa fa-calendar"  ng-click="contact_time_beginOpen($event)"></span>
+                                <input type="text"    ng-model="customer_querys.query.contact_time_end" datepicker-popup="yyyy-MM-dd"  is-open="contact_time_endOpened" ng-init="contact_time_endOpened = false" min-date="customer_querys.query.contact_time_begin" max-date="'2030-12-31'" close-text="Close" ng-disabled="true">
+                                <span class="fa fa-calendar timeEnd_icon"  ng-click="contact_time_endOpen($event)"></span>
+
+
+                        </div>
+                        <div style="font-size: 12px;">
+                            <label>客户类型：</label>
+                            <select id="customer_type_select" onchange="customer_type_select_fn()" ng-mouseup="">
+                                <option value="0">全部</option>
+                                <option ng-repeat="customer_type in customer_type_items" value="{{customer_type.id}}">{{customer_type.label}}</option>
+                            </select>
+
+
+                            <label>跟进阶段：</label>
+                            <select id="business_stage_select" onchange="business_stage_select_fn()">
+                                <option value="0">全部</option>
+                                <option ng-repeat="business_stage in business_stage_items" value="{{business_stage.id}}">{{business_stage.stage_name}}</option>
+                            </select>
+
+                            <label class=" ">下次拜访：</label>
+                            <input type="text" ng-value=""  ng-model="customer_querys.query.next_visit_time_begin" datepicker-popup="yyyy-MM-dd"  is-open="next_visit_time_begin_startOpened" ng-init="next_visit_time_begin_startOpened = false" min-date="'1970-12-31'" max-date="customer_querys.query.next_visit_time_end" close-text="Close" ng-disabled="true">
+                            <span class="fa fa-calendar" style="line-height: 25px;" ng-click="next_visit_time_beginOpen($event)"></span>
+                            <input type="text"  ng-model="customer_querys.query.next_visit_time_end"  datepicker-popup="yyyy-MM-dd"  is-open="next_visit_time_begin_endOpened" ng-init="next_visit_time_begin_endOpened = false" min-date="customer_querys.query.next_visit_time_begin" max-date="'2030-12-31'" close-text="Close" ng-disabled="true">
+                            <span class="fa fa-calendar" style="line-height: 25px;"  ng-click="next_visit_time_endOpen($event)"></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <br>
+
+        <!--<button id='add_customer_btn' ng-click="open_add_customer_Modal()" class="mb-sm btn btn-primary">新增客户</button>-->
+            <!--<div style="/*border:1px solid red;*/text-align: right">-->
+                <!--&lt;!&ndash;<i class="fa fa-plus" title="新增客户" style="cursor: pointer;margin-right: 40px"></i>&ndash;&gt;-->
+            <!--</div>-->
+
+
+        </div>
+
+
+    </div>
+
+    </div>
+    <div ng-style="customer_model_height"  style="font-size: 12px;height: 100%;margin-top: 5px;"  id="customer_list_grid" ui-grid="customer_list_gridOptions"   ui-grid-resize-columns ui-grid-pinning  ui-grid-move-columns   ui-grid-pagination ui-grid-selection ></div>
+    <!-- 新增客户管理窗口（Modal） -->
+    <div class="modal fade" id="add_customer_Modal" tabindex="-1" role="dialog"
+         aria-labelledby="add_customer_ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 60%">
+            <div class="modal-content row" style="background: #ffffff;" >
+                <form name="add_customer_form"  novalidate="" ng-submit="save_customer()" class="form-horizontal">
+                <div class="modal-header add_customer_Modal_header" >
+                    <p style="float: left" class="font_style_one" >
+                      添加或修改用户资料
+
+                    </p>
+
+
+                </div>
+                <div class="modal-body" style="padding: 0">
+
+
+
+
+
+                    <div id="customer_basic_msg" class="panel">
+                            <div class="panel-heading" style="height: 50px;padding-top: 22px;">
+                                <div style="float: left">
+                                    <i class="fa fa-user"></i>
+                                    <span class="font_style_two">基本信息</span>
+                                </div>
+
+
+                                <div style="float: right">
+                                    <label class="radio-inline c-radio" style="padding-top: 0;">
+                                        <input id="is_public_one" type="radio" ng-model="customer_items.is_public" name="is_public_one" value="0" ng-checked="customer_items.is_public==0" checked="checked">
+                                        <span class="fa fa-circle"></span>添加为我的客户
+                                    </label>
+                                    <label class="radio-inline c-radio" style="padding-top: 0;">
+                                        <input id="is_public_two" type="radio" ng-model="customer_items.is_public" name="is_public_two" value="1" ng-checked="customer_items.is_public==1">
+                                        <span class="fa fa-circle"></span>添加为公共资源
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="panel-body">
+                                <input type="hidden" ng-model="customer_items.id"/>
+                                    <div class="form-group-left ">
+                                        <label class="custom_form_ui_select_label">客户状态：</label>
+                                        <ui-select  class="custom_form_ui_select_control_forOne"  ng-model="customer_items.customer_state" name="customer_state" theme="bootstrap" on-select="customer_state_select_fn($item,$model)">
+                                            <ui-select-match placeholder="状态">
+                                                {{$select.selected.label}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="customer_status.id as customer_status in customer_status_items | filter: $select.search">
+                                                <small ng-bind-html="customer_status.label"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <p class="custom_form_p" ng-show="validate_add_customer_Input('customer_state', 'required')">请选择状态！</p>
+                                    </div>
+                                    <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_ui_select_label">公司性质：</label>
+                                        <ui-select  class="custom_form_ui_select_control_forOne" name="customer_nature"  ng-model="customer_items.customer_nature" theme="bootstrap" >
+                                            <ui-select-match placeholder="公司性质">
+                                                {{$select.selected.label}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="customer_nature.id as customer_nature in customer_nature_items | filter: $select.search">
+                                                <small ng-bind-html="customer_nature.label"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_type', 'required')">请选择公司性质！</p>-->
+                                    </div>
+                                    <div class="form-group-left" ng-if="customer_items.customer_state==4" >
+                                        <label class="custom_form_label">联系号码：</label>
+                                        <input type="text" name="contact_number" required="required" ng-model="customer_items.contact_number" placeholder="联系号码" class="custom_form_control">
+                                        <p class="custom_form_p" ng-show="validate_add_customer_Input('contact_number', 'required')">请填写联系号码！</p>
+                                    </div>
+
+                                    <div class="form-group-left">
+                                        <label class="custom_form_label">客户名称：</label>
+                                        <input type="text" name="customer_name" required="required" ng-model="customer_items.customer_name" placeholder="客户名称" class="custom_form_control">
+                                        <p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>
+                                    </div>
+                                    <div class="form-group-left" ng-if="customer_items.customer_state==4">
+                                        <label class="custom_form_label">客户QQ：</label>
+                                        <input type="text" name="qq"  ng-model="customer_contacts_Array[0].customer_contacts_items.qq" placeholder="客户qq" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+
+
+
+                                    <div class="form-group-left" ng-if="customer_items.customer_state==4">
+                                        <label class="custom_form_label">客户微信：</label>
+                                        <input type="text" name="wechat"  ng-model="customer_contacts_Array[0].customer_contacts_items.wechat" placeholder="客户微信" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+                                    <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_ui_select_label">跟进阶段：</label>
+                                        <ui-select   class="custom_form_ui_select_control_forOne" name="business_stage_id"   ng-model="customer_items.business_stage_id" theme="bootstrap" >
+                                            <ui-select-match placeholder="跟进阶段">
+                                                {{$select.selected.stage_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="business_stage.id as business_stage in business_stage_items | filter: $select.search">
+                                                <small ng-bind-html="business_stage.stage_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <p class="custom_form_p" ng-show="validate_add_customer_Input('business_stage_id', 'required')">请选择跟进阶段！</p>
+                                    </div>
+
+                                    <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_label">员工数：</label>
+                                        <input type="text" placeholder="请输入" class="custom_form_control" ng-model="customer_items.employee_no">
+                                    </div>
+
+                                    <div class="form-group-left" ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_label">联系方式：</label>
+                                        <input type="text" name="contact_number" ng-model="customer_items.contact_number" placeholder="联系方式" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+
+                                    <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_ui_select_label">客户等级：</label>
+                                        <ui-select  class="custom_form_ui_select_control_forOne" name="customer_grade"  ng-model="customer_items.customer_grade" theme="bootstrap" >
+                                            <ui-select-match placeholder="等级">
+                                                {{$select.selected.label}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="customer_Grade.id as customer_Grade in customer_Grade_items | filter: $select.search">
+                                                <small ng-bind-html="customer_Grade.label"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_grade', 'required')">请选择等级！</p>-->
+                                    </div>
+
+                                    <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_ui_select_label">客户行业：</label>
+                                        <ui-select  class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.dict_industry_id" theme="bootstrap" on-select="industry_big_type_select_change($item, $model)">
+                                            <ui-select-match placeholder="选大类">
+                                                {{$select.selected.dict_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="industry_big_type.id as industry_big_type in industry_big_type_items | filter: $select.search">
+                                                <small ng-bind-html="industry_big_type.dict_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <p class="separating_symbol">-</p>
+                                        <ui-select  class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.dict_subindustry_id" theme="bootstrap" >
+                                            <ui-select-match placeholder="选子类">
+                                                {{$select.selected.dict_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="industry_small_type.id as industry_small_type in industry_small_type_items | filter: $select.search">
+                                                <small ng-bind-html="industry_small_type.dict_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+
+
+                                    <div class="form-group-left" ng-if="customer_items.customer_state==4">
+                                        <label class="custom_form_label">客户邮箱：</label>
+                                        <input type="text" name="first_email" ng-model="customer_contacts_Array[0].customer_contacts_items.first_email" placeholder="客户邮箱" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+                                    <div class="form-group-left">
+                                        <label class="custom_form_ui_select_label">客户来源：</label>
+                                        <ui-select class="custom_form_ui_select_control_forOne" name="customer_source"   ng-model="customer_items.customer_source" theme="bootstrap" >
+                                            <ui-select-match placeholder="客户来源">
+                                                {{$select.selected.label}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="customer_source.id as customer_source in customer_source_items | filter: $select.search">
+                                                <small ng-bind-html="customer_source.label"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_source', 'required')">请选择客户来源！</p>-->
+                                    </div>
+                                    <div class="form-group-left" ng-if="customer_items.customer_state==4" >
+                                        <label class="custom_form_label">客户职务：</label>
+
+                                        <ui-select   class="custom_form_ui_select_control_forOne" name="job"   ng-model="customer_contacts_Array[0].customer_contacts_items.job" theme="bootstrap" >
+                                            <ui-select-match placeholder="客户职务">
+                                                {{$select.selected.dict_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="dict.id as dict in dict_items | filter: $select.search">
+                                                <small ng-bind-html="dict.dict_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+
+                                        <!--<input type="text" name="job"  ng-model="customer_contacts_Array[0].customer_contacts_items.job" placeholder="客户职务" class="custom_form_control">-->
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+                                    <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                        <label class="custom_form_label">母公司：</label>
+                                        <input type="text" placeholder="请选择母公司" class="custom_form_control" ng-model="customer_items.pname" style="width: 76%;">
+                                        <span class="fa fa-plus" style="right: 6%;position: absolute;line-height: 38px;cursor: pointer;" ng-click="show_p_company_model()"></span>
+                                        <i class="fa fa-trash-o" style="margin-top: 11px;margin-left: 4px;font-size: 17px;cursor: pointer;" ng-click="del_customer_items_pid()"></i>
+                                    </div>
+
+                            </div>
+                        </div>
+
+                    <div id="customer_contacts" ng-if="customer_items.customer_state!=4" >
+                        <div class="panel-heading" >
+                            <span class="font_style_two">联系人信息</span>
+                        </div>
+                        <div class="panel-body" id="contacts_panel_body" >
+                            <!--<div id="contacts_div" style="border: 1px solid red;height: 190px;">-->
+                                <!--<div class="form-group-left" ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_label">客户名称：</label>-->
+                                    <!--<input type="text" name="contacts_name"  ng-model="customer_contacts_Array[0].customer_contacts_items.contacts_name" placeholder="客户名称" class="custom_form_control">-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--<div class="form-group-left" ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_label">客户手机：</label>-->
+                                    <!--<input type="text" name="first_cellphone"  ng-model="customer_contacts_Array[0].customer_contacts_items.first_cellphone" placeholder="手机" class="custom_form_control">-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--<div class="form-group-left" ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_label">客户职务：</label>-->
+                                    <!--<input type="text" name="job"  ng-model="customer_contacts_Array[0].customer_contacts_items.job" placeholder="客户职务" class="custom_form_control">-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--<div class="form-group-left" ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_label">客户QQ：</label>-->
+                                    <!--<input type="text" name="qq"  ng-model="customer_contacts_Array[0].customer_contacts_items.qq" placeholder="客户qq" class="custom_form_control">-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>&ndash;&gt;-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group-left" ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_label">客户邮箱：</label>-->
+                                    <!--<input type="text" name="first_email"  ng-model="customer_contacts_Array[0].customer_contacts_items.first_email" placeholder="客户邮箱" class="custom_form_control">-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>&ndash;&gt;-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group-left" ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_label">客户微信：</label>-->
+                                    <!--<input type="text" name="wechat"  ng-model="customer_contacts_Array[0].customer_contacts_items.wechat" placeholder="客户微信" class="custom_form_control">-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>&ndash;&gt;-->
+                                <!--</div>-->
+
+                                <!--<div class="form-group-left " ng-if="customer_items.customer_state!=4">-->
+                                    <!--<label class="custom_form_ui_select_label">是否首要联系人：</label>-->
+                                    <!--<ui-select  class="custom_form_ui_select_control_forOne" name="is_primary_contact_items"  ng-model="customer_contacts_Array[0].customer_contacts_items.is_primary_contact" theme="bootstrap" >-->
+                                        <!--<ui-select-match placeholder="是否首要联系人">-->
+                                            <!--{{$select.selected.label}}-->
+                                        <!--</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="is_primary_contact.id as is_primary_contact in is_primary_contact_items | filter: $select.search">-->
+                                            <!--<small ng-bind-html="is_primary_contact.label"></small>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                    <!--&lt;!&ndash;<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_type', 'required')">请选择类型！</p>&ndash;&gt;-->
+                                <!--</div>-->
+                                <!--<div class="form-group-left " ng-if="customer_items.customer_state!=4">-->
+                                    <!--<button type="button" class="mb-sm btn btn-danger"> <i class="fa fa-trash-o"style="color: #ffffff;" ></i> 删除联系人</button>-->
+
+                                <!--</div>-->
+
+                            <!--</div>-->
+
+
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button" class="mb-sm btn btn-primary" ng-click="add_contact()"><i class="fa fa-plus" style="color: #ffffff;"></i>联系人</button>
+                            <!--<button type="button" class="mb-sm btn btn-primary" ng-click="save_contact()">保存</button>-->
+                        </div>
+
+                    </div>
+
+
+                    <div id="customer_company_msg" class="panel panel-default">
+                        <div class="panel-heading portlet-handler ui-sortable-handle">更多信息
+                            <paneltool tool-collapse="tool-collapse" >
+                                <a href="javascrpt:void(0);" panel-collapse=""  ng-click="panelPortlet1 = !panelPortlet1" class="ng-scope">
+                                    <i ng-show="panelPortlet1" class="fa fa-angle-double-down"></i>
+                                    <i ng-show="!panelPortlet1" class="fa fa-angle-double-up"></i>
+                                </a>
+                            </paneltool>
+                        </div>
+                        <div collapse="panelPortlet1" class="panel-wrapper collapse in" style="height: auto;">
+                            <div class="panel-body">
+                                <div class="form-group-left " ng-if="customer_items.customer_state==4">
+                                    <label class="custom_form_ui_select_label">客户等级：</label>
+                                    <ui-select  class="custom_form_ui_select_control_forOne" name="customer_grade"  ng-model="customer_items.customer_grade" theme="bootstrap" >
+                                        <ui-select-match placeholder="等级">
+                                            {{$select.selected.label}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="customer_Grade.id as customer_Grade in customer_Grade_items | filter: $select.search">
+                                            <small ng-bind-html="customer_Grade.label"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_grade', 'required')">请选择等级！</p>-->
+                                </div>
+
+                                <div class="form-group-left " ng-if="customer_items.customer_state==4">
+                                    <label class="custom_form_ui_select_label">客户地区：</label>
+                                    <ui-select  class="custom_form_ui_select_control_forTwo"  ng-model="customer_items.province" theme="bootstrap" on-select="province_addresses_select_change($item, $model)">
+                                        <ui-select-match placeholder="选择省">
+                                            {{$select.selected}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="province in province_addresses_array | filter: $select.search">
+                                            <small ng-bind-html="province"></small>
+                                        </ui-select-choices>
+
+                                    </ui-select>
+                                    <p class="separating_symbol">-</p>
+                                    <ui-select  class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.city" theme="bootstrap" on-select="city_addresses_select_change($item, $model)">
+                                        <ui-select-match placeholder="选择市">
+                                            {{$select.selected}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="city in city_items | filter: $select.search">
+                                            <small ng-bind-html="city"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+
+                                <div class="form-group-left " ng-if="customer_items.customer_state==4">
+                                    <label class="custom_form_ui_select_label">客户类型：</label>
+                                    <ui-select  class="custom_form_ui_select_control_forOne" name="customer_type"  ng-model="customer_items.customer_type" theme="bootstrap" >
+                                        <ui-select-match placeholder="类型">
+                                            {{$select.selected.label}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="customer_type.id as customer_type in customer_type_items | filter: $select.search">
+                                            <small ng-bind-html="customer_type.label"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_type', 'required')">请选择类型！</p>-->
+                                </div>
+
+
+
+                                <div class="form-group-left " ng-if="customer_items.customer_state==4">
+                                    <label class="custom_form_ui_select_label">客户行业：</label>
+                                    <ui-select  class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.dict_industry_id" theme="bootstrap" on-select="industry_big_type_select_change($item, $model)">
+                                        <ui-select-match placeholder="选大类">
+                                            {{$select.selected.dict_name}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="industry_big_type.id as industry_big_type in industry_big_type_items | filter: $select.search">
+                                            <small ng-bind-html="industry_big_type.dict_name"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <p class="separating_symbol">-</p>
+                                    <ui-select  class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.dict_subindustry_id" theme="bootstrap" >
+                                        <ui-select-match placeholder="选子类">
+                                            {{$select.selected.dict_name}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="industry_small_type.id as industry_small_type in industry_small_type_items | filter: $select.search">
+                                            <small ng-bind-html="industry_small_type.dict_name"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                    <label class="custom_form_label" >公司网站：</label>
+                                    <input type="text" placeholder="公司网站" class="custom_form_control" ng-model="customer_items.customer_web">
+                                </div>
+                                <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                    <label class="custom_form_label">年营业额：</label>
+                                    <input type="text" placeholder="年营业额" class="custom_form_control" ng-model="customer_items.business_volume_year">
+                                </div>
+                                <div class="form-group-left " ng-if="customer_items.customer_state!=4">
+                                    <label class="custom_form_label">股票代码：</label>
+                                    <input type="text" placeholder="股票代码" class="custom_form_control" ng-model="customer_items.stock_code">
+                                </div>
+
+                                <div class="form-group-left " style="width: 100%;" ng-if="customer_items.customer_state==4">
+                                    <label class="custom_form_label" style="width: 9%" >客户介绍:</label>
+                                    <textarea placeholder="简单的介绍一下你的客户吧" ng-model="customer_items.customer_introduce"></textarea>
+                                    <!--<input type="text" placeholder="请输入" class="custom_form_control">-->
+                                </div>
+
+                                <div id="customer_address" ng-if="customer_items.customer_state!=4" style="margin-top: 12%;">
+                                    <div class="panel-heading" style="margin-left: -20px;">
+                                        <i class="fa fa-map-marker"></i>
+                                        <span class="font_style_two">地址</span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group ">
+                                            <label class="custom_form_ui_select_label" style="width: 77px;">省市：</label>
+                                            <ui-select  class="custom_form_ui_select_control_forTwo"  ng-model="customer_items.province" theme="bootstrap" on-select="province_addresses_select_change($item, $model)">
+                                                <ui-select-match placeholder="选择省">
+                                                    {{$select.selected}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="province in province_addresses_array | filter: $select.search">
+                                                    <small ng-bind-html="province"></small>
+                                                </ui-select-choices>
+
+                                            </ui-select>
+                                            <p class="separating_symbol">-</p>
+                                            <ui-select  class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.city" theme="bootstrap" on-select="city_addresses_select_change($item, $model)">
+                                                <ui-select-match placeholder="选择市">
+                                                    {{$select.selected}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="city in city_items | filter: $select.search">
+                                                    <small ng-bind-html="city"></small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label class="custom_form_label" style="width: 77px;">街道:</label>
+                                            <input type="text" placeholder="街道" class="custom_form_control" ng-model="customer_items.district">
+                                        </div>
+                                        <div class="form-group " style="/*border: 1px solid red;*/height: 100%;text-align: center;">
+                                            <div class="map_div" >
+                                            </div>
+
+                                            <button type="button" class="btn btn-default">在地图上标记</button>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <!--<div id="customer_company_msg" class="panel">-->
+                            <!--<div class="panel-heading">-->
+                                <!--<i class="fa fa-building"></i>-->
+                                <!--<span class="font_style_two">更多信息</span>-->
+                            <!--</div>-->
+                            <!--<div class="panel-body">-->
+
+
+
+                               <!-- -->
+                            <!--</div>-->
+                        <!--</div>-->
+
+
+
+
+
+                        <!--<div id="suctomer_introduce" class="panel panel-default" style="height:30%;width: 80%;min-height: 200px;">-->
+                            <!--&lt;!&ndash;<div class="panel-heading">Default Panel</div>&ndash;&gt;-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="form-group ">-->
+                                    <!--<label >客户介绍:</label>-->
+                                    <!--<textarea placeholder="简单的介绍一下你的客户吧" ng-model="customer_items.customer_introduce"></textarea>-->
+                                    <!--&lt;!&ndash;<input type="text" placeholder="请输入" class="custom_form_control">&ndash;&gt;-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div id="suctomer_save_type" class="panel panel-default" style="float: left;width: 17%;height: 30%;min-height: 200px;">-->
+                        <!--&lt;!&ndash;<div class="panel-heading">Default Panel</div>&ndash;&gt;-->
+                        <!--<div class="panel-body">-->
+                            <!--<div class="form-group ">-->
+                                <!--<label class="radio-inline c-radio">-->
+                                    <!--<input id="is_public_one" type="radio" ng-model="customer_items.is_public" name="is_public_one" value="0" ng-checked="customer_items.is_public==0" checked="checked">-->
+                                    <!--<span class="fa fa-circle"></span>添加为我的客户-->
+                                <!--</label>-->
+                                <!--<hr>-->
+                                <!--<label class="radio-inline c-radio">-->
+                                    <!--<input id="is_public_two" type="radio" ng-model="customer_items.is_public" name="is_public_two" value="1" ng-checked="customer_items.is_public==1">-->
+                                    <!--<span class="fa fa-circle"></span>添加为公共资源-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                        <button type="button" class="btn btn-default" ng-click="close_add_customer_Modal()">取消</button>
+                        <button type="submit" class="btn btn-primary" >保存</button>
+                </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+
+    <!-- /.modal -->
+
+
+    <!-- 选择首要联系人窗口 -->
+    <div class="modal fade" id="first_contacts_Modal" tabindex="-1" role="dialog"
+         aria-labelledby="first_contacts_ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 60%;">
+            <div class="modal-content" style="background: #ffffff;">
+                <div class="modal-header" style="text-align: left;">
+                    <h4 class="modal-title" id="first_contacts_ModalLabel">
+                        添加首要联系人
+                    </h4>
+                </div>
+                <div class="modal-body">
+                   <div style="width: 100%;padding: 0px 0px 0px 15px" class="row">
+                        <div class="form-group" style="float: left">
+                            <label class="custom_form_label search_bar_label">手机：</label>
+                            <input class="custom_form_control"/>
+                        </div>
+                       <div class="form-group" style="float: left;">
+                           <label class="custom_form_label search_bar_label">邮箱：</label>
+                           <input class="custom_form_control"/>
+                       </div>
+                       <div class="form-group" style="float: left;">
+                           <label class="custom_form_label search_bar_label">姓名：</label>
+                           <input class="custom_form_control"/>
+                       </div>
+                       <div class="form-group" style="float: left;">
+                           <button type="button" class="btn btn-default" ng-click=""><i class="fa fa-search"></i>搜索</button>
+                       </div>
+                   </div>
+
+                    <table ng-table="first_contactsTableParams"  class="table   table-bordered table-hover" >
+                        <tr ng-repeat="first_contacts in $data "   ng-click="setSelected_first_contacts(first_contacts)"  ng-class="{active: first_contacts.id === select_first_contacts_items.id}">
+                            <!--<td data-title="" style="width: 30px;height: 38px">-->
+
+                                <!--<i ng-show="first_contacts === select_first_contacts_Item" class="glyphicon glyphicon-arrow-right"></i>-->
+
+                                <!--<i ng-show="first_contacts.id !== select_first_contacts_Item.id&&user._edit!=null" class=" glyphicon glyphicon-asterisk"></i>-->
+
+                            <!--</td>-->
+                            <td data-title="'姓名'">{{first_contacts.contacts_name}}</td>
+                            <td data-title="'性别'">{{first_contacts.sex==1?'男':first_contacts.sex==2?'女':''}}</td>
+                            <td data-title="'职务'">{{first_contacts.job==1?'总经理':first_contacts.job==2?'总经理助理':first_contacts.job==3?'培训主管':first_contacts.job==4?'培训专员':first_contacts.job==5?'培训经理':first_contacts.job==6?'人力资源经理':first_contacts.job==7?'HRD':first_contacts.job==8?'VP':first_contacts.job==9?'从事主管':first_contacts.job==10?'采购':first_contacts.job==11?'BU maneger':first_contacts.job==12?'培训中心主任':first_contacts.job==13?'人事部':first_contacts.job==14?'人事总监助理':first_contacts.job==15?'管理层 ':first_contacts.job==16?'BP主管':''}}</td>
+                            <td data-title="'固话'">{{first_contacts.telephone}}</td>
+                            <td data-title="'主要邮箱'">{{first_contacts.first_email}}</td>
+                            <td data-title="'主要手机'">{{first_contacts.first_cellphone}}</td>
+                            <td data-title="'是否主要联系人'">{{first_contacts.is_primary_contact==0?'否':first_contacts.is_primary_contact==1?'是':''}}</td>
+                            <td data-title="'是否历史联系人'">{{first_contacts.is_history==0?'否':first_contacts.is_history==0?'是':''}}</td>
+
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="close_first_contacts_model()">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="save_first_contacts_model()">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+
+    <!-- /.modal -->
+
+
+    <!-- 选择首要联系人窗口 -->
+    <div class="modal fade" id="p_company_Modal" tabindex="-1" role="dialog"
+         aria-labelledby="p_company__ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 60%;">
+            <div class="modal-content" style="background: #ffffff;">
+                <div class="modal-header" style="text-align: left;">
+                    <h4 class="modal-title" id="p_company__ModalLabel">
+                        选择母公司
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div style="width: 100%;padding: 0px 0px 0px 15px" class="row">
+                        <div class="form-group" style="float: left">
+                            <label class="custom_form_label search_bar_label">手机：</label>
+                            <input class="custom_form_control"/>
+                        </div>
+                        <div class="form-group" style="float: left;">
+                            <label class="custom_form_label search_bar_label">邮箱：</label>
+                            <input class="custom_form_control"/>
+                        </div>
+                        <div class="form-group" style="float: left;">
+                            <label class="custom_form_label search_bar_label">名称：</label>
+                            <input class="custom_form_control"/>
+                        </div>
+                        <div class="form-group" style="float: left;">
+                            <button type="button" class="btn btn-default" ng-click=""><i class="fa fa-search"></i>搜索</button>
+                        </div>
+                    </div>
+                    <table ng-table="p_companyTableParams"  class="table table-bordered table-hover" >
+                        <tr ng-repeat="p_company in $data "   ng-click="set_p_company_Selected(p_company)"   ng-class="{active: p_company.id === select_p_company_items.id}">
+
+                            <td data-title="'客户名称'">{{p_company.customer_name}}</td>
+                            <td data-title="'客户类型'">{{p_company.customer_type==1?'A类客户':p_company.customer_type==2?'B类客户':p_company.customer_type==3?'C类客户':''}}</td>
+                            <td data-title="'联系人'">{{p_company.contacts_name}}</td>
+                            <td data-title="'电话'">{{p_company.telephone}}</td>
+                            <td data-title="'跟踪进程'">{{p_company.business_stage_id==1?'新建待跟':p_company.business_stage_id==2?'发送email':p_company.business_stage_id==3?'电话回访预约 ':p_company.business_stage_id==4?'面谈':p_company.business_stage_id==5?'很有戏谈判阶段':p_company.business_stage_id==6?'有兴趣但需要长期跟踪':p_company.business_stage_id==7?'反应一般，暂无需求':''}}</td>
+                            <td data-title="'跟踪人'">{{p_company.tracking_user_name}}</td>
+                            <td data-title="'客户状态'">{{p_company.customer_state==1?'潜在':p_company.customer_state==1?'储备':p_company.customer_state==1?'成就':p_company.customer_state==1?'删除':''}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="close_p_company_model()">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="save_p_company_model()">确定</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+
+    <!-- /.modal -->
+</div>
+

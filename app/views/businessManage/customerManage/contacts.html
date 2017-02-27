@@ -1,0 +1,492 @@
+<div ng-controller="contactCtrl" style="background: #fff;">
+    <div class="panel-heading contact_head">
+        <span style="font-size:20px;font-weight: 600;">联系人</span>
+        <!--<div class="form-group pull-right" style="margin:0;padding: 0;font-size:12px;">-->
+            <!--<input type="text" class="materialManage_input_search1" placeholder="输入关键字搜索" ng-model="contactItems.fuzzy_query"/>-->
+            <!--<button type="button" class="materialManage_button_search"  ng-click="contactSearch()"><i class="icon-magnifier"></i></button>-->
+        <!--</div>-->
+        <div class="contact_search pull-right">
+            <input type="text" placeholder="输入姓名搜索" class="form-control" ng-model="contactItems.fuzzy_query"/>
+            <button type="button" class="btn btn-default contact_findButton" ng-click="contactSearch()"><i class="icon-magnifier"></i></button>
+        </div>
+    </div>
+    <div style="padding:15px 15px;">
+        <div class="table-responsive" ng-style="body_height" style="padding:0;border:1px solid #eee;">
+            <script type="text/ng-template" id="contact/pager">
+                <div class="bottom" style="position: absolute;bottom:20px;right:20px;">
+                    <div ng-if="params.settings().counts.length"  class="dataTables_length">
+                        <div class="dataTables_paginate paging_bs_normal">
+                            <ul class="pagination ng-table-pagination pull-right">
+                                <li ng-class="{disabled: !page.active}">
+                                    <span style="color: #999999; border: none;">共有{{params.settings().total}}条记录</span>
+                                </li>
+                                <li ng-class="{disabled: !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+                                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""><span class="fa fa-angle-left"></span>&nbsp;</a>
+                                    <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                                    <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&nbsp;<span class="fa fa-angle-right"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <table ng-table="contactTableParams" export-csv="csv" class="table table-hover contact_table" style="border-bottom:1px solid #eee;" template-pagination="contact/pager">
+                <thead style="border:none;background: #e8e8e8;">
+                <tr class="contact_thead">
+                    <td style="padding-left:12px;">姓名</td>
+                    <td>相关客户</td>
+                    <td>邮箱</td>
+                    <td>手机</td>
+                    <td>固话</td>
+                    <td>所属人</td>
+                    <td style="float:right;text-align: right;">
+                        <i class="fa fa-plus" data-target="#addContact" data-toggle="modal" ng-click="addContact()"></i>&nbsp;&nbsp;
+                        操作
+                    </td>
+                </tr>
+                </thead>
+                <tbody style="border:none;">
+                    <tr ng-repeat="contact in contacts" ng-class="{'contact_selected': contacts.id==contact.id}" class="contact_tr"
+                        ng-mouseover="mouseover_contact(contact)" ng-mouseout="mouseout_contact(contact)" ng-click="selectedContact(contact)">
+                        <td style="padding-left:12px;">{{contact.contacts_name}}</td>
+                        <td>{{contact.customer_name}}</td>
+                        <td>{{contact.first_email}}</td>
+                        <td>{{contact.first_cellphone}}</td>
+                        <td>{{contact.telephone}}</td>
+                        <td>{{contact.tracking_user_cn_name}}</td>
+                        <td style="text-align:right;line-height:18px;width:90px;">
+                            <span class="mouseover_opacity" ng-show="mouse_id==contact.id" data-target="#addContact" data-toggle="modal"
+                                  ng-click="editContact(contact)">
+                                <i class="fa fa-pencil"></i>
+                            </span>
+                            <span class="mouseover_opacity1" style="margin-right:20%;"><i class="fa fa-ellipsis-v"></i></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!--<div id="addContact" class="modal fade" tabindex="-1" role="dialog">-->
+    <!--<div class="modal-dialog">-->
+    <!--<div class="modal-content">-->
+    <!--<form name="contactform" class="form-horizontal" ng-submit="saveContact()" novalidate>-->
+    <!--<div class="modal-header">-->
+    <!--<h4>新增/编辑联系人</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body">-->
+    <!--<div class="form-group">-->
+    <!--<div class="col-sm-2">-->
+    <!--<label>联系人名称</label>-->
+    <!--</div>-->
+    <!--<div class="col-sm-9">-->
+    <!--<input type="text" />-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+    <!--<button class="btn btn-default" type="submit">保存</button>-->
+    <!--<button class="btn btn-default" ng-click="">取消</button>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <div id="addContact" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="width:75%;">
+            <div class="modal-content" style="border-radius: 0;">
+                <form name="materialform" ng-submit="saveContacts()" class="form-horizontal" novalidate>
+                    <div class="modal-header" style="background: #ddd;text-align: center;font-size:18px;padding:7px 10px;">
+                        <span class="modal-title">
+                            {{contactsItems.id==null?'增加':'修改'}}联系人
+                        </span>
+                        <!--<span ng-show = "isSave == 1">编辑联系人</span>-->
+                        <!--<span ng-show = "isSave == 0">添加联系人</span>-->
+                        <p style="float: right;">
+                            <button type="button" class="btn btn-default btn-contact" ng-click="close_add_contact_Modal()">关闭</button>
+                            <button type="submit" class="btn btn-primary btn-contact" >保存</button>
+                        </p>
+                    </div>
+                    <div class="modal-body" style="font-size:14px;">
+                        <div  style="background: #ffffff;padding:0;float: left;width: 60%">
+                            <div style="padding:10px;">
+                                <span style="font-size:15px;font-weight:700;"><i class="fa fa-user"></i>联系人基本信息</span>
+                            </div>
+                            <div>
+                                <div class="col-lg-5" style="margin-right:15px;margin-left:15px;">
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label">客户名称:</label>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="text" style="border-radius:2px;width: 90%;" placeholder="请输入客户名称" class="form-control "  ng-model="contactsItems.customer_name" />
+                                            <input type="hidden" ng-model="contactsItems.customer_id" />
+                                            <span class="fa fa-bars" style="right: 18%;position: absolute;line-height: 34px;cursor: pointer;margin-top: -35px;" ng-click="open_customer_model()"></span>
+                                            <i class="fa fa-trash" style="right: 6%;position: absolute;line-height: 35px;cursor: pointer;margin-top: -35px;font-size: 17px;" ng-click="deleteCustomer();"></i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">姓名:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入姓名" class="form-control"
+                                                   ng-model="contactsItems.contacts_name"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">性别:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <ui-select class="custom_form_ui_select_control_forTwo" style="width: 100%"  ng-model="contactsItems.sex" theme="bootstrap">
+                                                <ui-select-match placeholder="请选择性别">
+                                                    {{$select.selected.label}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="sex.id as sex in sex_items">
+                                                    <small ng-bind-html="sex.label"></small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">生日:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="" class="form-control" ng-model="contactsItems.birthdate"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">职务:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <ui-select class="custom_form_ui_select_control_forTwo" style="width: 100%"  ng-model="contactsItems.job" theme="bootstrap">
+                                                <ui-select-match placeholder="请选择职务">
+                                                    {{$select.selected.label}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="job.id as job in job_items">
+                                                    <small ng-bind-html="job.label"></small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">主要邮箱:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入主要邮箱" class="form-control" ng-model="contactsItems.first_email"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">主要手机:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入主要手机" class="form-control" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" ng-model="contactsItems.first_cellphone"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">固话:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入固定电话" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" class="form-control" ng-model="contactsItems.telephone"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">备用邮箱:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入备用邮箱" class="form-control" ng-model="contactsItems.second_email"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">备用手机:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入备用手机" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" class="form-control" ng-model="contactsItems.second_cellphone"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">QQ:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入QQ" class="form-control" ng-model="contactsItems.qq"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">微信:</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" style="border-radius:2px;" placeholder="请输入微信" class="form-control" ng-model="contactsItems.wechat"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="height:240px;">
+                                        <div class="col-lg-3" style="text-align:left;padding:0">
+                                            <label class="control-label ">备注:</label>
+                                        </div>
+                                        <div class="col-sm-9" style="height:100%">
+                                            <textarea type="text" style="height:100%;border-radius: 0;"  placeholder="请输入联系人备注信息" class="form-control" ng-model="contactsItems.remark"> </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div  style="background: #ffffff;min-height: 494px;height:100%;margin-left: 8px;padding: 0px 0px 0px 6px;float: left;width: 33.3%">
+                            <div style="margin-top: 15px">
+                                <input type = "checkbox" ng-checked = "contactsItems.is_history==true" ng-model="contactsItems.is_history"/><span style="font-weight: 600">&nbsp;设置为历史联系人</span>
+                            </div>
+                            <div style="margin-top: 15px">
+                                <p style="height: 30px"></p>
+                                勾选则说明该联系人是历史联系人。勾选之后，可填写此人去向
+                                <p style="height: 30px"></p>
+                            </div>
+                            <div ng-show="contactsItems.is_history" class="form-group" style="margin-left: -30px;margin-right: 0px">
+                                <div class="col-lg-2" style="text-align:right;padding:0">
+                                    <label class="control-label">企业:</label>
+                                </div>
+                                <div class="col-lg-10">
+                                    <input type="text" style="border-radius:2px;width: 80%;" placeholder="请输入客户名称" class="form-control "  ng-model="contactsItems.to_customer_name"/>
+                                    <input type="hidden" ng-model="contactsItems.to_customer_id"/>
+                                    <span class="fa fa-bars" style="right: 24%;position: absolute;line-height: 34px;cursor: pointer;margin-top: -35px;" ng-click="open_to_customer_model()"></span>
+                                    <i class="fa fa-trash" style="right: 17%;position: absolute;line-height: 35px;cursor: pointer;margin-top: -35px;    font-size: 17px;" ng-click="deleteToCustomer();"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div style="clear:both;"></div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!----------------弹出添加客户（开始）----------------------->
+    <div class="modal fade" id="customerModel" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background: #ffffff;">
+                <div class="modal-header" style="text-align: left;">
+                    <h4 class="modal-title">
+                        添加客户
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table ng-table="customerTableParams"  class="table   table-bordered table-hover" >
+                        <tr ng-repeat="customer in customerList "   ng-click="setSelectedCustomer(customer)"  ng-class="{active: customer.id === selectCustomer.id}">
+                            <td data-title="" style="width: 30px;height: 38px">
+
+                                <i ng-show="customer === selectCustomer" class="glyphicon glyphicon-arrow-right"></i>
+
+                                <!--<i ng-show="user.id !== selectItem.id&&user._edit!=null" class=" glyphicon glyphicon-asterisk"></i>-->
+
+                            </td>
+                            <td data-title="'客户名称'">{{customer.customer_name}}</td>
+                            <td data-title="'联系人名称'">{{customer.contacts_name}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="close_customer_model()">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="save_customer_model()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+    <!----------------弹出添加客户（结束）----------------------->
+
+
+    <!----------------弹出添加联系人去向(客户)（开始）----------------------->
+    <div class="modal fade" id="toCustomerModel" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background: #ffffff;">
+                <div class="modal-header" style="text-align: left;">
+                    <h4 class="modal-title">
+                        添加联系人去向(客户)
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table ng-table="toCustomerTableParams"  class="table   table-bordered table-hover" >
+                        <tr ng-repeat="toCustomer in toCustomerList "   ng-click="setSelectedToCustomer(toCustomer)"  ng-class="{active: toCustomer.id === selectToCustomer.id}">
+                            <td data-title="" style="width: 30px;height: 38px">
+
+                                <i ng-show="toCustomer === selectToCustomer" class="glyphicon glyphicon-arrow-right"></i>
+
+                            </td>
+                            <td data-title="'客户名称'">{{toCustomer.customer_name}}</td>
+                            <td data-title="'联系人名称'">{{toCustomer.contacts_name}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="close_to_customer_model()">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="save_to_customer_model()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+    <!----------------弹出添加联系人去向(客户)（结束）----------------------->
+
+
+
+
+
+    <!-- 新增客户管理窗口（Modal） -->
+    <!--<div class="modal fade" id="addContact" tabindex="-1" role="dialog"-->
+    <!--aria-labelledby="add_contact_ModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog" style="width: 65%">-->
+    <!--<div class="modal-content row" style="background: #f1f1f1;" >-->
+    <!--<form name="add_contact_form"  novalidate="" ng-submit="save_customer()" class="form-horizontal">-->
+    <!--<div class="modal-header addContact_Modal_header" >-->
+    <!--<p style="float: left" class="font_style_one">-->
+    <!--添加或修改用户资料-->
+    <!--</p>-->
+    <!--<p style="float: right;margin-top: -5px;">-->
+    <!--<button type="button" class="btn btn-default" ng-click="close_add_customer_Modal()">关闭</button>-->
+    <!--<button type="submit" class="btn btn-primary" >保存</button>-->
+    <!--</p>-->
+    <!--</div>-->
+    <!--<div class="modal-body" >-->
+    <!--<div class="panel">-->
+    <!--<div class="panel-heading">-->
+    <!--<i class="fa fa-user"></i>-->
+    <!--<span class="font_style_two">客户基本信息</span>-->
+    <!--</div>-->
+    <!--<div class="panel-body">-->
+    <!--<input type="hidden" ng-model="customer_items.id"/>-->
+    <!--<div class="form-group">-->
+    <!--<label class="custom_form_label">客户名称：</label>-->
+    <!--<input type="客户名称" name="customer_name" required="required" ng-model="customer_items.customer_name" placeholder="客户名称"
+class="custom_form_control">-->
+    <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_label">首要联系人：</label>-->
+    <!--<input type="password" ng-model="customer_items.customer_name" placeholder="首要联系人" class="custom_form_control">-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_ui_select_label">跟进阶段：</label>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forOne"   ng-model="customer_items.business_stage_id"
+theme="bootstrap" class="custom_form_ui_select_control_forOne" >-->
+    <!--<ui-select-match placeholder="跟进阶段">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_ui_select_label">来源：</label>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forOne"   ng-model="customer_items.customer_source"
+theme="bootstrap" >-->
+    <!--<ui-select-match placeholder="来源">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_ui_select_label">状态：</label>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forOne"  ng-model="customer_items.customer_state"
+theme="bootstrap" >-->
+    <!--<ui-select-match placeholder="状态">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_ui_select_label">等级：</label>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forOne"  ng-model="customer_items.customer_grade"
+theme="bootstrap" >-->
+    <!--<ui-select-match placeholder="等级">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_ui_select_label">类型：</label>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forOne"   ng-model="customer_items.customer_type"
+theme="bootstrap" >-->
+    <!--<ui-select-match placeholder="类型">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div id="contact_address" class="panel">-->
+    <!--<div class="panel-heading">-->
+    <!--<i class="fa fa-map-marker"></i>-->
+    <!--<span class="font_style_two">地址</span>-->
+    <!--</div>-->
+    <!--<div class="panel-body">-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_ui_select_label">省市：</label>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forTwo"  ng-model="customer_items.province" theme="bootstrap"
+>-->
+    <!--<ui-select-match placeholder="选择省">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--<p class="separating_symbol">-</p>-->
+    <!--<ui-select required="required" class="custom_form_ui_select_control_forTwo"   ng-model="customer_items.city" theme="bootstrap" >-->
+    <!--<ui-select-match placeholder="选择市">-->
+    <!--{{$select.selected.department_name}}-->
+    <!--</ui-select-match>-->
+    <!--<ui-select-choices repeat="department.id as department in department_items | filter: $select.search">-->
+    <!--<small ng-bind-html="department.department_name"></small>-->
+    <!--</ui-select-choices>-->
+    <!--</ui-select>-->
+    <!--</div>-->
+    <!--<div class="form-group ">-->
+    <!--<label class="custom_form_label">街道:</label>-->
+    <!--<input type="password" placeholder="请输入" class="custom_form_control" ng-model="customer_items.district">-->
+    <!--</div>-->
+    <!--<div class="form-group " style="/*border: 1px solid red;*/height: 100%;text-align: center;">-->
+    <!--<div class="map_div" >-->
+    <!--</div>-->
+    <!--<button type="button" class="btn btn-default">在地图上标记</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</form>-->
+    <!--</div>-->
+    <!--</div>-->
+</div>
+</div>
+

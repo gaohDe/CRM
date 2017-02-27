@@ -1,0 +1,257 @@
+/**********任务管理界面样式***********/
+.teamMission {
+	font-family: "宋体";
+}
+.teamMission i {
+	cursor: pointer;
+}
+
+/**********标题样式************/
+.teamMission .title {
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.teamMission .title label {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 0px;
+}
+
+/******搜索******/
+.search {
+	float: right;
+	margin: 0px 0px 0px 0px;
+}
+.search input {
+	width: 177px;
+	height: 36px;
+	margin: 5px 100px -3px 0px;
+}
+.search .findButton {
+	width: 36px;
+	height: 36px;
+	margin: -55px 0px 0px 200px;
+}
+.search .findButton i {
+	margin: 0px 0px 0px -5px;
+}
+
+/**********表格样式********************/
+.teamMission .dataTable {
+	margin: 0px 0px 0px 0px;
+}
+
+.dataTable table {
+	min-width: 800px;
+}
+
+.dataTable table thead {
+	background-color: #e8e8e8;
+}
+.dataTable table thead tr {
+	height: 42px;
+}
+.dataTable table thead tr th {
+	text-align: left;
+}
+
+.dataTable table .a {
+	width: 10%;
+}
+
+.dataTable table .aa {
+	width: 20%;
+}
+
+.dataTable table .c {
+	width: 15%;
+}
+
+.dataTable table .d {
+	width: 15%;
+}
+
+.dataTable table .e {
+	width: 15%;
+}
+
+.dataTable table .f {
+	width: 10%;
+}
+
+.dataTable table .g {
+	text-align: right;
+	width: 10%;
+}
+.dataTable table .g span {
+	font-size: 14px;
+	margin-right: 10px;
+}
+/*************闪动图标样式***************/
+.mouseover_opacity1{
+	opacity:0.5;
+}
+.material_tr:hover .mouseover_opacity1{
+	opacity:1;
+}
+
+.mouseover_opacity:hover{
+	opacity:1;
+	text-decoration: none;
+	background:#fafbfc !important;
+}
+.mouseover_opacity{
+	opacity:0.5;
+	margin-right:4%;
+}
+
+/***********新建团队任务弹框************/
+.modal-body .lineGroup{
+	margin: 15px 0px 10px 15px;
+}
+
+.modal-body .lineGroup .nameContent{
+    margin: -35px 0px 0px 80px;
+    width: 350px;
+}
+.timeDiv {
+	margin: 30px 0px 10px 15px;
+}
+.timeDiv input {
+	margin: 0px 0px 0px 17px;
+	font-size: 14px;
+    display: inline-block;
+    border: 1px solid #eee;
+    line-height: 29px;
+    border-radius: 4px;
+}
+
+.timeDiv span {
+	margin: 0px 0px 0px -8px;
+}
+.fastSelect {
+	margin: -38px 0px 10px 550px;
+}
+.lineGroupTable {
+	margin: 60px 0px 0px 15px;
+    position: relative;
+}
+.lineGroupTable table {
+	border: 1px solid #eee;
+}
+.numInput {
+	width: 100px;
+}
+
+/***********新建个人任务弹框************/
+.linePersonalGroup {
+	display: inline-table;
+	margin: 15px 0px 0px 15px;
+}
+.linePersonalGroup .nameContent{
+    margin: -35px 0px 0px 80px;
+    width: 350px;
+}
+.linePersonalStep {
+	margin: 30px 0px 0px 15px;
+}
+/*****团队***********/
+.linePersonalTeam {
+	display: inline-table;
+	margin: 10px 0px 0px 50px;
+}
+.linePersonalTeam .teamTree {
+	width: 200px;
+	height: 35px;
+	border: 1px solid #eee;
+	margin: -36px 0px 0px 50px;
+	padding: 5px 0px 0px 15px;
+/*    border-radius: 5px;*/
+}
+.linePersonalTeam .deleteTeam {
+	width: 35px;
+    height: 35px;
+    border: 1px solid #eee;
+    margin: -35px 0px 0px 250px;
+}
+
+.linePersonalTeam .deleteTeam i {
+	font-size: 18px;
+    padding: 7px 0px 0px 9px;
+}
+/**团队树***/
+#selectTeam .areaTree {
+    background: #fff;
+	width: 570px;
+    height: 200px;
+    z-index: 999;
+    border: 1px solid #eee;
+    overflow-y: scroll;
+}
+#selectTeam label 
+{
+	margin: 20px 0px 0px 20px;
+}
+
+/*********销售******/
+.linePersonalSale {
+	display: inline-table;
+	margin: 10px 0px 0px 207px;
+}
+
+.linePersonalStartTime {
+	margin: 30px 0px 0px 15px;
+}
+.linePersonalEndTime {
+	margin: -30px 0px 0px 500px;
+}
+.linePersonalStartTime input,
+.linePersonalEndTime input {
+	margin: 0px -8px 0px 10px;
+    font-size: 14px;
+    display: inline-block;
+    border: 1px solid #eee;
+    line-height: 29px;
+    border-radius: 4px;
+}
+.linePersonalSelect {
+	margin: 30px 0px 0px 15px;
+}
+.linePersonalSelect .byTotal {
+	display: inline-block;
+    margin: 0px 30px 0px 10px;
+}
+
+.linePersonalSelect .byCus {
+	display: inline-block;
+}
+/***********总数*/
+.byTotalArea {
+	height: 80px;
+}
+.byTotalArea .numAre {
+	float: left;
+	margin: 15px 0px 0px 100px;
+}
+.byTotalArea .numAre .numDiv{
+	height: 35px;
+	width: 60px;
+	border: 1px solid #eee;
+}
+.byTotalArea .numAre input{
+	margin: -36px 0px 0px 59px;
+    width: 120px;
+}
+/***********按客户********/
+.byCusArea {
+	min-height: 50px;
+	margin: 50px 0px 0px 50px;
+}
+
+.byCusArea .addCusButton {
+	margin: 0px 0px 0px 30px;
+}
+.byCusArea table {
+	margin: 30px 0px 0px 80px;
+    width: 650px;
+}

@@ -1,0 +1,802 @@
+<div id="customer_detal" ng-controller="customerDetalCtrl" style="/*border: 1px solid red*/padding-bottom: 30px;">
+    <!--<input type="text" ng-value=""   ng-model="timesbegin" datepicker-popup="yyyy-MM-dd"  is-open="startOpened"  min-date="'1970-12-31'"  close-text="Close" >-->
+    <!--<i class="fa fa-calendar" ng-click="expected_transaction_timeOpen($event)"></i>-->
+    <div class="top_head_title_div">
+        <span class="top_head_title_span"> 客户信息</span>
+    </div>
+
+
+    <div class="main_page">
+        <tabset id="customer_tab" style="border: 1px solid #dddddd;">
+            <tab heading="客户资料">
+
+                <div id="customer_basic_panel" class="panel panel-default">
+                    <div class="panel-heading">客户信息</div>
+
+                    <div class="panel-body" style="/*padding: 0*/">
+
+                        <div  class="customer_detal_div_log">
+                               <img src="app/img/user/10.jpg" ng-if="customer_state==4" style="border-radius: 100px;">
+                               <img src="app/img/user/zgyd.png"  ng-if="customer_state!=4">
+                        </div>
+
+                        <div id="basic_date" class="customer_detal_div_basic" >
+                            <div id="company_data" ng-if="customer_state!=4" class="basic_div" >
+                                <i id="add_company_basic_log" ng-show="edit_customer_status==false"  class="fa fa-pencil company_basic_log" title="编辑客户信息" ng-click="edit_customer_detal()"></i>
+                                <i id="save_company_basic_log" ng-show="edit_customer_status==true" class="fa fa-save company_basic_log" title="保存客户信息" ng-click="save_customer_detal()"></i>
+                                <div style="font-size: 12px;">
+                                    <label style="width: 60px;margin-left: 12px;" >客户名称：</label>
+                                    <input type="text"  ng-model="customer_detal_items.contacts_name" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''">
+
+
+                                    <label style="margin-left: 3px;" >客户网站：</label>
+                                    <input type="text"  ng-model="customer_detal_items.customer_web" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''">
+
+                                    <label class=" " style="margin-left: 3px;">公司性质：</label>
+                                    <select ng-model="customer_detal_items.customer_nature" ng-options="customer_nature.id as customer_nature.label for customer_nature in customer_nature_items" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''">
+                                        <option value="0">请选择</option>
+                                    </select>
+
+                                </div>
+                                <div style="font-size: 12px;margin-top: 10px;">
+                                    <label>首要联系人：</label>
+                                    <input type="text"  ng-model="customer_detal_items.contacts_name" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''" ng-if="edit_customer_status==false">
+                                    <select ng-model="customer_detal_items.contacts_name" ng-options="Contacts.id as Contacts.contacts_name for Contacts in ContactsList" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''" ng-if="edit_customer_status==true">
+                                        <option value="0">请选择</option>
+                                    </select>
+
+
+                                    <label style="margin-left: 3px;">客户类型：</label>
+                                    <select ng-model="customer_detal_items.customer_type" ng-options="customer_type.id as customer_type.label for customer_type in customer_type_items" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''">
+                                        <option value="0">请选择</option>
+                                    </select>
+
+                                    <label class=" " style="margin-left: 3px;">跟进阶段：</label>
+                                    <select ng-model="customer_detal_items.business_stage_id" ng-options="business_stage.id as business_stage.stage_name for business_stage in business_stage_items" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                </div>
+
+                                <div style="font-size: 12px;margin-top: 10px;">
+                                    <label style="margin-left: 12px;">客户地区：</label>
+
+
+                                    <select ng-model="customer_detal_items.province" ng-options="province for province in province_addresses_array" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''" ng-change="province_addresses_select_change(province)" style="width: 60px;" ng-if="edit_customer_status==true">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                    <select ng-model="customer_detal_items.city" ng-options="city for city in city_items" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''" style="width: 70px;" ng-if="edit_customer_status==true">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                    <input type="text" ng-model="customer_company_region" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''" ng-if="edit_customer_status==false"/>
+
+
+                                    <label style="margin-left: 15px;">员工数：</label>
+                                    <input type="text"   ng-model="customer_detal_items.employee_no" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''">
+
+                                    <label class=" " style="margin-left: 3px;">客户状态：</label>
+                                    <select ng-model="customer_detal_items.customer_state" ng-options="customer_status.id as customer_status.label for customer_status in customer_status_items" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                </div>
+
+                                <div style="font-size: 12px;margin-top: 10px;">
+                                    <label style="margin-left: 12px;">客户等级：</label>
+                                    <select ng-model="customer_detal_items.customer_grade" ng-options="customer_Grade.id as customer_Grade.label for customer_Grade in customer_Grade_items" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_select:''">
+                                        <option value="0">请选择</option>
+                                    </select>
+
+
+                                    <label style="margin-left: 3px;">客户行业：</label>
+                                    <input type="text" ng-model="customer_industry" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''"/>
+
+                                    <label class=" " style="margin-left: 27px;">地址：</label>
+                                    <input type="text" ng-model="customer_company_address" style="width: 30%;" ng-disabled="edit_customer_status==false" ng-style="edit_customer_status==true?edit_status_input:''" >
+                                </div>
+
+                            </div>
+
+                            <div id="personal_data" ng-if="customer_state==4" class="basic_div">
+                                <i id="add_personal_basic_log" class="fa fa-pencil" title="编辑客户信息"></i>
+                                <div style="font-size: 12px;">
+                                    <label style="width: 60px;margin-left: 12px;" >客户名称：</label>
+                                    <input type="text" ng-model="customer_detal_items.customer_name"  >
+
+
+                                    <label style="margin-left: 27px;" >邮箱：</label>
+                                    <input type="text"  ng-model="customer_detal_items.first_email" >
+
+                                    <label class=" " style="margin-left: 27px;">来源：</label>
+                                    <select ng-model="customer_detal_items.customer_source" ng-options="customer_source.id as customer_source.label for customer_source in customer_source_items">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                </div>
+                                <div style="font-size: 12px;margin-top: 10px;">
+                                    <label style="margin-left: 36px;">性别：</label>
+
+                                    <select ng-model="customer_detal_items.sex" ng-options="sex.id as sex.label  for sex in sex_items">
+                                        <option value="0">请选择</option>
+                                    </select>
+
+
+                                    <label style="margin-left: 3px;">备用邮箱：</label>
+                                    <input type="text"  ng-model="customer_detal_items.second_email"  >
+
+                                    <label class=" " style="margin-left: 3px;">跟进阶段：</label>
+                                    <select ng-model="customer_detal_items.business_stage_id" ng-options="business_stage.id as business_stage.stage_describe for business_stage in business_stage_items">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                </div>
+
+                                <div style="font-size: 12px;margin-top: 10px;">
+                                    <label style="margin-left: 12px;">客户地区：</label>
+                                    <!--<select id="business_stage_select22" onchange="business_stage_select_fn()">-->
+                                        <!--<option value="0">全部</option>-->
+                                        <!--<option ng-repeat="business_stage in business_stage_items" value="{{business_stage.id}}">{{business_stage.stage_name}}</option>-->
+                                    <!--</select>-->
+                                    <input type="text" ng-model="customer_detal_items.city"/>
+
+
+
+                                    <label style="margin-left: 39px;">QQ：</label>
+                                    <input type="text"    ng-model="customer_detal_items.qq">
+
+                                    <label class=" " style="margin-left: 3px;">客户状态：</label>
+                                    <select ng-model="customer_detal_items.customer_state" ng-options="customer_status.id as customer_status.label for customer_status in customer_status_items">
+                                        <option value="0">请选择</option>
+                                    </select>
+                                </div>
+
+                                <div style="font-size: 12px;margin-top: 10px;">
+                                    <label style="margin-left: 36px;">手机：</label>
+                                    <input type="text"  ng-model="customer_detal_items.contact_number"  >
+
+
+                                    <label style="margin-left: 27px;">微信：</label>
+                                    <input type="text"   ng-model="customer_detal_items.wechat"  >
+                                </div>
+                                <br>
+
+                                <div style="padding-left: 37px;">
+                                    <label>客户介绍：</label><br>
+                                    <textarea ng-model="customer_detal_items.customer_introduce"></textarea>
+                                </div>
+
+                                <div style="padding-left: 37px;">
+                                    <label>备注：</label><br>
+                                    <textarea ng-model="customer_detal_items.remark"></textarea>
+                                </div>
+
+                                <!--<button type="button" ng-click="csan()">测试按钮</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!------------------------------联系人信息列表（开始）------------------------------>
+
+                <div id="customer_contacts_panel" class="panel panel-default" ng-show="customer_detal_items.customer_state!=4">
+                    <div class="panel-heading">联系人信息</div>
+                    <div class="panel-body" style="padding: 0">
+
+                        <i  class="fa fa-plus contacts_add_log" title="添加联系人" ng-click="open_customer_contacts_Modal()"></i>
+
+
+                        <table id="customer_contacts_table" ng-table="ContactsTableParams" class="table ng-table-rowselected">
+                            <thead>
+                                <tr>
+                                    <td  width="8%">联系人</td>
+                                    <td  width="8%">性别</td>
+                                    <td  width="8%">职务</td>
+                                    <td  width="8%">手机</td>
+                                    <td  width="8%">备用手机</td>
+                                    <td  width="8%">固话</td>
+                                    <td  width="8%">主邮箱</td>
+                                    <td  width="8%">备用邮箱</td>
+                                    <td  width="8%">QQ</td>
+                                    <td  width="8%">微信</td>
+                                    <td  width="20%" align="right">操作</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="contacts in $data" ng-mouseover="cuctomer_contactsMouseover(contacts)" ng-click="cuctomer_contactsSelected(contacts)" ng-class="{'active': contacts.id==contacts_items.id}">
+                                    <td >
+                                        <i class="fa fa-star" ng-show="contacts.is_primary_contact==1" style="color: #febb00"></i>
+                                        <i class="fa fa-star-o" ng-show="contacts.is_primary_contact==0"></i>
+                                        {{contacts.contacts_name}}
+                                    </td>
+                                    <td>{{contacts.sex}}</td>
+                                    <td>{{contacts.job}}</td>
+                                    <td>{{contacts.first_cellphone}}</td>
+                                    <td>{{contacts.second_cellphone}}</td>
+                                    <td>{{contacts.telephone}}</td>
+                                    <td>{{contacts.first_email}}</td>
+                                    <td>{{contacts.second_email}}</td>
+                                    <td>{{contacts.qq}}</td>
+                                    <td>{{contacts.wechat}}</td>
+                                    <td align="right">
+                                        <i class="fa fa-envelope-o" ng-if="contacts.id==contacts_Mouseover_items.id" ></i>&nbsp;
+                                        <i class="fa fa-pencil"  ng-if="contacts.id==contacts_Mouseover_items.id" ng-click="edit_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-trash-o"  ng-if="contacts.id==contacts_Mouseover_items.id" ng-click="del_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-ellipsis-v" ng-class="{'icon_opacity_one':contacts.id!=contacts_Mouseover_items.id}"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+                </div>
+
+                <!-- 联系人编辑窗口（开始） -->
+                <div class="modal fade" id="customer_contacts_Modal" tabindex="-1" role="dialog"
+                     aria-labelledby="customer_contacts_ModalLabel" aria-hidden="true">
+
+                    <div class="modal-dialog" style="width: 50%;">
+                            <div class="modal-content" style="background: #ffffff;">
+                                <form name="contactsForm"  novalidate="" ng-submit="save_customer_contacts_Modal(contactsForm)"   class="form-validate form-horizontal">
+                                <div class="modal-header" style="text-align: left;">
+                                    <h4 class="modal-title" id="customer_contacts_ModalLabel">
+                                       编辑联系人
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+
+
+                                    <input type="hidden" ng-model="contacts_items.id"/>
+                                    <div class="form-group-left">
+                                        <label class="custom_form_label">客户名称：</label>
+                                        <input type="text" name="contacts_name" required="required" ng-model="contacts_items.contacts_name" placeholder="客户名称" class="custom_form_control">
+                                        <p class="custom_form_p" ng-show="validate_information_Input('contacts_name', 'required',contactsForm)">请填写客户名称！</p>
+                                    </div>
+                                    <div class="form-group-left">
+                                        <label class="custom_form_label">客户手机：</label>
+                                        <input type="text" name="first_cellphone" required="required" ng-model="contacts_items.first_cellphone" placeholder="手机" class="custom_form_control">
+                                        <p class="custom_form_p" ng-show="validate_information_Input('first_cellphone', 'required',contactsForm)">请填写客户名称！</p>
+                                    </div>
+                                    <div class="form-group-left" >
+                                        <label class="custom_form_label">客户职务：</label>
+                                        <ui-select  class="custom_form_ui_select_control_forOne" name="job"  ng-model="contacts_items.job" theme="bootstrap" >
+                                            <ui-select-match placeholder="客户职务">
+                                                {{$select.selected.dict_name}}
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="dict.id as dict in dict_items | filter: $select.search">
+                                                <small ng-bind-html="dict.dict_name"></small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+                                    <div class="form-group-left">
+                                        <label class="custom_form_label">客户QQ：</label>
+                                        <input type="text" name="qq"  ng-model="contacts_items.qq" placeholder="客户qq" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+
+                                    <div class="form-group-left" >
+                                        <label class="custom_form_label">客户邮箱：</label>
+                                        <input type="text" name="first_email"  ng-model="contacts_items.first_email" placeholder="客户邮箱" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+
+                                    <div class="form-group-left">
+                                        <label class="custom_form_label">客户微信：</label>
+                                        <input type="text" name="wechat"  ng-model="contacts_items.wechat" placeholder="客户微信" class="custom_form_control">
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('customer_name', 'required')">请填写客户名称！</p>-->
+                                    </div>
+
+                                    <div class="form-group-left " >
+                                        <label class="custom_form_ui_select_label">是否首要联系人：</label>
+                                        <ui-select  class="custom_form_ui_select_control_forOne" name="is_primary_contact"  ng-model="contacts_items.is_primary_contact" theme="bootstrap" >
+                                        <ui-select-match placeholder="是否首要联系人">
+                                        {{$select.selected.label}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="is_primary_contact.id as is_primary_contact in is_primary_contact_items | filter: $select.search">
+                                        <small ng-bind-html="is_primary_contact.label"></small>
+                                        </ui-select-choices>
+                                        </ui-select>
+                                        <!--<p class="custom_form_p" ng-show="validate_add_customer_Input('is_primary_contact', 'required',contactsForm)">请选择类型！</p>-->
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" ng-click="close_customer_contacts_Modal()">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                </div>
+                                </form>
+                            </div><!-- /.modal-content -->
+                    </div>
+
+                </div>
+                <!-- 联系人编辑窗口（结束） -->
+
+                <!------------------------------联系人信息列表（结束）------------------------------>
+
+<!----------------------------------------------------------------------------商机列表---------------------------------------------------------------------------->
+                <div id="customer_businessOpportunity_panel" class="panel panel-default">
+                    <div class="panel-heading">商机</div>
+                    <div class="panel-body" style="padding: 0">
+
+                        <i id="add_businessOpportunity_log" class="fa fa-plus" title="添加商机" ng-click="open_businessOpportunity_Modal()"></i>
+                        <table ng-table="BusinessOpportunitiesTableParams" class="table ng-table-rowselected">
+                            <thead>
+                                <tr>
+                                    <td width="10%">商机名</td>
+                                    <td width="10%">金额</td>
+                                    <td width="10%">商机阶段</td>
+                                    <td width="10%">预计成交日期</td>
+                                    <td width="10%">成功率</td>
+                                    <td width="50%" align="right">操作</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="BusinessOpportunities in $data" ng-mouseover="BusinessOpportunities_selected_fn(BusinessOpportunities)" ng-class="{'active': BusinessOpportunities.id==BusinessOpportunities_selected.id}" style="text-align: left;">
+                                    <td width="10%">{{BusinessOpportunities.business_opportunities_name}}</td>
+                                    <td width="10%">{{BusinessOpportunities.expected_transaction_amount}}</td>
+                                    <td width="10%">{{BusinessOpportunities.dict_name}}</td>
+                                    <td width="10%">{{BusinessOpportunities.expected_transaction_time | date:'yyyy-MM-dd'}}</td>
+                                    <td width="10%">{{BusinessOpportunities.probability_of_success}} %</td>
+                                    <td width="50%" align="right">
+                                        <i class="fa fa-pencil"  ng-if="BusinessOpportunities.id==BusinessOpportunities_selected.id" ng-click="edit_businessOpportunity_Modal(BusinessOpportunities)"></i>&nbsp;
+                                        <i class="fa fa-trash-o"  ng-if="BusinessOpportunities.id==BusinessOpportunities_selected.id" ng-click="del_businessOpportunity(BusinessOpportunities)"></i>&nbsp;
+                                        <i class="fa fa-ellipsis-v" ng-class="{'icon_opacity_one':BusinessOpportunities.id!=BusinessOpportunities_selected.id}"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+<!----------------------------------------------------------------------------商机列表---------------------------------------------------------------------------->
+                <!------------------------------成交信息列表------------------------------>
+                <div id="customer_Transaction_panel" class="panel panel-default">
+                    <div class="panel-heading">成交信息</div>
+                    <div class="panel-body" style="padding: 0">
+                        <i id="add_Transaction_log" class="fa fa-plus" title="添加成交信息" ng-click="open_Transaction_Modal()"></i>
+                        <table ng-table="TransactionTableParams" class="table ng-table-rowselected">
+                            <thead>
+                                <tr >
+                                    <td  width="30%">项目合同</td>
+                                    <td  width="30%">创建时间</td>
+                                    <td  width="40%" align="right">操作</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="Transaction in $data" ng-mouseover="transaction_selected_fn(Transaction,2)"  ng-click="transaction_selected_fn(Transaction,1)" ng-class="{'active': Transaction.id == transaction_selected.id}">
+                                    <td>{{Transaction.transaction_type==1?'合同':Transaction.transaction_type==2?'项目':Transaction.transaction_type==3?'服务':''}}</td>
+                                    <td>{{Transaction.create_time  | date:'yyyy-MM-dd'}}</td>
+                                    <td align="right">
+                                        <i class="fa fa-pencil"  ng-if="Transaction.id==transaction_mouseover.id" ng-click="edit_Transaction_Modal(Transaction)"></i>&nbsp;
+                                        <i class="fa fa-trash-o"  ng-if="Transaction.id==transaction_mouseover.id" ng-click="del_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-ellipsis-v" ng-class="{'icon_opacity_one':Transaction.id!=transaction_mouseover.id}"></i>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+                </div>
+
+            </tab>
+            <tab heading="客户活动">
+
+                <div id="new_activity_panel" class="panel panel-default" ng-show="customer_detal_items.customer_state!=4">
+                    <div class="panel-heading">最新活动</div>
+                    <div class="panel-body" style="padding: 0">
+
+                        <i  class="fa fa-plus contacts_add_log" title="添加新活动" ng-click="open_new_activity_Modal()"></i>
+                        <table id="new_activity_table" ng-table="new_activityTableParams" class="table ng-table-rowselected">
+                            <thead>
+                                <tr>
+                                    <td  width="8%">活动名称</td>
+                                    <td  width="8%">时间</td>
+                                    <td  width="20%" align="right">操作</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="contacts in $data" ng-mouseover="cuctomer_contactsMouseover(contacts)" ng-click="cuctomer_contactsSelected(contacts)" ng-class="{'active': contacts.id==contacts_items.id}">
+                                    <td>{{contacts.qq}}</td>
+                                    <td>{{contacts.wechat}}</td>
+                                    <td align="right">
+                                        <i class="fa fa-envelope-o" ng-if="contacts.id==contacts_Mouseover_items.id" ></i>&nbsp;
+                                        <i class="fa fa-pencil"  ng-if="contacts.id==contacts_Mouseover_items.id" ng-click="edit_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-trash-o"  ng-if="contacts.id==contacts_Mouseover_items.id" ng-click="del_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-ellipsis-v" ng-class="{'icon_opacity_one':contacts.id!=contacts_Mouseover_items.id}"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div id="history_activity_panel" class="panel panel-default" ng-show="customer_detal_items.customer_state!=4">
+                    <div class="panel-heading">历史活动</div>
+                    <div class="panel-body" style="padding: 0">
+
+                        <!--<i  class="fa fa-plus contacts_add_log" title="添加历史活动" ng-click="open_customer_contacts_Modal()"></i>-->
+                        <table id="history_activity_table" ng-table="history_activity_TableParams" class="table ng-table-rowselected">
+                            <thead>
+                                <tr>
+                                    <td  width="8%">联系人</td>
+                                    <td  width="8%">联系时间</td>
+                                    <td  width="8%">详情</td>
+                                    <td  width="8%">联系方式</td>
+                                    <td  width="8%">跟进阶段</td>
+                                    <td  width="8%">下次回访时间</td>
+                                    <td  width="8%">跟踪人</td>
+                                    <td  width="20%" align="right">操作</td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng-repeat="contacts in $data" ng-mouseover="cuctomer_contactsMouseover(contacts)" ng-click="cuctomer_contactsSelected(contacts)" ng-class="{'active': contacts.id==contacts_items.id}">
+                                    <td>{{contacts.sex}}</td>
+                                    <td>{{contacts.job}}</td>
+                                    <td>{{contacts.first_cellphone}}</td>
+                                    <td>{{contacts.second_cellphone}}</td>
+                                    <td>{{contacts.telephone}}</td>
+                                    <td>{{contacts.first_email}}</td>
+                                    <td>{{contacts.second_email}}</td>
+                                    <td align="right">
+                                        <i class="fa fa-envelope-o" ng-if="contacts.id==contacts_Mouseover_items.id" ></i>&nbsp;
+                                        <i class="fa fa-pencil"  ng-if="contacts.id==contacts_Mouseover_items.id" ng-click="edit_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-trash-o"  ng-if="contacts.id==contacts_Mouseover_items.id" ng-click="del_customer_contacts(contacts)"></i>&nbsp;
+                                        <i class="fa fa-ellipsis-v" ng-class="{'icon_opacity_one':contacts.id!=contacts_Mouseover_items.id}"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+
+        <!-- 商机编辑窗口（开始） -->
+        <div class="modal fade" id="businessOpportunity_Modal" tabindex="-1" role="dialog"
+             aria-labelledby="businessOpportunity_ModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog" style="width: 50%;">
+                <div class="modal-content" style="background: #ffffff;">
+                    <form name="businessOpportunityForm"  novalidate="" ng-submit="save_businessOpportunity_Modal(businessOpportunityForm)"   class="form-validate form-horizontal">
+                        <div class="modal-header" style="text-align: left;">
+                            <h4 class="modal-title" id="businessOpportunity_ModalLabel">
+                                编辑商机
+                            </h4>
+                            <!--<input type="text" ng-value="" name="expected_transaction_time"  ng-model="expected_transaction_time" datepicker-popup="yyyy-MM-dd"  is-open="true"  min-date="'1970-12-31'"  close-text="Close" ng-click="expected_transaction_timeOpen($event)">-->
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" ng-model="businessOpportunity_items.id"/>
+
+                            <div class="form-group-left">
+                                <label class="custom_form_label">归属人：</label>
+                                <input type="text" name="belonging_user_name" required="required" ng-model="businessOpportunity_items.belonging_user_name" placeholder="归属人" class="custom_form_control" ng-disabled="true">
+                            </div>
+                            <div class="form-group-left">
+                                <label class="custom_form_label">*商机名：</label>
+                                <input type="text" name="business_opportunities_name" required="required" ng-model="businessOpportunity_items.business_opportunities_name" placeholder="商机名" class="custom_form_control"/>
+                                <p class="custom_form_p" ng-show="validate_information_Input('business_opportunities_name', 'required',businessOpportunityForm)">请填写商机名！</p>
+                            </div>
+
+                            <div class="form-group-left">
+                                <label class="custom_form_label">预计金额：</label>
+                                <input type="number" name="expected_transaction_amount"  ng-model="businessOpportunity_items.expected_transaction_amount" placeholder="预计金额" class="custom_form_control">
+                            </div>
+
+
+                            <div class="form-group-left" >
+                                <label class="custom_form_label">成功率：</label>
+                                <input type="number" name="probability_of_success"  ng-model="businessOpportunity_items.probability_of_success" placeholder="成功率" class="custom_form_control">
+                                <i style="left: auto;position: absolute;line-height: 37px;margin-left: -18px;cursor: pointer;font-family: '微软雅黑';font-size: 12px;" >%</i>
+                            </div>
+                            <div class="form-group-left" >
+                                <label class="custom_form_label">成交日期：</label>
+                                <input type="text" ng-value="" required="required"  name="expected_transaction_time"   ng-model="businessOpportunity_items.expected_transaction_time" datepicker-popup="yyyy-MM-dd"  is-open="startOpened" ng-init="startOpened = false" min-date="'1970-12-31'"  close-text="Close" class="custom_form_control" ng-disabled="true">
+                                <i class="fa fa-calendar" style="left: auto;position: absolute;line-height: 35px;margin-left: -20px;cursor: pointer;" ng-click="expected_transaction_timeOpen($event)"></i>
+                                <p class="custom_form_p" ng-show="validate_information_Input('expected_transaction_time', 'required',businessOpportunityForm)">请填写成交日期！</p>
+                            </div>
+                            <div class="form-group-left " >
+                                <label class="custom_form_ui_select_label">商机阶段：</label>
+                                <ui-select  class="custom_form_ui_select_control_forOne" required="required"  name="dict_stage_id"  ng-model="businessOpportunity_items.dict_stage_id" theme="bootstrap" >
+                                    <ui-select-match placeholder="商机阶段">
+                                        {{$select.selected.dict_name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="dict.id as dict in dict_items | filter: $select.search">
+                                        <small ng-bind-html="dict.dict_name"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <p class="custom_form_p" ng-show="validate_information_Input('dict_stage_id', 'required',businessOpportunityForm)">请选择商机阶段！</p>
+                            </div>
+                            <div class="form-group-left " >
+                                <label class="custom_form_ui_select_label">联系人：</label>
+                                <ui-select  class="custom_form_ui_select_control_forOne" name="contact_id"  ng-model="businessOpportunity_items.contact_id" theme="bootstrap" style="width: 76%;">
+                                    <ui-select-match placeholder="联系人">
+                                        {{$select.selected.contacts_name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Contacts.id as Contacts in ContactsList | filter: $select.search">
+                                        <small ng-bind-html="Contacts.contacts_name"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <i class="fa fa-trash-o" style="margin-top: 11px;margin-left: 2px;cursor: pointer" ng-click="businessOpportunity_items.contact_id=undefined"></i>
+                            </div>
+                            <div class="form-group-left" style="width: 100%;">
+                                <label class="custom_form_label" style="width: 9%;">下一步：</label>
+                                <input type="text" name="next_step"  ng-model="businessOpportunity_items.next_step" placeholder="下一步"  class="custom_form_control"  style="width: 91%">
+                            </div>
+
+                            <div class="form-group-left" style="width: 100%">
+                                <label class="custom_form_label" style="width: 9%;">备注：</label>
+                                <textarea name="remark" class="custom_form_control" placeholder="备注" ng-model="businessOpportunity_items.remark" style="width: 91%;height: 100px;resize: none;"></textarea>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" ng-click="close_businessOpportunity_Modal()">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div>
+
+        </div>
+        <!-- 商机编辑窗口（结束） -->
+
+
+
+
+        <!-- 成交信息编辑窗口（开始） -->
+        <div class="modal fade" id="Transaction_Modal" tabindex="-1" role="dialog"
+             aria-labelledby="Transaction_ModalLabel" aria-hidden="true">
+
+            <div class="modal-dialog" style="width: 50%;">
+                <div class="modal-content" style="background: #ffffff;">
+                    <form name="TransactionForm"  novalidate="" ng-submit="save_Transaction_Modal(TransactionForm)"   class="form-validate form-horizontal">
+                        <div class="modal-header" style="text-align: left;">
+                            <h4 class="modal-title" id="Transaction_ModalLabel">
+                                编辑成交信息
+                            </h4>
+                            <!--<input type="text" ng-value="" name="expected_transaction_time"  ng-model="expected_transaction_time" datepicker-popup="yyyy-MM-dd"  is-open="true"  min-date="'1970-12-31'"  close-text="Close" ng-click="expected_transaction_timeOpen($event)">-->
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" ng-model="Transaction_items.id"/>
+
+                            <div class="form-group-left">
+                                <label class="custom_form_label">名称：</label>
+                                <input type="text" name="transaction_name" required="required" ng-model="Transaction_items.transaction_name" placeholder="名称" class="custom_form_control">
+                                <p class="custom_form_p" ng-show="validate_information_Input('transaction_name', 'required',TransactionForm)">请填写名称！</p>
+                            </div>
+                            <div class="form-group-left">
+                                <label class="custom_form_label">数量：</label>
+                                <input type="number" name="num"  ng-model="Transaction_items.num" placeholder="数量" class="custom_form_control" >
+                            </div>
+                            <div class="form-group-left" >
+                                <label class="custom_form_label">编号：</label>
+                                <input type="number" name="transaction_no"  ng-model="Transaction_items.transaction_no" placeholder="编号" class="custom_form_control">
+                                <!--<i style="left: auto;position: absolute;line-height: 37px;margin-left: -18px;cursor: pointer;font-family: '微软雅黑';font-size: 12px;" >%</i>-->
+                            </div>
+                            <div class="form-group-left">
+                                <label class="custom_form_label">金额：</label>
+                                <input type="number" name="aggregate_amount"  ng-model="Transaction_items.aggregate_amount" placeholder="金额" class="custom_form_control">
+                            </div>
+
+
+
+                            <div class="form-group-left" >
+                                <label class="custom_form_label">开始日期：</label>
+                                <input type="text" ng-value="" placeholder="开始日期"  name="start_date"  ng-model="Transaction_items.start_date" datepicker-popup="yyyy-MM-dd"  is-open="Transaction_time_startOpened" ng-init="Transaction_time_startOpened = false" min-date="'1970-12-31'" max-date="Transaction_items.end_time" close-text="Close" class="custom_form_control" ng-disabled="true" style="width: 38%;">
+                                <i class="fa fa-calendar" style="left: auto;position: absolute;line-height: 35px;margin-left: -20px;cursor: pointer;" ng-click="Transaction_time_beginOpen($event)"></i>
+                                <label class="custom_form_label" style="width: 10px;margin-left: 5px;">-</label>
+                                <input type="text" ng-value="" placeholder="结束日期" name="end_time"  ng-model="Transaction_items.end_time" datepicker-popup="yyyy-MM-dd"  is-open="Transaction_time_endOpened" ng-init="Transaction_time_endOpened = false" min-date="Transaction_items.start_date"  close-text="Close" class="custom_form_control" ng-disabled="true" style="width: 38%;">
+                                <i class="fa fa-calendar" style="left: auto;position: absolute;line-height: 35px;margin-left: -20px;cursor: pointer;" ng-click="Transaction_time_endOpen($event)"></i>
+                                <!--<p class="custom_form_p" ng-show="validate_information_Input('expected_transaction_time', 'required',businessOpportunityForm)">请填写成交日期！</p>-->
+                            </div>
+
+                            <div class="form-group-left " >
+                                <label class="custom_form_ui_select_label">客户负责人：</label>
+                                <ui-select  class="custom_form_ui_select_control_forOne" name="customer_contacts_id"  ng-model="Transaction_items.customer_contacts_id" theme="bootstrap" style="width: 76%;">
+                                    <ui-select-match placeholder="客户负责人">
+                                        {{$select.selected.contacts_name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Contacts.id as Contacts in ContactsList | filter: $select.search">
+                                        <small ng-bind-html="Contacts.contacts_name"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <i class="fa fa-trash-o" style="margin-top: 11px;margin-left: 2px;cursor: pointer" ng-click="businessOpportunity_items.contact_id=undefined"></i>
+                            </div>
+                            <div class="form-group-left " >
+                                <label class="custom_form_ui_select_label">成交类别：</label>
+                                <ui-select  class="custom_form_ui_select_control_forOne" required="required" name="transaction_type"  ng-model="Transaction_items.transaction_type" theme="bootstrap" >
+                                <ui-select-match placeholder="成交类别">
+                                {{$select.selected.label}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="transaction_type.id as transaction_type in transaction_type_items | filter: $select.search">
+                                <small ng-bind-html="transaction_type.label"></small>
+                                </ui-select-choices>
+                                </ui-select>
+                            <p class="custom_form_p" ng-show="validate_information_Input('transaction_type', 'required',TransactionForm)">请选择成交类别！</p>
+                            </div>
+                            <div class="form-group-left " >
+                                <label class="custom_form_ui_select_label">相关项：</label>
+                                <ui-select  class="custom_form_ui_select_control_forOne" name="pid"  ng-model="Transaction_items.pid" theme="bootstrap" style="width: 76%;">
+                                    <ui-select-match placeholder="相关项">
+                                        {{$select.selected.transaction_name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="transaction.id as transaction in transaction_array | filter: $select.search">
+                                        <small ng-bind-html="transaction.transaction_name"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="form-group-left" style="width: 100%">
+                                <label class="custom_form_label" style="width: 9%;">备注：</label>
+                                <textarea name="remark" class="custom_form_control" placeholder="备注" ng-model="Transaction_items.remark" style="width: 91%;height: 100px;resize: none;"></textarea>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" ng-click="close_Transaction_Modal()">关闭</button>
+                            <button type="submit" class="btn btn-primary">保存</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div>
+
+        </div>
+        <!-- 商机编辑窗口（结束） -->
+
+
+
+
+    <!-- 活动编辑窗口（开始） -->
+    <div class="modal fade" id="new_activity_Modal" tabindex="-1" role="dialog"
+         aria-labelledby="businessOpportunity_ModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog" style="width: 50%;">
+            <div class="modal-content" style="background: #ffffff;">
+                <form name="new_activity_Form"  novalidate="" ng-submit="save_businessOpportunity_Modal(businessOpportunityForm)"   class="form-validate form-horizontal">
+                    <div class="modal-header" style="text-align: left;">
+                        <h4 class="modal-title" id="new_activity_ModalLabel">
+                            添加活动
+                        </h4>
+                        <!--<input type="text" ng-value="" name="expected_transaction_time"  ng-model="expected_transaction_time" datepicker-popup="yyyy-MM-dd"  is-open="true"  min-date="'1970-12-31'"  close-text="Close" ng-click="expected_transaction_timeOpen($event)">-->
+                    </div>
+                    <div class="modal-body" style="width: 100%;">
+                        <input type="hidden" ng-model="businessOpportunity_items.id"/>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">*活动类别</label>
+                            <div class="col-lg-10">
+                                <ui-select  name="activity_type"   ng-model="new_activity__items.activity_type" theme="bootstrap" >
+                                    <ui-select-match placeholder="活动类别">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="activity_type.id as activity_type in activity_type_items | filter: $select.search">
+                                        <small ng-bind-html="activity_type.label"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">*开始时间</label>
+                            <div class="col-lg-6">
+                                <p class="input-group">
+                                    <input type="text" placeholder="开始时间" name="start_time" required="" datepicker-popup="yyyy-MM-dd" ng-model="new_activity__items.start_time" is-open="new_activity_type_startOpened" min-date="'1970-12-31'"   close-text="Close"
+                                           class="form-control" />
+                                  <span class="input-group-btn">
+                                     <button type="button" ng-click="new_activity_type_time_beginOpen($event)" class="btn btn-default">
+                                        <em class="fa fa-calendar"></em>
+                                     </button>
+                                  </span>
+                                </p>
+
+                            </div>
+                            <div class="col-lg-2">
+                                    <ui-select  name="new_activity_hour"   ng-model="new_activity_hour" theme="bootstrap" >
+                                        <ui-select-match placeholder="时">
+                                            {{$select.selected}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="hour in activity_date_hour | filter: $select.search">
+                                            <small ng-bind-html="hour"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+
+                            </div>
+                            <div class="col-lg-2">
+                                <ui-select  name="new_activity_minute"   ng-model="new_activity_minute" theme="bootstrap" >
+                                    <ui-select-match placeholder="分">
+                                        {{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="minute in activity_date_minute | filter: $select.search">
+                                        <small ng-bind-html="minute"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">*提醒时间</label>
+                            <div class="col-lg-10">
+                                <ui-select  name="dict_contact_way_id"   ng-model="new_activity__items.advance_reminder_time" theme="bootstrap" >
+                                    <ui-select-match placeholder="提醒时间">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="remind_date.id as remind_date in remind_date_items | filter: $select.search">
+                                        <small ng-bind-html="remind_date.label"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-lg-2 control-label">联系方式</label>
+                                <div class="col-lg-10">
+                                    <ui-select  name="dict_contact_way_id"   ng-model="new_activity__items.dict_contact_way_id" theme="bootstrap" >
+                                        <ui-select-match placeholder="联系方式">
+                                            {{$select.selected.label}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="contactMode.id as contactMode in contactMode_items | filter: $select.search">
+                                            <small ng-bind-html="contactMode.label"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">*联系人</label>
+                            <div class="col-lg-10">
+                                <ui-select  name="contact_id"  ng-model="new_activity__items.contact_id" theme="bootstrap" >
+                                    <ui-select-match placeholder="联系人">
+                                        {{$select.selected.contacts_name}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="Contacts.id as Contacts in ContactsList | filter: $select.search">
+                                        <small ng-bind-html="Contacts.contacts_name"></small>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label">*活动主题</label>
+                            <div class="col-lg-10">
+                                <textarea placeholder="活动详情" class="form-control" ng-model="new_activity__items.theme_detail" style="width: 100%;height: 100px;resize: none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="close_new_activity_Modal()">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div>
+
+    </div>
+
+    <!-- 活动编辑窗口（结束） -->
+</div>

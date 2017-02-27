@@ -1,0 +1,315 @@
+<div ng-controller="organizationController" style="height:100%;" >
+    <div class="panel-heading" style="height: 66px;line-height:46px;border-bottom:1px solid #d9d9d9;">
+        <span style="font-size:20px;font-weight: 600;">组织架构</span>
+        <!--<div class="form-group pull-right" style="margin:0;padding: 0;font-size:12px;">-->
+            <!--<input type="text" class="input_search" placeholder="输入关键字搜索" ng-model="userManageItems.queryall"/>-->
+            <!--<button type="button" class="button_search" ng-click="searchUser()"><i class="icon-magnifier"></i></button>-->
+        <!--</div>-->
+        <div class="organization_search pull-right">
+            <input type="text" placeholder="输入搜索内容" class="form-control" ng-model="userManageItems.queryall"/>
+            <button type="button" class="btn btn-default organization_findButton" ng-click="searchUser()"><i class="icon-magnifier"></i></button>
+        </div>
+    </div>
+    <div style="padding:15px 15px;">
+        <div id="organization_left" class="col-md-2 organization_left_depart"  ng-style="body_height" style="padding: 0;">
+            <div ng-if="department_tree!=undefined">
+                <div style="padding:7px 0 7px 10px;background: #e8e8e8;height:42px;line-height:28px;font-size:12px;" >
+                    <span>公司</span>
+                    <span class="pull-right level1"  ng-mouseover="show_modal=1" ng-mouseout="show_modal=0">
+                        <i class="fa fa-wrench"></i>
+                    </span>
+                    <ul class="edit_nav1" ng-show="show_modal" ng-mouseover="show_modal=1" ng-mouseout="show_modal=0">
+                        <li ng-click="open_add_departmentModal()"><i class="fa fa-plus"></i>&nbsp;新增</li>
+                        <li ng-click="open_edit_departmentModal()"><i class="fa fa-edit"></i>&nbsp;编辑</li>
+                        <li ng-click="del_department()"><i class="fa fa-trash-o"></i>&nbsp;删除</li>
+                    </ul>
+                </div>
+                <div style="overflow:hidden;font-size:12px;">
+                    <abn-tree tree-data="department_tree" tree-control="my_dep_tree" ng-class="{'department_selected':departmentSelected.id==branch.id}" on-select="department_tree_selected(branch.item)" expand-level="2" initial-selection="Granny Smith">
+                    </abn-tree>
+                </div>
+            </div>
+            <!-- 新增部门（Modal）start -->
+            <div class="modal fade" id="departmentModal" tabindex="-1" role="dialog"
+                 aria-labelledby="departmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="background: #ffffff;">
+                        <form name="departmentform"  novalidate="" ng-submit="save_department()" class="form-horizontal">
+                            <div class="modal-header" style="text-align: left;">
+                                <h4 class="modal-title" id="myModalLabel">
+                                    {{departmentSelected.id!=undefined?'编辑':'新增'}}部门
+                                </h4>
+                            </div>
+                            <div class="modal-body row" >
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">上级部门：</label>
+                                    <div class="col-sm-6">
+                                        <input type="hidden" ng-model="departmentItems.id" ng-value="departmentItems.id"/>
+                                        <div class="input-group">
+                                            <ui-select required="required" name="department_id"  ng-model="departmentItems.pid" theme="bootstrap" >
+                                                <ui-select-match placeholder="选择部门">
+                                                    {{$select.selected.department_name}}
+                                                </ui-select-match>
+                                                <ui-select-choices repeat="department.id as department in department_items | filter: $select.search">
+                                                    <small ng-bind-html="department.department_name"></small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        <span class="input-group-btn">
+                                            <button type="button" ng-click="select_items_reset('department_id')" class="btn btn-default" >
+                                                <span class="fa fa-trash-o"></span>
+                                            </button>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <code ng-show="validate_department_input('department_id', 'required')">请选择部门！</code>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">部门名称：</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" name="department_name" required="required"  ng-model="departmentItems.department_name" class="form-control" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <code  ng-show="validate_department_input('department_name', 'required')">请填写姓名！</code>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" ng-click="closeModal()">关闭</button>
+                                <button type="submit" class="btn btn-primary">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- 新增部门（Modal）end -->
+        </div>
+
+        <div id="organization_right" class="col-md-10"  style="padding:0 0 0 15px;">
+            <div style="width:100%;float:left;font-size:12px;" >
+                <div class="table-responsive"  ng-style="body_height" style="padding:0;border:1px solid #eee;">
+                    <script type="text/ng-template" id="userManage/pager">
+                        <div class="bottom" style="position: absolute;bottom:20px;right:20px;">
+                            <div ng-if="params.settings().counts.length"  class="dataTables_length">
+                                <div class="dataTables_paginate paging_bs_normal">
+                                    <ul class="pagination ng-table-pagination pull-right">
+                                        <li ng-class="{disabled: !page.active}">
+                                            <span style="color: #999999; border: none;">共有{{params.settings().total}}条记录</span>
+                                        </li>
+                                        <li ng-class="{disabled: !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""><span class="fa fa-angle-left"></span>&nbsp;</a>
+                                            <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                            <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                            <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                                            <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&nbsp;<span class="fa fa-angle-right"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                    <table ng-table="userManageTableParams" export-csv="csv" class="table ng-table-rowselected table-hover organization_table" style="border-bottom:1px solid #eee"  template-pagination="userManage/pager">
+                        <thead style="padding:0;">
+                            <tr style="background:#e8e8e8;padding-left:12px;" class="organization_thead">
+                                <td style="padding-left:12px;">姓名</td>
+                                <td>性别</td>
+                                <td>角色</td>
+                                <td>部门</td>
+                                <td>职务</td>
+                                <td>手机</td>
+                                <td>邮箱</td>
+                                <td style="float:right;">
+                                    <a data-target="#addUserModal" data-toggle="modal" style="color:inherit" ng-click="addUser()">
+                                        <i class="fa fa-plus"></i>
+                                    </a>&nbsp;&nbsp;&nbsp;操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="customer_tr" ng-repeat="user in $data"
+                            ng-mouseover="over_user(user)" ng-mouseout="out_user(user)" ng-click="select_user(user)"
+                            ng-class="{'custom_selected': userManageItems.id==user.id}">
+                            <td style="padding-left:12px;">{{user.user_cn_name}}</td>
+                            <td>{{user.sex==1?'男':user.sex==2?'女':''}}</td>
+                            <td >{{user.role_name}}</td>
+                            <td >{{user.departname}}</td>
+                            <td  >{{user.dict_name}}</td>
+                            <td >{{user.cellphone}}</td>
+                            <td  >{{user.email}}</td>
+                            <td style="width:120px;">
+                                <i class="fa fa-ellipsis-v pull-right mouseover_opacity1" style="margin-right:10px;" ></i>
+                                <div ng-show="mouseover_id==user.id">
+                                    <a data-target="#addUserModal" data-toggle="modal" class="mouseover_opacity" style="color:inherit;" ng-click="editUser(user)">
+                                        <!--<i class="fa fa-edit"></i>-->
+                                        <img style="height:14px;" src="app/img/pencil.png"/>
+                                    </a>
+                                    <!--<a ui-sref="app.org.sys_mgr.organization_detail({user_id:user.id,operateState:1})"><i class="fa fa-edit"></i></a>-->
+                                    <a ng-click="isResign(item) " style="color:inherit;"  class="mouseover_opacity" ng-hide="user.is_quit_job">
+                                        <!--<i class="icon-user-following"></i>-->
+                                        <img style="height:14px;" src="app/img/permit_user.png"/>
+                                    </a>
+                                    <a style="color:inherit" ng-show="user.is_quit_job"  class="mouseover_opacity">
+                                        <!--<i class="icon-user-unfollow"></i>-->
+                                        <img style="height:14px;" src="app/img/user_lizhi.png"/>
+                                    </a>
+                                    <a ng-click="" style="color:inherit;" class="mouseover_opacity">
+                                        <!--<i class="fa fa-key"></i>-->
+                                        <img style="height:14px;" src="app/img/reset_password.png"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 新增用户（Modal）start -->
+                <div id="addUserModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="userModalLabel">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form name="userform" novalidate ng-submit="save_user()" class="form-horizontal">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">
+                                        {{userManageItems.id!=undefined?'编辑':'新增'}}用户
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">登录名：</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" name="login_name" ng-model="userManageItems.login_name" required="required" class="form-control" />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code ng-show="validateInput('login_name', 'required')">请填写登录名！</code>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">姓名：</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" name="user_cn_name" required="required"  ng-model="userManageItems.user_cn_name" class="form-control" />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code  ng-show="validateInput('user_cn_name', 'required')">请填写姓名！</code>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">性别：</label>
+                                        <div class="col-sm-9">
+                                            <div class="radio c-radio">
+                                                <label>
+                                                    <input type="radio"  name="sex" value="1" ng-checked="true" ng-model="userManageItems.sex" />
+                                                    <span class="fa fa-circle"></span>男
+                                                </label>
+                                                <label>
+                                                    <input type="radio"  name="sex" value="2" ng-model="userManageItems.sex" />
+                                                    <span class="fa fa-circle"></span>女
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">手机：</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" name="cellphone" required="required"  ng-model="userManageItems.cellphone" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                   onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" class="form-control" />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code ng-show="validateInput('cellphone', 'required')">请填写手机号！</code>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">邮箱：</label>
+                                        <div class="col-sm-7">
+                                            <input type="email" name="email" required="required" ng-model="userManageItems.email"  class="form-control" />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code ng-show="validateInput('email', 'required')">请填写邮箱！</code>
+                                            <code ng-show="validateInput('email', 'email')">邮箱格式不正确！</code>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">部门：</label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <ui-select required="required" name="department_id"  ng-model="userManageItems.department_id" theme="bootstrap" >
+                                                    <ui-select-match placeholder="选择部门">
+                                                        {{$select.selected.department_name}}
+                                                    </ui-select-match>
+                                                    <ui-select-choices repeat="department.id as department in department_items | filter: $select.search">
+                                                        <small ng-bind-html="department.department_name"></small>
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                    <span class="input-group-btn">
+                                        <button type="button" ng-click="select_items_reset('department_id')" class="btn btn-default" >
+                                            <span class="fa fa-trash-o"></span>
+                                        </button>
+                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code ng-show="validateInput('department_id', 'required')">请选择部门！</code>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">角色：</label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <ui-select name="role_id" required="required"  ng-model="userManageItems.role_id" theme="bootstrap" >
+                                                    <ui-select-match placeholder="选择角色">
+                                                        {{$select.selected.role_name}}
+                                                    </ui-select-match>
+                                                    <ui-select-choices repeat="role.id as role in role_items | filter: $select.search">
+                                                        <small ng-bind-html="role.role_name"></small>
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                    <span class="input-group-btn">
+                                        <button type="button" ng-click="select_items_reset('role_id')" class="btn btn-default" >
+                                            <span class="fa fa-trash-o"></span>
+                                        </button>
+                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code ng-show="validateInput('role_id', 'required')">请选择角色！</code>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">职务：</label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group">
+                                                <ui-select name="dict_job_id" required="required"  ng-model="userManageItems.dict_job_id" theme="bootstrap">
+                                                    <ui-select-match placeholder="选择职务">
+                                                        {{$select.selected.dict_name}}
+                                                    </ui-select-match>
+                                                    <ui-select-choices repeat="job.id as job in job_items | filter: $select.search">
+                                                        <small ng-bind-html="job.dict_name"></small>
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                    <span class="input-group-btn">
+                                        <button type="button" ng-click="select_items_reset('dict_job_id')" class="btn btn-default" >
+                                            <span class="fa fa-trash-o"></span>
+                                        </button>
+                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <code ng-show="validateInput('dict_job_id', 'required')">请选择职务！</code>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" ng-click="closeModal()">关闭</button>
+                                    <button type="submit" class="btn btn-primary">保存</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- 新增用户（Modal）end -->
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
+</div>

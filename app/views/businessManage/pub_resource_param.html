@@ -1,0 +1,85 @@
+<div ng-controller="pub_resource_paramCtrl">
+    <div class="panel panel-default pub_resource">
+        <div class="panel-heading title">
+            <label>公共资源参数设置</label>
+        </div>
+        <div class="panel-body">
+            <div class="resUpLimit">
+                <table class="table table-striped table-bordered">
+                    <tr class="tableTitle">
+                        <td colspan="3">销售领取未签单资源上限设置</td>
+                    </tr>
+                    <tr class="tableContent">
+                        <td>
+                            <input class="numInput form-control"  ng-show="show_edit"  min="0"
+                                ng-model="other_pub_resource_paramItems.resource_cap_month"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                <span class="numSet"  ng-hide="show_edit" ng-bind="other_pub_resource_paramItems.resource_cap_month"></span>
+                            <span class="unitSet">每月/个</span>
+                        </td>
+                        <td>
+                             <input class="numInput form-control"  ng-show="show_edit" min="0"
+                                ng-model="other_pub_resource_paramItems.resource_cap_weekly"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                <span class="numSet" ng-hide="show_edit" ng-bind="other_pub_resource_paramItems.resource_cap_weekly"></span>
+                            <span class="unitSet">每周/个</span></td>
+                        <td>
+                            <input class="numInput form-control"  ng-show="show_edit" min="0"
+                                ng-model="other_pub_resource_paramItems.resource_cap_daily"
+                                onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"/>
+                                <span class="numSet" ng-hide="show_edit" ng-bind="other_pub_resource_paramItems.resource_cap_daily"></span>
+                            <span class="unitSet">每天/个</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="resTimeLimit">
+                <table class="table table-striped table-bordered table-hover">
+                    <tr class="tableTitle">
+                        <td colspan="2">销售获取公共资源时限设置</td>
+                    </tr>
+                    <tr class="tableContent">
+                        <td style="width:40%">
+                        <input class="numInput form-control" ng-show="show_edit" ng-model="other_pub_resource_paramItems.pub_resource_limit_day"
+                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                       min="0"/>
+                       <span class="numSet" ng-hide="show_edit" ng-bind="other_pub_resource_paramItems.pub_resource_limit_day"></span>
+                        <span class="unitSet">天</span></td>
+                        <td style="width:60%">销售个人的某客户变为公共资源之后，x天之内，该销售不可以重新获取该客户。</td>
+                    </tr>
+                </table>
+            </div>     
+            <div style="clear:both">
+            </div>
+            <div class="stepArea">
+                <p>
+                    <span class="tipOne">客户转入公共资源时限设置</span>
+                    <span class="tip">&nbsp(客户在不同阶段超过一定天数，该客户将自动转为公共资源)</span>
+                </p>
+                <div class="stepContent" ng-repeat="ng in pub_resource_paramItems">
+                    <div class="stepTitle">
+                        {{ng.stage_name}}
+                    </div>
+                    <div class="stepDate">
+                        <input class="addStyle form-control"  ng-show="show_edit" ng-model="ng.overdue_day"
+                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                       min="0"/>
+                        <p ng-hide="show_edit">{{ng.overdue_day == 0 ? '0' : ng.overdue_day}}</p>
+                        <span class="unitSet">天</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dealIcon">
+                <button type="button" class="btn btn-primary" ng-click="chang_edit_status()">编辑</button>
+                <button type="button" class="btn btn-primary" ng-click="savePub_resource_param()">保存</button>
+                <button type="button" class="btn btn-primary" ng-click="cancel()">取消</button>
+            </div>
+
+        </div>
+    </div>
+</div>

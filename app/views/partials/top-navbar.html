@@ -1,0 +1,254 @@
+<!-- START Top Navbar-->
+<div ng-controller="topNavbarCtrl" ng-style="app.layout.isCollapsed==true?navigation_div_one:navigation_div_two">
+
+
+
+<nav role="navigation" class="navbar topnavbar crm_top_navbar" >
+   <!-- START navbar header-->
+   <div class="crm_top_navbar_search navbar-header " style="width: 70px;background: #1c1d22;" >
+      <em class="fa fa-search"></em>
+      <!--<a href="#/" class="navbar-brand" style="width: 300px;color: #ffffff;padding: 7px 18px 15px 15px;">-->
+         <!--<div  >-->
+            <!--<img src="app/img/logo-icon.png" alt="App Logo" style="float: left"/>-->
+           <!--<p style="float: right;    margin-top: 11px;">岱恩教育客户关系管理系统</p>-->
+         <!--</div>-->
+         <!--&lt;!&ndash;<div class="brand-logo-collapsed">&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<img src="app/img/logo-single.png" alt="App Logo" class="img-responsive" />&ndash;&gt;&ndash;&gt;-->
+         <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</a>-->
+   </div>
+   <!-- END navbar header-->
+   <!-- START Nav wrapper-->
+   <div class="nav-wrapper crm_top_navbar" >
+      <!-- START Left navbar-->
+      <ul class="nav navbar-nav">
+         <li>
+            <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+            <!--<a href="#" trigger-resize="" ng-click="app.layout.isCollapsed = !app.layout.isCollapsed" class="hidden-xs">-->
+               <!--<em class="fa fa-navicon"></em>-->
+            <!--</a>-->
+            <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+            <a href="#" toggle-state="aside-toggled" no-persist="no-persist" class="visible-xs sidebar-toggle">
+               <em class="fa fa-navicon"></em>
+            </a>
+         </li>
+         <!-- START User avatar toggle-->
+         <!--<li>-->
+            <!--&lt;!&ndash; Button used to collapse the left sidebar. Only visible on tablet and desktops&ndash;&gt;-->
+            <!--<a href="#" ng-click="toggleUserBlock()">-->
+               <!--<em class="icon-user"></em>-->
+            <!--</a>-->
+         <!--</li>-->
+         <!--&lt;!&ndash; END User avatar toggle&ndash;&gt;-->
+         <!--&lt;!&ndash; START lock screen&ndash;&gt;-->
+         <!--<li>-->
+            <!--<a ui-sref="page.lock" title="Lock screen">-->
+               <!--<em class="icon-lock"></em>-->
+            <!--</a>-->
+         <!--</li>-->
+         <!-- END lock screen-->
+      </ul>
+      <!-- END Left navbar-->
+      <!-- START Right Navbar-->
+      <ul class="nav navbar-nav navbar-right crm_top_navbar" style="    margin-top: -4px;">
+         <li dropdown="" class="dropdown dropdown-list">
+            <a dropdown-toggle="">
+               <em class="fa fa-comment"></em>
+            </a>
+            <ul class="dropdown-menu animated flipInX">
+               <li>
+                  <div class="list-group">
+                     <!-- list item-->
+                     <a href="#" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <em class="fa fa-wrench text-info"></em>
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <p class="m0">查看信息</p>
+                              <!--<p class="m0 text-muted">-->
+                              <!--<small>1 new follower</small>-->
+                              <!--</p>-->
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </li>
+            </ul>
+         </li>
+         <!-- START Alert menu-->
+         <li dropdown="" class="dropdown dropdown-list">
+            <a dropdown-toggle="">
+               <em class="icon-bell"></em>
+               <div class="label label-danger">11</div>
+            </a>
+            <!-- START Dropdown menu-->
+            <ul class="dropdown-menu animated flipInX" style="width: 380px">
+               <li>
+                  <!-- START list group-->
+                  <div class="list-group">
+                     <!-- list item-->
+                     <div  class="list-group-item ">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="app/img/user/04.jpg">
+                           </div>
+                           <div class="media-box-body clearfix msg_div_style">
+                              <a href="#">@追逐属于自己的杏仁</a>
+                              <span>号外号外，虾小米已躺好，欢迎各位大侠猛烈来"稿"！您只需登陆虾米5.0新版APP，找一张你做的最满意的精选集，点击右上角的....</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div  class="list-group-item ">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="app/img/user/01.jpg">
+                           </div>
+                           <div class="media-box-body clearfix msg_div_style">
+                              <a href="#">@追逐属于自己的杏仁</a>
+                              <span>号外号外，虾小米已躺好，欢迎各位大侠猛烈来"稿"！您只需登陆虾米5.0新版APP，找一张你做的最满意的精选集，点击右上角的....</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div  class="list-group-item ">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="app/img/user/03.jpg">
+                           </div>
+                           <div class="media-box-body clearfix msg_div_style">
+                              <a href="#">@追逐属于自己的杏仁</a>
+                              <span>号外号外，虾小米已躺好，欢迎各位大侠猛烈来"稿"！您只需登陆虾米5.0新版APP，找一张你做的最满意的精选集，点击右上角的....</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div  class="list-group-item ">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="app/img/user/05.jpg">
+                           </div>
+                           <div class="media-box-body clearfix msg_div_style">
+                              <a href="#">@追逐属于自己的杏仁</a>
+                              <span>号外号外，虾小米已躺好，欢迎各位大侠猛烈来"稿"！您只需登陆虾米5.0新版APP，找一张你做的最满意的精选集，点击右上角的....</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div  class="list-group-item ">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="app/img/user/06.jpg">
+                           </div>
+                           <div class="media-box-body clearfix msg_div_style">
+                              <a href="#">@追逐属于自己的杏仁</a>
+                              <span>号外号外，虾小米已躺好，欢迎各位大侠猛烈来"稿"！您只需登陆虾米5.0新版APP，找一张你做的最满意的精选集，点击右上角的....</span>
+                           </div>
+                        </div>
+                     </div>
+                     <!--&lt;!&ndash; list item&ndash;&gt;-->
+                     <!--<a href="#" class="list-group-item">-->
+                        <!--<div class="media-box">-->
+                           <!--<div class="pull-left">-->
+                              <!--<em class="fa fa-envelope fa-2x text-warning"></em>-->
+                           <!--</div>-->
+                           <!--<div class="media-box-body clearfix">-->
+                              <!--<p class="m0">New e-mails</p>-->
+                              <!--<p class="m0 text-muted">-->
+                                 <!--<small>You have 10 new emails</small>-->
+                              <!--</p>-->
+                           <!--</div>-->
+                        <!--</div>-->
+                     <!--</a>-->
+                     <!-- last list item -->
+                     <div  class="msg_buttom_div_style list-group-item " style=" padding: 7px 25px 0px 1px;font-weight: bold;">
+                        <a href="#">查看更多通知</a>
+                     </div>
+                  </div>
+                  <!-- END list group-->
+               </li>
+            </ul>
+            <!-- END Dropdown menu-->
+         </li>
+
+         <!----系统资料---->
+         <li dropdown="" class="dropdown dropdown-list">
+            <a dropdown-toggle="">
+               <em class="icon-settings"></em>
+            </a>
+            <ul class="dropdown-menu animated flipInX">
+               <li>
+                  <div class="list-group">
+                     <!-- list item-->
+                     <a href="#" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <em class="fa fa-wrench text-info"></em>
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <p class="m0">账户设置</p>
+                              <!--<p class="m0 text-muted">-->
+                              <!--<small>1 new follower</small>-->
+                              <!--</p>-->
+                           </div>
+                        </div>
+                     </a>
+                     <a href="#" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <em class="fa icon-user-following text-warning"></em>
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <p class="m0">个人资料</p>
+                              <!--<p class="m0 text-muted">-->
+                              <!--<small>You have 10 new emails</small>-->
+                              <!--</p>-->
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </li>
+            </ul>
+         </li>
+
+         <!----登出---->
+         <li dropdown="" class="dropdown dropdown-list">
+            <a dropdown-toggle="">
+               <em class="icon-logout"></em>
+            </a>
+            <ul class="dropdown-menu animated flipInX">
+               <li>
+                  <!-- START list group-->
+                  <div class="list-group">
+                     <a href="#" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <em class="fa icon-logout text-success"></em>
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <p class="m0" ng-click="logOut()">退出</p>
+                              <!--<p class="m0 text-muted">-->
+                                 <!--<small>11 pending task</small>-->
+                              <!--</p>-->
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+               </li>
+            </ul>
+         </li>
+         <!-- END Contacts menu-->
+      </ul>
+      <!-- END Right Navbar-->
+   </div>
+   <!-- END Nav wrapper-->
+   <!-- START Search form-->
+   <!--<form role="search" action="search.html" class="navbar-form">-->
+      <!--<div class="form-group has-feedback">-->
+         <!--<input type="text" placeholder="{{ 'topbar.search.PLACEHOLDER' | translate }}" class="form-control" />-->
+         <!--<div search-dismiss="search-dismiss" class="fa fa-times form-control-feedback"></div>-->
+      <!--</div>-->
+      <!--<button type="submit" class="hidden btn btn-default">Submit</button>-->
+   <!--</form>-->
+   <!-- END Search form-->
+</nav>
+<!-- END Top Navbar-->
+
+</div>

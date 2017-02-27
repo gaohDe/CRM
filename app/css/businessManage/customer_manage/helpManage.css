@@ -1,0 +1,144 @@
+/**********求助管理界面样式***********/
+.helpManage {
+	font-family: "宋体";
+}
+
+/**********标题样式************/
+.helpManage .title {
+	border-bottom: 1px solid #d9d9d9;
+}
+
+.helpManage .title label {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 5px 0px;
+}
+
+/******搜索******/
+.search {
+	float: right;
+	margin: 0px 0px 0px 0px;
+}
+.search input {
+	width: 177px;
+	height: 36px;
+	margin: 5px 100px -3px 0px;
+}
+.search .findButton {
+	width: 36px;
+	height: 36px;
+	margin: -55px 0px 0px 200px;
+}
+.search .findButton i {
+	margin: 0px 0px 0px -5px;
+}
+.search .findMore {
+	width: 36px;
+	height: 36px;
+	margin: -55px 0px 0px -8px;
+}
+
+/***********搜索栏位**************/
+.searchArea {
+	padding: 15px 15px;
+}
+.searchArea div {
+	float: left;
+/*	margin-right: 50px;*/
+}
+.searchArea .setHighSearch {
+	margin-left: 30px;
+}
+.searchArea span {
+	margin: 0px 0px 0px -8px;
+}
+
+.searchArea input {
+    font-size:14px;
+    display:inline-block;
+    border:1px solid #eee;
+    line-height:29px;
+    border-radius:4px;
+}
+.helpStatusSearch {
+	display: inline-block;
+    margin: -2px 0px 0px 0px;
+}
+/*************切换标签样式***************/
+.helpManage .menu {
+	margin: 15px 0px;
+	background-color: #e8e8e8;
+	height: 42px;
+}
+
+.menu div {
+	display: inline-table;
+	height: 42px;
+	width: 150px;
+	background-color: #000;
+	padding: 20px 0px 0px 0px;
+	text-align: center;
+}
+
+.menu .secondLabel {
+	margin: 0px 0px 0px -7px;
+}
+
+/**********表格样式********************/
+.helpManage .dataTable {
+	margin: 0px 0px 0px 0px;
+}
+
+.dataTable table {
+	min-width: 800px;
+}
+
+.dataTable table thead {
+	background-color: #e8e8e8;
+}
+.dataTable table thead tr {
+	height: 42px;
+}
+.dataTable table thead tr th {
+	text-align: left;
+}
+.dataTable .a {
+	width: 20%;
+}
+
+.dataTable .aa {
+	width: 30%;
+}
+
+.dataTable .c {
+	width: 20%;
+}
+
+.dataTable .d {
+	width: 15%;
+}
+
+.dataTable .e {
+	width: 10%;
+}
+
+.dataTable .f {
+	width: 5%;
+}
+
+.mouseover_opacity1{
+	opacity:0.5;
+}
+.material_tr:hover .mouseover_opacity1{
+	opacity:1;
+}
+
+.mouseover_opacity:hover{
+	opacity:1;
+	text-decoration: none;
+	background:#fafbfc !important;
+}
+.mouseover_opacity{
+	opacity:0.5;
+	margin-right:4%;
+}

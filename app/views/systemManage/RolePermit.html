@@ -1,0 +1,187 @@
+<div ng-controller="RolePermitCtrl"  >
+    <div class="panel-heading" style="height: 66px;line-height:46px;border-bottom:1px solid #d9d9d9;">
+        <span style="font-size:20px;font-weight: 600;">设置角色和权限</span>
+    </div>
+    <div style="padding:15px 15px;">
+        <!--左侧角色菜单end-->
+        <div class="col-md-2 left_role"  ng-style="body_height">
+            <!--左侧角色菜单start-->
+            <div style="padding:8px 0 8px 10px;background:#e8e8e8;" >
+                <span >企业角色</span>
+                <span class="pull-right role_level"  ng-mouseover="show_modal=1" ng-mouseout="show_modal=0">
+                    <i class="fa fa-wrench "></i>
+                </span>
+                <ul ng-show='show_modal' class="roleEdit_nav"  ng-mouseover="show_modal=1" ng-mouseout="show_modal=0">
+                    <li data-toggle="modal" ng-click="toAddRoleMenu()" data-target="#addRoleMenu"><i class="fa fa-plus"></i>&nbsp;新增</li>
+                    <li data-toggle="modal" ng-click="toEditRoleMenu(role)" data-target="#addRoleMenu"><i class="fa fa-edit"></i>&nbsp;编辑</li>
+                    <li ng-click="deleteRole(role)"><i class="fa fa-trash-o"></i>&nbsp;删除</li>
+                </ul>
+            </div>
+            <ul class="roleTree_ul">
+                <li class="roleList" ng-repeat="role in role_menu" ng-click="setSelected(role)"
+                    ng-class="{'role_selected':selectItem.id===role.id}">
+                    <a href="javascript:void(0);" tooltip-placement="right" tooltip="{{role.role_describe}}" style="text-decoration: none;">
+                        <div style="width:100%;">{{role.role_name}}</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-10"  ng-style="body_height"  style="padding:0 0 0 15px;">
+            <!--tab页-->
+            <!--tab页的头-->
+            <div id="role_menu_tab"  class="role_menu_tab_head">
+                <ul ng-tab="" class="nav nav-tabs ">
+                    <li class="active" ng-click="tab_selected(1)" style="line-height:24px;">
+                        <a href="/#role_menu_web" role="tab" data-toggle="tab" style="border-right:1px solid #ddd;">
+                            <img ng-show="isTab_selected==1" style="height:24px;margin-right:10px;" src="app/img/permit_web1.png"/><img ng-show="isTab_selected==2" style="height:24px;margin-right:10px;" src="app/img/permit_web3.png"/>web端</a>
+                    </li>
+                    <li ng-click="tab_selected(2)" style="line-height:24px;">
+                        <a href="/#role_menu_app" role="tab" data-toggle="tab">
+                            <img ng-show="isTab_selected==2" style="height:24px;margin-right:10px;" src="app/img/permit_app1.png"/><img ng-show="isTab_selected==1" style="height:24px;margin-right:10px;" src="app/img/permit_app3.png"/>移动端</a>
+                    </li>
+                </ul>
+            </div>
+            <!--tab页的内容-->
+            <div class="tab-content tab-edit" style="background: #fff;border:1px solid #eee;border-top:none;">
+                <!-- start  web端权限 -->
+                <div id="role_menu_web" class="tab-pane fade in active" >
+                    <div style="width:100%;">
+                        <!--右侧权限列表start-->
+                        <script type="text/ng-template" id="nodes_renderer112.html">
+                            <div class="tree-node " >
+                                <div class="tree-node-content"  style="margin-left:-20px;clear:both;margin-bottom:20px;">
+                                    <span class="role-list-icon"></span>
+                                    <div class="checkbox c-checkbox" style="line-height:14px;margin:0 0 10px 0">
+                                        <label>
+                                            <input  id="role_menu_{{node.item.id}}" type="checkbox" ng-model="node.item.enabled"
+                                                    ng-checked="node.item.enabled==true" ng-click="click_roleMenu_Node(node)"/>
+                                            <span class="fa fa-check" style="width:12px;height:12px;line-height:12px !important;"></span>
+                                        </label>
+                                        {{node.item.func_title}}
+                                    </div>
+                                    <!--{{node.item.func_title}}-->
+                                </div>
+                            </div>
+                            <ol class="h-list" ui-tree-nodes="" ng-model="node.children" style="list-style:none ;margin-left:-15px;font-size:12px;">
+                                <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer112.html'" style="float:left;width:125px;"></li>
+                            </ol>
+                        </script>
+                        <div>
+                            <ol ui-tree-nodes="" ng-model="quanxian" style="list-style: none">
+                                <li ng-repeat="node in menu_web" ui-tree-node ng-include="'nodes_renderer112.html'"></li>
+                            </ol>
+                        </div>
+                        <div style="text-align: center;clear:both;">
+                            <button type="button" class="mb-sm btn btn-info" ng-click="save_role_menu()">保存</button>
+                        </div>
+                        <!--右侧权限列表end-->
+                    </div>
+                </div>
+                <!-- start  移动端权限 -->
+                <div id="role_menu_app" class="tab-pane fade" >
+                    <div style="width:100%;">
+                        <!--右侧权限列表start-->
+                        <script type="text/ng-template" id="nodes_renderer111.html">
+                            <div class="tree-node ">
+                                <div class="tree-node-content"   style="margin-left:-20px;clear:both;margin-bottom:20px;">
+                                    <span class="role-list-icon"></span>
+                                    <div class="checkbox c-checkbox" style="line-height:14px;margin:0 0 10px 0">
+                                        <label>
+                                            <input type="checkbox" ng-model="node.item.enabled" ng-checked="node.item.enabled==true" ng-click="click_roleMenu_Node(node)" ng-disabled="selectItem==undefined"/>
+                                            <span class="fa fa-check" style="width:12px;height:12px;"></span>
+                                        </label>
+                                        {{node.item.func_title}}
+                                    </div>
+                                    <!--{{node.item.func_title}}-->
+                                </div>
+                            </div>
+                            <ol class="h-list" ui-tree-nodes="" ng-model="node.children" style="list-style: none ;margin-left:-15px;font-size:12px;">
+                                <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer111.html'" style="float:left;width:130px;"></li>
+                            </ol>
+                        </script>
+                        <div >
+                            <div>
+                                <ol ui-tree-nodes="" ng-model="quanxian" style="list-style: none">
+                                    <li ng-repeat="node in menu_app" ui-tree-node ng-include="'nodes_renderer111.html'"></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div style="text-align: center;clear:both;">
+                            <button type="button" class="mb-sm btn btn-info" ng-click="save_role_menu()">保存</button>
+                        </div>
+                        <!--右侧权限列表end-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="clear:both;">
+
+        </div>
+    </div>
+
+    <!----------------弹出窗口（开始）----------------------->
+    <!--添加角色弹窗-->
+    <div class="modal fade" id="addRoleMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <form name="roleform" novalidate ng-submit="roleMenuSubmit(roleform)" class="form-horizontal">
+                <div class="modal-content" style="background: #ffffff;">
+                    <div class="modal-header" style="text-align: left;">
+                        <h4 class="modal-title" id="myModalLabelTwo">
+                            {{selectItem.id==null?'添加':'编辑'}}角色
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden"  ng-model="selectItem.id">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">父类</label>
+                            <!--<div class="col-sm-6">-->
+                            <!--<ui-select ng-model="selectItem.dict_role_id" >-->
+                            <!--<ui-select-match palcholder="选择父类">-->
+                            <!--{{}}-->
+                            <!--</ui-select-match>-->
+                            <!--</ui-select>-->
+                            <!--</div>-->
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <ui-select name="role_id" required="required" ng-model="selectItem.dict_role_id"
+                                               theme="bootstrap" on-select="role_item_select($item, $model)">
+                                        <ui-select-match placeholder="选择父类">
+                                            {{$select.selected.dict_name}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="role.id as role in role_items | filter: $select.search">
+                                            <small ng-bind-html="role.dict_name"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <code ng-show="validateInput('role_id', 'required')">请选择父类！</code>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label y-label">名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-model="selectItem.role_name"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label y-label">描述</label>
+                            <div class="col-sm-10 y-input">
+                                <textarea roles="3" class="form-control" placeholder="角色描述" ng-model="selectItem.role_describe"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="cancelAddRole()">关闭</button>
+                        <button type="button" class="btn btn-primary" ng-click="roleMenuSubmit()">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--<div id="tips">tipssssssssss</div>-->
+    <!--<div id="popTips ">鼠标悬停时弹出Tips</div>-->
+    <!----------------弹出窗口（结束）----------------------->
+</div>

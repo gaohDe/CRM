@@ -1,0 +1,78 @@
+.left_menu{
+    /*overflow: hidden;*/
+    float:left;
+    background:#f7f7f7;
+    padding:0;
+    border:1px solid #eee ;
+    border-left:none;
+    /*border-bottom:none;*/
+}
+
+
+/*tab页*/
+.tab-content{
+    padding:10px 20px 10px 0;
+}
+.menuManage_tab_head{
+    background: #e8e8e8;
+    border-top:solid #ddd 1px;
+    border-right: solid #eee 1px;
+    border-left: solid #eee 1px
+}
+.nav-tabs{
+    border-top:none;
+    cursor:auto;
+}
+.nav-tabs > li.active > a{
+    border-top:none !important;
+    border-left:none !important;
+    border-right: solid #ddd 1px !important;
+}
+.nav-tabs > li> a{
+    background:#e8e8e8;
+    border:none;
+}
+
+/*新增编辑删除按钮*/
+.level_menu{
+    width:21px;
+    text-align:center;
+    height:100%;
+}
+.level_menu i{
+    opacity:0.5;
+}
+.level_menu:hover i{ /* 当鼠标划过一级菜单时 */
+    opacity:1;
+}
+.edit_nav_menu { /* 鼠标划过时触发显示二级类别 */
+    padding:0;
+    display:inline-block; /* 以块显示 */
+    position: absolute;
+    top:-1px; /* 相对于一级类别所在位置的顶端 */
+    left:100%; /* 相对于一级类别显示的位置 */
+    width:100px; /* 宽度 */
+    border:#eee solid 1px;
+    z-index:1;
+    list-style: none;
+}
+.edit_nav_menu li{ /* 鼠标划过时触发显示二级类别 */
+    background-color:#fff; /* 定义背景色 */
+    padding:5px 20px;
+}
+.edit_nav_menu li:hover{
+    background: #eee;
+}
+
+/*右侧详情样式*/
+.menu_label1{
+    float:left;
+    padding:0 !important;
+    margin-left:25px;
+    font-size:12px;
+}
+.menu_label2{
+    width:83%;
+    padding:0 0 0 15px;
+    font-size:12px;
+}

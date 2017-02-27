@@ -1,0 +1,192 @@
+<div ng-controller="menuManageCtrl">
+    <div class="panel-heading" style="height: 66px;line-height:46px;border-bottom:1px solid #d9d9d9;">
+        <span style="font-size:20px;font-weight: 600;">菜单管理</span>
+    </div>
+    <div style="padding:15px 15px;">
+        <!--tab页的头-->
+        <div class="menuManage_tab_head">
+            <ul class="nav nav-tabs">
+                <li class="active" ng-click="tab_selected(1)">
+                    <a href="/#menuManage_web" role="tab" data-toggle="tab" style="border-right:1px solid #ddd;">
+                        <img ng-show="isTab_selected==1" style="height:24px;margin-right:8px;" src="app/img/permit_web1.png"/><img ng-show="isTab_selected==2" style="height:24px;margin-right:8px;" src="app/img/permit_web3.png"/>web端菜单</a>
+                </li>
+                <li ng-click="tab_selected(2)">
+                    <a href="/#menuManage_app" role="tab" data-toggle="tab">
+                        <img ng-show="isTab_selected==2" style="height:24px;margin-right:8px;" src="app/img/permit_app1.png"/><img ng-show="isTab_selected==1" style="height:24px;margin-right:8px;" src="app/img/permit_app3.png"/>app端菜单</a>
+                </li>
+            </ul>
+        </div>
+        <!--tab页的内容-->
+        <div class="tab-content tab-edit" style="background: #fff;border:1px solid #eee;border-top:none;">
+            <!-- start  web端菜单管理 -->
+            <div id="menuManage_web" class="tab-pane fade in active" >
+                <div class="col-sm-2 left_menu"  ng-style="body_height" style="padding: 0 0 15px;">
+                    <div style="padding:7px 0 7px 10px;background: #e8e8e8;line-height:24px;font-size:12px;" >
+                        <span style="font-weight:600;">web端菜单设置</span>
+                        <span class="pull-right level_menu"  ng-mouseover="show_modal1=1" ng-mouseout="show_modal1=0"><i class="fa fa-wrench"></i></span>
+                        <ul class="edit_nav_menu" ng-show="show_modal1" ng-mouseover="show_modal1=1" ng-mouseout="show_modal1=0">
+                            <li ng-click="open_add_menuModal(1,1)"><i class="fa fa-plus"></i>&nbsp;新增</li>
+                            <li ng-click="open_edit_menuModal(2,1)"><i class="fa fa-edit"></i>&nbsp;编辑</li>
+                            <li ng-click="del_menu(1)"><i class="fa fa-trash-o"></i>&nbsp;删除</li>
+                        </ul>
+                    </div>
+                    <div style="overflow:hidden;font-size:12px;">
+                        <abn-tree ng-if="web_menu_tree!=undefined" tree-data="web_menu_tree" tree-control="my_tree" on-select="web_menu_selected(branch.item)" expand-level="2" initial-selection="Granny Smith"></abn-tree>
+                    </div>
+                </div>
+                <div class="col-sm-10" style="padding:0 0 0 15px;">
+                    <div style="padding:0;border:1px solid #eee;"  ng-style="body_height" >
+                        <div style="padding:0 ;margin:15px 15px 0;">
+                            <span style="font-weight:600;font-size:12px;">{{web_menu_selected_items.func_title}}详情</span>
+                        </div>
+                        <div style="padding:15px;">
+                            <div class="form-horizontal" style="font-size:12px;">
+                                <div class="form-group">
+                                    <label class="menu_label1">父级菜单：</label>
+                                    <label class="menu_label2">{{web_menu_pre_name}}</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="menu_label1">菜单名称：</label>
+                                    <label class="menu_label2">{{web_menu_selected_items.func_title}}</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="menu_label1">菜单地址：</label>
+                                    <label class="menu_label2">{{web_menu_selected_items.func_code}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            <!-- start  app端菜单管理 -->
+            <div id="menuManage_app" class="tab-pane fade" >
+                <div class="col-md-2 left_menu"  ng-style="body_height" style="padding: 0 0 15px;">
+                    <div style="padding:7px 0 7px 10px;background: #e8e8e8;line-height:24px;font-size:12px;" >
+                        <span style="font-weight:600;">app端菜单设置</span>
+                        <span class="pull-right level_menu"  ng-mouseover="show_modal2=1" ng-mouseout="show_modal2=0"><i class="fa fa-wrench"></i></span>
+                        <ul class="edit_nav_menu" ng-show="show_modal2" ng-mouseover="show_modal2=1" ng-mouseout="show_modal2=0">
+                            <li ng-click="open_add_menuModal(1,2)"><i class="fa fa-plus"></i>&nbsp;新增</li>
+                            <li ng-click="open_edit_menuModal(2,2)"><i class="fa fa-edit"></i>&nbsp;编辑</li>
+                            <li ng-click="del_menu(2)"><i class="fa fa-trash-o"></i>&nbsp;删除</li>
+                        </ul>
+                    </div>
+                    <div style="overflow:hidden;font-size:12px;">
+                        <abn-tree ng-if="phone_menu_tree!=undefined"  tree-data="phone_menu_tree" tree-control="my_tree" on-select="phone_menu_selected(branch.item)" expand-level="2" initial-selection="Granny Smith"></abn-tree>
+                    </div>
+                </div>
+                <div class="col-md-10" style="padding:0 0 0 15px;">
+                    <div style="padding:0;border:1px solid #eee;"  ng-style="body_height" >
+                        <div style="padding:0 ;margin:15px 15px 0;">
+                            <span style="font-weight:600;font-size:12px;">{{phone_menu_selected_items.func_title}}详情</span>
+                        </div>
+                        <div style="padding:15px;">
+                            <div class="form-horizontal" style="font-size:12px;">
+                                <div class="form-group">
+                                    <label class="menu_label1">父级菜单：</label>
+                                    <label class="menu_label2">{{phone_menu_pre_name}}</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="menu_label1">菜单名称：</label>
+                                    <label class="menu_label2">{{phone_menu_selected_items.func_title}}</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="menu_label1">菜单地址：</label>
+                                    <label class="menu_label2">{{phone_menu_selected_items.func_code}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 菜单编辑窗口（Modal）start -->
+    <div class="modal fade" id="menuModal" tabindex="-1" role="dialog"
+         aria-labelledby="menuModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background: #ffffff;">
+                <form name="menuform"  novalidate="" class="form-horizontal" ng-submit="save_menu()">
+                    <div class="modal-header" style="text-align: left;">
+                        <h4 class="modal-title" id="menuModalLabel">
+                            {{menu_selected_items.id==null?'新增':'编辑'}}菜单
+                        </h4>
+                    </div>
+                    <div class="modal-body" >
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">父级菜单：</label>
+                            <div class="col-sm-6">
+                                <div style="line-height:30px;" ng-if="menu_type==1">{{web_menu_pre_name}}</div>
+                                <div style="line-height:30px;" ng-if="menu_type==2">{{phone_menu_pre_name}}</div>
+                                    <!--<ui-select ng-if="menu_type==1" required="required" name="menu_pid"  ng-model="menu_selected_items.pid" theme="bootstrap" >-->
+                                        <!--<ui-select-match placeholder="选择父级菜单">-->
+                                            <!--{{$select.selected.func_title}}-->
+                                        <!--</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="web_menu.id as web_menu in web_menu_items | filter: $select.search">-->
+                                            <!--<small ng-bind-html="web_menu.func_title"></small>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+
+
+                                    <!--<ui-select ng-if="menu_type==2" required="required" name="menu_pid"  ng-model="menu_selected_items.pid" theme="bootstrap" >-->
+                                        <!--<ui-select-match placeholder="选择父级菜单">-->
+                                            <!--{{$select.selected.func_title}}-->
+                                        <!--</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="phone_menu.id as phone_menu in phone_menu_items | filter: $select.search">-->
+                                            <!--<small ng-bind-html="phone_menu.func_title"></small>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                <!--<span class="input-group-btn">-->
+                                    <!--<button type="button" ng-click="select_items_reset('department_id')" class="btn btn-default" >-->
+                                        <!--<span class="fa fa-trash-o"></span>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                            </div>
+                            <!--<div ng-if="menu_type!=undefined" class="col-sm-4">-->
+                                <!--<code ng-show="validate_menu_input('menu_pid', 'required')">请选择父级菜单！</code>-->
+                            <!--</div>-->
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">菜单名称：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="func_title" required="required"  ng-model="menu_selected_items.func_title" class="form-control" />
+                            </div>
+                            <div class="col-sm-3">
+                                <code  ng-show="validate_menu_input('func_title', 'required')">请填写菜单名称！</code>
+                            </div>
+                        </div>
+
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">菜单图标：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--<input type="text" name="func_icon"  ng-model="menu_selected_items.func_icon" class="form-control" />-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<code  ng-show="validate_menu_input('func_icon', 'required')">请填写菜单名称！</code>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">菜单地址：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="func_code" required="required"  ng-model="menu_selected_items.func_code" class="form-control" />
+                            </div>
+                            <div class="col-sm-3">
+                                <code  ng-show="validate_menu_input('func_code', 'required')">请填写菜单地址！</code>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="close_departmentModal()">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 菜单编辑窗口（Modal）end -->
+</div>

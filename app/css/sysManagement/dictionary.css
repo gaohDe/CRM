@@ -1,0 +1,49 @@
+.left_dict{
+    /*overflow: hidden;*/
+    float:left;
+    background:#f7f7f7;
+    padding:0;
+    border:1px solid #eee ;
+}
+
+.dict_label1{
+    float:left;
+    padding:0 !important;
+    margin-left:25px;
+    font-size:12px;
+}
+.dict_label2{
+    width:83%;
+    padding:0 0 0 15px;
+    font-size:12px;
+}
+
+.level_dict{
+    width:21px;
+    text-align:center;
+    height:100%;
+}
+.level_dict i{
+    opacity:0.5;
+}
+.level_dict:hover i{ /* 当鼠标划过一级菜单时 */
+    opacity:1;
+}
+.edit_nav_dict { /* 鼠标划过时触发显示二级类别 */
+    padding:0;
+    display:inline-block; /* 以块显示 */
+    position: absolute;
+    top:-1px; /* 相对于一级类别所在位置的顶端 */
+    left:100%; /* 相对于一级类别显示的位置 */
+    width:100px; /* 宽度 */
+    border:#eee solid 1px;
+    z-index:1;
+    list-style: none;
+}
+.edit_nav_dict li{ /* 鼠标划过时触发显示二级类别 */
+    background-color:#fff; /* 定义背景色 */
+    padding:5px 20px;
+}
+.edit_nav_dict li:hover{
+    background: #eee;
+}

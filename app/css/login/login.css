@@ -1,0 +1,16 @@
+
+.login_main{
+    margin-top: 12%;
+    text-align: center;
+}
+
+.login_main_body{
+    margin: auto;
+    width: 350px;
+}
+
+
+a.link-grey{ color: #8a8f9c !important;}
+a.link-grey:hover{color:#373d48!important;;}
+a.light-grey{ color: #9699a1;}
+a.light-grey.active, a.light-grey:hover{color: #d6d8dc;}

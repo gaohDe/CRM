@@ -1,0 +1,19 @@
+
+
+   <!-- 顶部导航栏-->
+   <header ng-include="'app/views/partials/top-navbar.html'" class="topnavbar-wrapper crm_top_navbar" ></header>
+   <!-- 侧边菜单-->
+   <aside ng-include="'app/views/partials/sidebar.html'" ng-controller="SidebarController" class="aside"></aside>
+   <!-- offsidebar-->
+   <aside ng-include="'app/views/partials/offsidebar.html'" class="offsidebar"></aside>
+   <!-- 主页面-->
+   <section ng-controller="crmMainCtrl"  style="/*border: 1px solid red;*/margin-top: 45px;padding-top: 1px/*;position: fixed;width: 100%;*/    background: #ffffff;" ng-style="app.layout.isCollapsed==true?crm_main_style_true:crm_main_style_false">
+      <div  ui-view=""  ng-class="app.viewAnimation " class="content-wrapper"
+         style="width: auto;background: #ffffff;/*margin-top: 53px;*/padding: 0;/*border:1px solid red*/" >
+
+      </div>
+      <!-- 底部-->
+      <!--<footer ng-include="'app/views/partials/footer.html'" style="margin-left: 284px;border: 1px solid red"></footer>-->
+   </section>
+
+

@@ -1,0 +1,136 @@
+<div ng-controller="dictionaryCtrl">
+    <div class="panel-heading" style="height: 66px;line-height:46px;border-bottom:1px solid #d9d9d9;">
+        <span style="font-size:20px;font-weight: 600;">字典管理</span>
+    </div>
+    <div style="width:100%;">
+        <div style="padding:15px 15px;">
+            <div class="col-md-2 left_dict"  ng-style="body_height" style="padding: 0 0 15px;">
+                <div ng-if="dictionary_tree!=undefined">
+                    <div style="padding:7px 0 7px 10px;background: #e8e8e8;height:42px;line-height:28px;font-size:12px;" >
+                        <span style="font-weight:600;">字典参数设置</span>
+                        <span class="pull-right level_dict"  ng-mouseover="show_modal=1" ng-mouseout="show_modal=0">
+                            <i class="fa fa-wrench"></i>
+                        </span>
+                        <ul class="edit_nav_dict" ng-show="show_modal" ng-mouseover="show_modal=1" ng-mouseout="show_modal=0">
+                            <li ng-click="add_dict()"><i class="fa fa-plus"></i>&nbsp;新增</li>
+                            <li ng-click="edit_dict()"><i class="fa fa-edit"></i>&nbsp;编辑</li>
+                            <li ng-click="del_dict()"><i class="fa fa-trash-o"></i>&nbsp;删除</li>
+                        </ul>
+                    </div>
+                    <div style="overflow:hidden;font-size:12px;">
+                        <abn-tree tree-data="dictionary_tree" tree-control="my_dict_tree" expand-level="2" initial-selection="Vegetable"
+                                  on-select="dictionary_tree_selected(branch.item)">
+                        </abn-tree>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10" style="padding:0 0 0 15px;">
+                <div style="padding:0;border:1px solid #eee;"  ng-style="body_height" >
+                    <div style="padding:0 ;margin:15px 15px 0;">
+                        <span style="font-weight:600;font-size:12px;">{{selectedItems.dict_name}}详情</span>
+                    </div>
+                    <div style="padding:15px;">
+                        <div class="form-horizontal" style="font-size:12px;">
+                            <div class="form-group">
+                                <label class="dict_label1">字典父级：</label>
+                                <label class="dict_label2">{{dict_pre_name}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="dict_label1">字典名称：</label>
+                                <label class="dict_label2">{{selectedItems.dict_name}}</label>
+                            </div>
+                            <div class="form-group">
+                                <label class="dict_label1">字典代码：</label>
+                                <label class="dict_label2">{{selectedItems.dict_code}}</label>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="dict_label1">字典类型：</label>-->
+                                <!--<label class="dict_label2">{{selectedItems.dict_type}}</label>-->
+                            <!--</div>-->
+                            <div class="form-group">
+                                <label class="dict_label1">字典描述：</label>
+                                <label class="dict_label2">{{selectedItems.dict_describe}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--弹出框-->
+    <div id="add_dict" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <form name="dict_form" novalidate ng-submit="saveDict(dict_form)" class="form-horizontal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            {{selectedItems.id==null?'增加':'修改'}}字典表
+                        </h4>
+                    </div>
+                    <div class="modal-body row" >
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">字典上级：</label>
+                            <div class="col-sm-6" style="padding-top:7px;">
+                                <!--<input type="hidden" ng-model="selectedItems.pid" ng-value="selectedItems.pid"/>-->
+                                <!--<div class="input-group">-->
+                                    <!--<ui-select  name="dictionary_id" required="required" ng-model="selectedItems.pid" theme="bootstrap"-->
+                                                <!--on-select="dict_item_select($item, $model)">-->
+                                        <!--<ui-select-match placeholder="选择上级">-->
+                                            <!--{{$select.selected.dict_name}}-->
+                                        <!--</ui-select-match>-->
+                                        <!--<ui-select-choices repeat="dict.id as dict in dict_items | filter: $select.search">-->
+                                            <!--<small ng-bind-html="dict.dict_name"></small>-->
+                                        <!--</ui-select-choices>-->
+                                    <!--</ui-select>-->
+                                    <!--<span class="input-group-btn">-->
+                                        <!--<button type="button" ng-click="selectedItems=null" class="btn btn-default" >-->
+                                            <!--<span class="fa fa-trash-o"></span>-->
+                                        <!--</button>-->
+                                    <!--</span>-->
+                                <!--</div>-->
+                                {{dict_pre_name}}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">字典名称：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="dict_name" required="required" ng-model="selectedItems.dict_name" class="form-control" />
+                            </div>
+                            <div class="col-sm-3">
+                                <code ng-show="validate_dictionary_input('dict_name', 'required')">请填写名称！</code>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">字典代码：</label>
+                            <div class="col-sm-6">
+                                <input type="text" name="dict_code" ng-model="selectedItems.dict_code" class="form-control" />
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">字典类型：</label>-->
+                            <!--<div class="col-sm-6">-->
+                                <!--&lt;!&ndash;selectedItems.dict_type==1?'角色':selectedItems.dict_type==2?'职位':selectedItems.dict_type==3?'行业':selectedItems.dict_type==''?'':''&ndash;&gt;-->
+                                <!--<input type="text" name="dict_type" ng-show="show_type==2||show_type==undefined"-->
+                                       <!--readonly required="required" ng-model="selectedItems.dict_type" class="form-control"/>-->
+                                <!--<input type="text" name="dict_type" ng-show="show_type==1" required="required" ng-model="selectedItems.dict_type" class="form-control"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">字典描述：</label>
+                            <div class="col-sm-6">
+                                <textarea rows="3" name="dict_describe" ng-model="selectedItems.dict_describe" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="cancelAddDict()">关闭</button>
+                        <button type="button" class="btn btn-primary" ng-click="saveDict()">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

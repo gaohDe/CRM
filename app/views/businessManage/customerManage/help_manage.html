@@ -1,0 +1,169 @@
+<div ng-controller="searchHelpCtrl">
+	<div class="panel panel-default helpManage">
+		<div class="panel-heading title">
+			<label>求助管理</label>
+			<div class="search">
+				<input type="text" placeholder="输入公司名称搜索" class="form-control"  ng-model="searchItem.cust_name"/>
+				<button type="button" class="btn btn-default findButton" ng-click="searchHelpMessage()"><i class="icon-magnifier"></i></button>
+				<button  type="button" class="btn btn-default findMore" ng-click="showEditDiv=!showEditDiv">
+					<i ng-show="!showEditDiv" class="fa fa-angle-double-down"></i>
+					<i ng-show="showEditDiv" class="fa fa-angle-double-up"></i>
+				</button>
+			</div>
+		</div>
+		<div class="searchArea" ng-show="showEditDiv">
+				<div>
+					<label> 时间段:</label>
+					<input type="text" class="help_start_time_search ng-pristine ng-isolate-scope ng-valid-date ng-invalid ng-invalid-required ng-touched" datepicker-popup="yyyy-MM-dd" ng-model="helpSearchItems.start_help_time"
+                   readonly is-open="startOpened" ng-init="startOpened = false"  min-date="'1970-01-01'"  max-date="'2020-01-01'"
+                   ng-required="true" close-text="Close"  ng-click="startHelpTimeOpen($event)"/>
+				<span ng-click="startHelpTimeOpen($event)">
+					<button class="btn btn-default"><i class="fa fa-calendar"></i></button>
+				</span>
+					<label>-</label>
+					<input type="text" class="help_start_time_search" datepicker-popup="yyyy-MM-dd" ng-model="helpSearchItems.end_help_time"
+                   readonly is-open="endOpened" ng-init="endOpened = false"  min-date="'1970-01-01'"  max-date="'2020-01-01'"
+                   ng-required="true" close-text="Close"  ng-click="endHelpTimeClose($event)"/>
+				<span class="endingTimeLabel" ng-click="endHelpTimeClose($event)">
+					<button class="btn btn-default"><i class="fa fa-calendar"></i></button>
+				</span>
+				</div>
+				<div class="setHighSearch">
+                    <div class="col-sm-5" style="margin: 6px 0px 0px 0px;">
+						<label>求助状态:</label>
+					</div>
+					<div class="col-sm-9" style="width: 200px; margin: -33px 0px 0px 70px;">
+	                    <ui-select class="custom_form_ui_select_control_forTwo" ng-model="helpSearchItems.status_type" theme="bootstrap"  style="width: 100%">
+	                        <ui-select-match placeholder="请选择状态"  style="width: 100%">
+	                            {{$select.selected.label}}
+	                        </ui-select-match>
+	                        <ui-select-choices repeat="type.id as type in status_items" style="width: 100%">
+	                            <small ng-bind-html="type.label"></small>
+	                        </ui-select-choices>
+	                    </ui-select>
+	                </div>
+            </div>
+			</div>
+			<div style="clear:both; border-bottom: 1px solid #d9d9d9; padding-bottom: 15px;"  ng-show="showEditDiv">
+        </div>
+		<div class="panel-body content">
+			<div class="menu">
+				<ul ng-tab="" class="nav nav-tabs ">
+					 <li class="active"  ng-click="showAppealList()">
+					 	<a href="/#help_list"  role="tab" data-toggle="tab">求助我的</a>
+					 </li>
+					 <li ng-click="showHelpList()">
+					 	<a href="/#help_my_list"  role="tab" data-toggle="tab">我求助的</a>
+					 </li>
+				</ul>
+
+			</div>
+			<div class="tab-content tab-edit">
+				<div id="help_list" class="dataTable tab-pane fade in active">
+					<script type="text/ng-template" id="help/pager">
+	                        <div class="bottom">
+	                            <div ng-if="params.settings().counts.length"  class="dataTables_length">
+	                                <div class="dataTables_paginate paging_bs_normal">
+	                                    <ul class="pagination ng-table-pagination pull-right">
+	                                        <li ng-class="{disabled: !page.active}">
+	                                            <span style="color: #999999; border: none;">共有{{params.settings().total}}条记录</span>
+	                                        </li>
+	                                        <li ng-class="{disabled: !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+	                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""><span class="fa fa-angle-left"></span>&nbsp;</a>
+	                                            <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+	                                            <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+	                                            <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+	                                            <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+	                                            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&nbsp;<span class="fa fa-angle-right"></span></a>
+	                                        </li>
+	                                    </ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                </script>
+					<table template-pagination="help/pager" ng-table="helpTableParams" class="table table-hover">
+						<thead>
+							<tr>
+								<th class="a">求助人</th>
+								<th class="aa">求助描述</th>
+								<th class="c">客户</th>
+								<th class="d">时间</th>
+								<th class="e">状态</th>
+								<th class="f">操作</th>
+							</tr>	
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in dataList" ng-mouseover="over_Tr(item)" ng-mouseout="out_Tr(item)" ng-click="selectedTr(item)">
+								<td>{{item.create_name}}</td>
+								<td>{{item.help_remark}}</td>
+								<td>{{item.customer_name}}</td>
+								<td>{{item.create_time | date: "yyyy-MM-dd"}}</td>
+								<td>{{item.help_state == 1 ? '申请求助' : item.help_state == 2 ? '进行中' : item.help_state == 3 ?
+							'已拒绝' : item.help_state == 4 ? '已撤销' : item.help_state == 5 ? '已完成' : '关闭'}}</td>
+								<td style="text-align:right;">                  
+	                        <span  class="mouseover_opacity" ng-show="mouseover_id==item.id && item.help_state == 2"
+	                        	data-toggle="modal" ng-click="editMaterial(item)"><i class="fa fa-check-circle-o"  ng-click="dealHelpItem(item)"></i></span>
+	                        <span class="mouseover_opacity1" style="margin-right:20%;"><i class="fa fa-ellipsis-v"></i></span>
+						</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			<div id="help_my_list"  class="tab-pane fade dataTable">
+				<script type="text/ng-template" id="userHelp/pager">
+	                        <div class="bottom">
+	                            <div ng-if="params.settings().counts.length"  class="dataTables_length">
+	                                <div class="dataTables_paginate paging_bs_normal">
+	                                    <ul class="pagination ng-table-pagination pull-right">
+	                                        <li ng-class="{disabled: !page.active}">
+	                                            <span style="color: #999999; border: none;">共有{{params.settings().total}}条记录</span>
+	                                        </li>
+	                                        <li ng-class="{disabled: !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+	                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""><span class="fa fa-angle-left"></span>&nbsp;</a>
+	                                            <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+	                                            <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+	                                            <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+	                                            <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+	                                            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&nbsp;<span class="fa fa-angle-right"></span></a>
+	                                        </li>
+	                                    </ul>
+	                                </div>
+	                            </div>
+	                        </div>
+	                </script>
+					<table template-pagination="userHelp/pager" ng-table="helpMyTableParams" class="table table-hover">
+						<thead>
+							<tr>
+								<th class="a">被求助人</th>
+								<th class="aa">求助描述</th>
+								<th class="c">客户</th>
+								<th class="d">时间</th>
+								<th class="e">状态</th>
+								<th class="f">操作</th>
+							</tr>	
+						</thead>
+						<tbody>
+							<tr ng-repeat="ngItem in dataList"  ng-mouseover="over_Tr(ngItem)" ng-mouseout="out_Tr(ngItem)" ng-click="selectedTr(ngItem)">
+								<td>{{ngItem.helper_name}}</td>
+								<td>{{ngItem.help_remark}}</td>
+								<td>{{ngItem.customer_name}}</td>
+								<td>{{ngItem.create_time | date: "yyyy-MM-dd"}}</td>
+								<td>{{ngItem.help_state == 1 ? '申请求助' : ngItem.help_state == 2 ? '进行中' : ngItem.help_state == 3 ?
+							'已拒绝' : ngItem.help_state == 4 ? '已撤销' : ngItem.help_state == 5 ? '已完成' : '关闭'}}</td>
+								<td style="text-align:right;">                  
+	                        <span  class="mouseover_opacity" ng-show="mouseover_id==ngItem.id && ngItem.help_state == 2"
+	                        	data-toggle="modal"  ng-click="cancelHelpItem(ngItem)"><i class="fa fa-mail-reply"></i></span>
+	                        	<span  class="mouseover_opacity" ng-show="mouseover_id==ngItem.id && ngItem.help_state == 5"
+	                        	data-toggle="modal"  ng-click="finishHelpItem(ngItem)"><i class="fa fa-check-circle-o"></i></span>
+	                        	<span  class="mouseover_opacity" ng-show="mouseover_id==ngItem.id && ngItem.help_state == 3"
+	                        	data-toggle="modal"  ng-click="showResason(ngItem)"><i class="fa fa-crosshairs"></i></span>
+	                        <span class="mouseover_opacity1" style="margin-right:20%;"><i class="fa fa-ellipsis-v"></i></span>
+						</td>
+							</tr>
+						</tbody>
+					</table>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>

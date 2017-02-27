@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Wilder Gonzales",
+    "gender": "male",
+    "company": "Geekko",
+    "sex":"1"
+  },
+  {
+    "name": "Georgina Schultz",
+    "gender": "female",
+    "company": "Suretech",
+    "sex":"1"
+  },
+  {
+    "name": "Carroll Buchanan",
+    "gender": "male",
+    "company": "Ecosys",
+    "sex":"1"
+  },
+  {
+    "name": "Valarie Atkinson",
+    "gender": "female",
+    "company": "Hopeli",
+    "sex":"1"
+  },
+  {
+    "name": "Schroeder Mathews",
+    "gender": "male",
+    "company": "Polarium",
+    "sex":"1"
+  },
+  {
+    "name": "Ethel Price",
+    "gender": "female",
+    "company": "Enersol",
+    "sex":"1"
+  },
+  {
+    "name": "Claudine Neal",
+    "gender": "female",
+    "company": "Sealoud",
+    "sex":"0"
+  },
+  {
+    "name": "Beryl Rice",
+    "gender": "female",
+    "company": "Velity",
+    "sex":"0"
+  },
+  {
+    "name": "Lynda Mendoza",
+    "gender": "female",
+    "company": "Dogspa",
+    "sex":"0"
+  },
+  {
+    "name": "Sarah Massey",
+    "gender": "female",
+    "company": "Bisba",
+    "sex":"0"
+  },
+  {
+    "name": "Robles Boyle",
+    "gender": "male",
+    "company": "Comtract",
+    "sex":"0"
+  },
+  {
+    "name": "Evans Hickman",
+    "gender": "male",
+    "company": "Parleynet",
+    "sex":"0"
+  },
+  {
+    "name": "Dawson Barber",
+    "gender": "male",
+    "company": "Dymi",
+    "sex":"0"
+  },
+  {
+    "name": "Bruce Strong",
+    "gender": "male",
+    "company": "Xyqag",
+    "sex":"0"
+  },
+  {
+    "name": "Nellie Whitfield",
+    "gender": "female",
+    "company": "Exospace",
+    "sex":"0"
+  },
+  {
+    "name": "Jackson Macias",
+    "gender": "male",
+    "company": "Aquamate",
+    "sex":"0"
+  },
+  {
+    "name": "Pena Pena",
+    "gender": "male",
+    "company": "Quarx",
+    "sex":"0"
+  },
+  {
+    "name": "Lelia Gates",
+    "gender": "female",
+    "company": "Proxsoft",
+    "sex":"0"
+  },
+  {
+    "name": "Letitia Vasquez",
+    "gender": "female",
+    "company": "Slumberia",
+    "sex":"0"
+  },
+  {
+    "name": "Trevino Moreno",
+    "gender": "male",
+    "company": "Conjurica",
+    "sex":"0"
+  }
+]

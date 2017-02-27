@@ -1,0 +1,278 @@
+<div ng-controller="materialMgrListCtrl" class= materialManageList_body">
+    <div class="panel-heading material_head">
+        <span style="font-size:20px;font-weight: 600;">资料分享</span>
+        <div class="material_search pull-right">
+            <input type="text" placeholder="输入搜索内容" class="form-control" ng-model="searchItem.file_title"/>
+            <button type="button" class="btn btn-default material_findButton" ng-click="meterialSearch()"><i class="icon-magnifier"></i></button>
+            <button  type="button" class="btn btn-default material_findMore" ng-click="showEditDiv=!showEditDiv">
+                <i ng-show="!showEditDiv" class="fa fa-angle-double-down"></i><i ng-show="showEditDiv" class="fa fa-angle-double-up"></i>
+            </button>
+        </div>
+    </div>
+    <div ng-show="showEditDiv" style="border-bottom:1px solid #d9d9d9;padding:15px 15px;">
+        <div class="form-group col-md-6" style="margin:0;padding: 0;font-size:12px;">
+            <label>发布时间:</label>
+            <input type="text" class="materialManage_input_search" datepicker-popup="yyyy-MM-dd" ng-model="materialItems.create_time_begin"
+                   readonly is-open="startOpened" ng-init="startOpened = false"  min-date="'1970-01-01'"  max-date="searchSelectItem.end_date"
+                   ng-required="true" close-text="Close"  ng-click="startMaterialOpen($event)" style="display:inline-block;text-align: center;width:37%"/>
+            <span class="fa fa-calendar timeBegin_icon" style="line-height: 34px;" ng-click="endMaterialOpen($event)"></span>
+            <label >至</label>
+            <input type="text" style="display:inline-block;text-align: center;width:37%" class="materialManage_input_search" datepicker-popup="yyyy-MM-dd" ng-model="materialItems.create_time_end"
+                   readonly is-open="endOpened" ng-init="endOpened = false" min-date="searchSelectItem.begin_date" max-date="'2030-12-31'" ng-required="true"
+                   close-text="Close"  ng-click="endMaterialOpen($event)" />
+            <span class="fa fa-calendar timeEnd_icon" style="line-height: 34px;" ng-click="endMaterialOpen($event)"></span>
+        </div>
+        <!--<div class="form-group col-md-6" style="margin:0;padding: 0;font-size:12px;">-->
+        <!--<input type="text" ng-model="materialItems.create_time_begin" datepicker-popup="yyyy-MM-dd"  is-open="startOpened" ng-init="startOpened = false" min-date="'1970-12-31'"-->
+        <!--max-date="searchSelectItem.end_date" close-text="Close" ng-disabled="true">-->
+        <!--<span class="fa fa-calendar time_begin_icon" style="line-height: 25px;" ng-click="startMaterialOpen($event)"></span>-->
+        <!--<input type="text" ng-model="materialItems.create_time_end" datepicker-popup="yyyy-MM-dd"  is-open="endOpened" ng-init="endOpened = false"-->
+        <!--min-date="searchSelectItem.begin_date" max-date="'2030-12-31'" close-text="Close" ng-disabled="true">-->
+        <!--<span class="fa fa-calendar time_end_icon" style="line-height: 25px;" ng-click="endMaterialOpen($event)"></span>-->
+        <!--/div>-->
+        <div class="form-group col-md-3" style="margin:0;padding: 0;font-size:12px;">
+            <label class="col-sm-3" style="margin-bottom:0;line-height:36px;padding:0">资料类别:</label>
+            <div class="col-sm-8" style="padding:0 ;">
+                <select placholder="请选择资料类别" class="materialManage_input_search form-control" style="height:36px;width:80%;" ng-model="materialItems.dict_file_type_id">
+                    <option ng-repeat="dict_name in Dict_file_type_id_items" value="{{dict_name.id}}">{{dict_name.dict_name}}</option>
+                </select>
+            </div>
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+    <div style="padding:15px 15px;">
+        <div class="table-responsive"  ng-style="body_height"  style="padding:0;border:1px solid #eee;">
+            <script type="text/ng-template" id="material/pager">
+                <div class="bottom" style="position: absolute;bottom:20px;right:20px;">
+                    <div ng-if="params.settings().counts.length"  class="dataTables_length">
+                        <div class="dataTables_paginate paging_bs_normal">
+                            <ul class="pagination ng-table-pagination pull-right">
+                                <li ng-class="{disabled: !page.active}">
+                                    <span style="color: #999999; border: none;">共有{{params.settings().total}}条记录</span>
+                                </li>
+                                <li ng-class="{disabled: !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+                                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href=""><span class="fa fa-angle-left"></span>&nbsp;</a>
+                                    <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+                                    <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+                                    <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&nbsp;<span class="fa fa-angle-right"></span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </script>
+            <table ng-table="materialTableParams" export-csv="csv" class="table table-hover materialTable" style="border-bottom:1px solid #eee;" template-pagination="material/pager">
+                <thead style="border:1px solid #eee;background: #e8e8e8;">
+                <tr class="materialTable_head">
+                    <td style="padding-left:12px;">资料名称</td>
+                    <td >发布时间</td>
+                    <td >资料类别</td>
+                    <td >发布人</td>
+                    <td >附件</td>
+                    <td style="float:right;text-align: right;">
+                        <i class="fa fa-plus" data-target="#addMaterial" data-toggle="modal" ng-click="addMaterial()" ></i>&nbsp;&nbsp;
+                        操作
+                    </td>
+                </tr>
+                </thead>
+                <tbody style="border:none;">
+                <tr ng-repeat="material in materials" ng-class="{'material_selected': materials.id==material.id}" class="material_tr"
+                    ng-mouseover="over_Material(material)" ng-mouseout="out_Material(material)" ng-click="selectedMaterial(material)">
+                    <td style="padding-left:12px;"><a ng-click="materialDetail(material)">{{material.file_title}}</a></td>
+                    <td>{{material.create_time | date: "yyyy-MM-dd" }}</td>
+                    <td>{{material.dict_name}}</td>
+                    <td>{{material.user_cn_name}}</td>
+                    <td>{{material.telephone}}</td>
+                    <td style="text-align:right;line-height:18px;width:90px;">
+                        <span class="mouseover_opacity" ng-show="mouseover_id==material.id" data-target="#addMaterial" data-toggle="modal" ng-click="editMaterial(material)"><i class="fa fa-pencil"></i></span>
+                        <span class="mouseover_opacity" ng-show="mouseover_id==material.id" ng-click="deleteMaterail(material)"><i class="fa fa-trash"></i></span>
+                        <span class="mouseover_opacity1" style="margin-right:20%;"><i class="fa fa-ellipsis-v"></i></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <!--弹出框start-->
+    <div id="materialDetail" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="width:70%;">
+            <div class="modal-content" style="border-radius: 0;">
+                <div class="modal-header" style="background: #ddd;text-align: center;font-size:18px;padding:7px 10px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size:18px;font-weight:800">&times;</span></button>
+                    <span>{{materialItems1.file_title}}</span>
+                </div>
+                <div class="modal-body" style="padding:0;">
+                    <div class="col-md-7" style="border-right:1px solid #e0e0e0;padding:20px;min-height:400px;">
+                        <p style="font-size:12px;font-weight:700;">详情介绍：</p>
+                        <div style="width:100%;margin-bottom:30px;">
+                            <p style="font-size:12px;line-height:28px;padding-left:5px;">{{materialItems1.file_content}}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-5" style="padding:20px;">
+                        <div style="text-align:center;vertical-align: middle">
+                            <img style="width:30%;height:28%;margin-bottom:10px;" src="app/img/com_downLoad.jpg">
+                            <p>下载附件</p>
+                        </div>
+                        <div style="padding:5px 15px;width:90%;height:70%;overflow: auto" ng-repeat="file in regArrData">
+                            {{file.formerly_file_name}}
+                            <span class="pull-right" style="margin-top:3px;"><a href="{{file.save_path}}">
+                                <!--<i class="icon-arrow-down"></i>-->
+                                <img style="width:14px;" src="app/img/fileDownload_1.jpg">
+                            </a></span>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--弹出框start-->
+    <div id="addMaterial" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="width:75%;">
+            <div class="modal-content" style="border-radius: 0;">
+                <div class="modal-header" style="background: #ddd;text-align: center;font-size:18px;padding:7px 10px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" style="font-size:18px;font-weight:800">&times;</span></button>
+                    <span>{{materialItems1.id==null?'添加':'修改'}}资料</span>
+                </div>
+                <form name="materialform" ng-submit="saveMaterial()" class="form-horizontal" novalidate>
+                    <div class="modal-body" style="font-size:14px;">
+                        <div class="form-group" style="margin:15px 10px;">
+                            <div class="col-sm-1 materLbel">
+                                <label class="control-label">资料名称:</label>
+                            </div>
+                            <div class="col-sm-11" style="padding:0 0 0 10px;">
+                                <input type="text" style="border-radius:2px;" placeholder="请输入资料名称" class="form-control"  ng-model="materialItems1.file_title"/>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin:10px 10px;">
+                            <div class="col-sm-1 materLbel">
+                                <label class="control-label ">资料类别:</label>
+                            </div>
+                            <div class="col-sm-11" style="padding:0 0 0 10px;">
+                                <select placholder="请选择资料类别" style="border-radius:2px;" class="form-control" ng-model="materialItems1.dict_file_type_id">
+                                    <option ng-repeat="dict_name in Dict_file_type_id_items" value="{{dict_name.id}}">{{dict_name.dict_name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin:10px 10px;height:335px;">
+                            <div class="col-sm-1 materLbel">
+                                <label class="control-label ">详细描述:</label>
+                            </div>
+                            <div class="col-sm-6" style="padding:0 0 0 10px;height:100%">
+                                <textarea type="text" style="height:100%;border-radius: 0;"  placeholder="请输入资料详细信息" class="form-control"  ng-model="materialItems1.file_content" > </textarea>
+                                <!--froala="froalaOptions"-->
+                            </div>
+                            <!--上传开始-->
+                            <div class="col-sm-5" style="padding-left:10px;padding-right:0;height:100%;">
+                                <div style="height:50%;width:100%;margin-bottom:2%;border:1px solid #ddd;padding:5px;">
+                                    <div nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter" style="width:100%;height:100%;">
+                                        <div style="height:30%;">
+                                            <input filestyle=" color:red;" type="file" data-button-text="Multiple" data-class-button="btn btn-default" data-class-input="form-control inline"
+                                                   nv-file-select="" uploader="uploader" multiple/>
+                                            <span style="font-size:12px;color:#dbdbdb">附件的格式要求:xls;doc;rar;jpg;pdf;ppt</span>
+                                        </div>
+                                        <div style="height:70%;overflow: auto;">
+                                            <div ng-repeat="item in uploader.queue" class="filefileupload_style">
+                                                <span style="width:45%;line-height:24px;">
+                                                    <span style="width:100%;overflow: hidden;">{{ item.file.name }}</span>
+                                                </span>
+                                                <span ng-show="uploader.isHTML5" style="width:25%;">
+                                                    <span style="margin-bottom: 0;display:block" class="progress progress-xs">
+                                                        <span style="display:block" role="progressbar" ng-style="{ 'width': item.progress + '%' }" class="progress-bar"></span>
+                                                    </span>
+                                                </span>
+                                                <span class="text-center" style="width:3%;">
+                                                     <span ng-show="item.isSuccess">
+                                                        <em class="fa fa-check fa-fw"></em>
+                                                     </span>
+                                                     <span ng-show="item.isCancel">
+                                                        <em class="fa fa-ban-circle fa-fw"></em>
+                                                     </span>
+                                                     <span ng-show="item.isError">
+                                                        <em class="fa fa-times fa-fw"></em>
+                                                     </span>
+                                                </span>
+                                                <span style="width:15%;margin-left:3%">
+                                                    <!--<span ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">-->
+                                                    <!--<i style="margin:0" class="icon-cloud-upload mr"></i></span>-->
+                                                    <span ng-click="metarialRemove(item)"><i style="width:18px" class="icon-trash mr"></i></span>
+                                                    <!--<span ng-click="item.remove()"><i style="width:18px" class="icon-trash mr"></i></span>-->
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="height:46%;width:100%;border:1px solid #ddd;padding:5px 0 5px 5px ;">
+
+                                    <!--用ui-select控件实现接收人选择-->
+                                    <!--<div class="form-horizontal">-->
+                                        <!--<div class="form-group">-->
+                                            <!--<div class="col-md-4 col-sm-8">-->
+                                                <!--<ui-select multiple="" ng-model="multipleDemo.selectedPeople" theme="bootstrap" ng-disabled="disabled">-->
+                                                    <!--<ui-select-match placeholder="Select person...">{{$item.department_name}}</ui-select-match>-->
+                                                    <!--<ui-select-choices repeat="person in department_tree">-->
+                                                        <!--<div ng-bind-html="person.department_name"></div>-->
+                                                    <!--</ui-select-choices>-->
+                                                <!--</ui-select>-->
+                                            <!--</div>-->
+                                            <!--<div class="col-md-5">-->
+                                                <!--<div class="text-sm text-muted mt-sm">Selected: {{multipleDemo.selectedPeople}}</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+
+                                    <!--用tree控件实现接收人-->
+                                    <div class="col-sm-6" style="height:100%;">
+                                        <button type="button" class="btn btn-primary" style="height:26px;padding:0 8px;line-height:26px;">接收人</button>
+                                        <div style="width:100%;height:73%;overflow:auto;margin-top:5px;">
+                                            <div ng-repeat="receiver in selected_department">
+                                                <span style="display:inline-block;width:80%;height:20px;line-height:20px;font-size:12px;">{{receiver.department_name}}</span>
+                                                <!--<span style="display:inline-block;height:20px;line-height:20px;font-size:12px;"><i class="fa fa-remove"></i></span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" style="height:100%;overflow-y: auto;overflow-x: hidden;padding:0;">
+                                        <!--ui-tree-->
+                                        <script type="text/ng-template" id="nodes_renderer112.html">
+                                            <div style="margin-left:-20px;">
+                                                <div class="checkbox c-checkbox">
+                                                    <label>
+                                                        {{node.item.department_name}}
+                                                        <input type="checkbox"  ng-model="node.item.enabled"
+                                                               ng-checked="node.item.enabled==true" ng-click="department_tree_selected(node.item)">
+                                                        <span class="fa fa-check" style="width:12px;height:12px;line-height:12px !important;margin-top:4px;margin-left:20px;"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <ol class="h-list" ui-tree-nodes="" style="list-style:none ;margin-left:-15px;font-size:12px;">
+                                                <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer112.html'" style="width:150px;"></li>
+                                            </ol>
+                                        </script>
+                                        <div>
+                                            <ol ui-tree-nodes="" ng-model="quanxian" style="list-style: none;padding-left:25px;">
+                                                <li ng-repeat="node in department_tree" ui-tree-node ng-include="'nodes_renderer112.html'"></li>
+                                            </ol>
+                                        </div>
+                                        <!--ui-tree-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--上传结束-->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" ng-click="materailEditCancle()">取消</button>
+                        <button type="submit" class="btn btn-primary" >发布</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--弹出框end-->
+</div>

@@ -1,0 +1,247 @@
+<div ng-controller="templateCtrl" style="height: 100%;    padding: 20px 20px 20px 20px;">
+
+<!------------------------------UI-Grid表格示例（开始）----------------------------------->
+
+    <p style="font-size: 18px;font-weight: bold;">UI-Grid表格控件示例</p>
+    <div id="template_grid" ui-grid="template_gridOptions"   ui-grid-resize-columns ui-grid-pinning  ui-grid-move-columns   ui-grid-pagination ui-grid-selection ></div>
+
+
+
+
+
+
+
+
+
+<!------------------------------UI-Grid表格示例（开始）----------------------------------->
+
+
+<!------------------------------时间控件示例（开始）----------------------------------->
+    <div style="border: 1px solid #46c3e9; height: 120px;padding-left: 20px;margin-top: 50px;">
+        <div>
+            <h4>时间选择控件示例</h4>
+        </div>
+
+        <div class="form-group" style="width: 25%;float: left">
+            <label class=" ">开始时间：</label>
+            <input type="text" ng-value=""  ng-model="customer_querys.query.next_visit_time_begin" datepicker-popup="yyyy-MM-dd"  is-open="next_visit_time_begin_startOpened" ng-init="next_visit_time_begin_startOpened = false" min-date="'1970-12-31'" max-date="customer_querys.query.next_visit_time_end" close-text="Close">
+            <span class="fa fa-calendar" style="line-height: 25px;" ng-click="template_time_beginOpen($event)"></span>
+        </div>
+
+        <div class="form-group" style="width: 25%;float: left">
+            <label class=" ">结束时间：</label>
+            <input type="text"  ng-model="customer_querys.query.next_visit_time_end"  datepicker-popup="yyyy-MM-dd"  is-open="next_visit_time_begin_endOpened" ng-init="next_visit_time_begin_endOpened = false" min-date="customer_querys.query.next_visit_time_begin" max-date="'2030-12-31'" close-text="Close" >
+            <span class="fa fa-calendar" style="line-height: 25px;"  ng-click="template__time_endOpen($event)"></span>
+        </div>
+
+
+    </div>
+
+
+<!------------------------------时间控件示例（结束）----------------------------------->
+
+    <br>
+    <br>
+    <!----------------弹出窗口所需html（开始）----------------------->
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background: #ffffff;">
+                <div class="modal-header" style="text-align: left;">
+                    <h4 class="modal-title" id="myModalLabelTwo">
+                        模态框（Modal）标题
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    在这里添加一些文本
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="closeModal()">关闭</button>
+                    <button type="button" class="btn btn-primary" ng-click="saveModal()">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+
+    <!-- /.modal -->
+    <button type="button" class="mb-sm btn btn-info" ng-click="openModal()">弹出窗口</button>
+    <!----------------弹出窗口所需html（结束）----------------------->
+    <br>
+    <br>
+    <br>
+    <!------侧边右上角提示框html（开始）------->
+    <div style="border: 1px solid #46c3e9; height: 120px;padding-left: 20px;">
+        <h4>右上角提示框（一般用于保存操作的时候，提示）</h4>
+        <button type="button" class="mb-sm btn btn-info" ng-click="Info_prompt()">侧边普通提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="success_prompt()">侧边成功提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="error_prompt()">侧边失败提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="warning_prompt()">侧边警告提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="showWait()">侧边等待提示框！</button>
+
+    </div>
+
+    <!------侧边右上角提示框html（结束）------->
+    <br>
+    <br>
+    <br>
+
+
+
+    <!------弹出提示框html（开始）------->
+    <div style="border: 1px solid #46c3e9; height: 120px;padding-left: 20px;">
+        <h4>弹出提示框示例（一般用于弹出提示操作的时候）</h4>
+        <button type="button" class="mb-sm btn btn-info" ng-click="success_msg()">成功提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="error_msg()">失败提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="warning_msg()">警告提示框！</button>
+        <button type="button" class="mb-sm btn btn-info" ng-click="confirm_msg()">确认提示框！</button>
+    </div>
+
+    <!--<div style="border: 1px solid #46c3e9; height: 120px;padding-left: 20px;">-->
+        <!--<h4>弹出提示框示例二（一般用于弹出提示操作的时候）</h4>-->
+        <!--<button type="button" class="mb-sm btn btn-info" ng-click="demotwo_isconfirm()">成功提示框！</button>-->
+        <!--<button type="button" class="mb-sm btn btn-info" ng-click="error_msg()">失败提示框！</button>-->
+        <!--<button type="button" class="mb-sm btn btn-info" ng-click="warning_msg()">警告提示框！</button>-->
+        <!--<button type="button" class="mb-sm btn btn-info" ng-click="demotwo_isconfirm()">确认提示框！</button>-->
+    <!--</div>-->
+    <!------弹出提示框html（结束）------->
+
+
+
+
+
+    <!--<div nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter" style="margin-top:50px;">-->
+        <!--<div class="container-fluid">-->
+            <!--<div class="row">-->
+                <!--<div class="col-md-3">-->
+                    <!--<div class="panel">-->
+                        <!--<div class="panel-body">-->
+                            <!--&lt;!&ndash; Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"&ndash;&gt;-->
+                            <!--&lt;!&ndash;<button type="file" class="btn btn-default">上传</button>&ndash;&gt;-->
+                            <!--<input filestyle="" type="file"  data-button-text="Multiple" data-class-button="btn btn-default" data-class-input="form-control inline" nv-file-select="" uploader="uploader" multiple="" class="form-control" />-->
+                            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<input filestyle="" type="file"  data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="uploader" class="form-control" />&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="margin-bottom: 40px" class="col-md-9">-->
+                    <!--<div class="panel">-->
+                        <!--<div class="panel-body">-->
+                            <!--<p ng-if="uploader.queue.length" class="pull-right label label-info">Queue length: {{ uploader.queue.length }}</p>-->
+                            <!--<h4 class="page-header mt0">Upload queue</h4>-->
+                            <!--<p ng-if="!uploader.queue.length" class="lead text-center">No files in queue. Start adding some..</p>-->
+                            <!--<div ng-if="uploader.queue.length">-->
+                                <!--<table ng-if="uploader.queue.length" class="table">-->
+                                    <!--<thead>-->
+                                    <!--<tr>-->
+                                        <!--<th width="50%">Name</th>-->
+                                        <!--<th ng-show="uploader.isHTML5">Size</th>-->
+                                        <!--<th ng-show="uploader.isHTML5">Progress</th>-->
+                                        <!--<th>Status</th>-->
+                                        <!--<th>Actions</th>-->
+                                    <!--</tr>-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                    <!--<tr ng-repeat="item in uploader.queue">-->
+                                        <!--<td>-->
+                                            <!--<strong>{{ item.file.name }}</strong>-->
+                                        <!--</td>-->
+                                        <!--<td ng-show="uploader.isHTML5" nowrap="">{{ item.file.size/1024/1024|number:2 }} MB</td>-->
+                                        <!--<td ng-show="uploader.isHTML5">-->
+                                            <!--<div style="margin-bottom: 0;" class="progress progress-xs">-->
+                                                <!--<div role="progressbar" ng-style="{ 'width': item.progress + '%' }" class="progress-bar"></div>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
+                                        <!--<td class="text-center">-->
+                                 <!--<span ng-show="item.isSuccess">-->
+                                    <!--<em class="fa fa-check fa-fw"></em>-->
+                                 <!--</span>-->
+                                 <!--<span ng-show="item.isCancel">-->
+                                    <!--<em class="fa fa-ban-circle fa-fw"></em>-->
+                                 <!--</span>-->
+                                 <!--<span ng-show="item.isError">-->
+                                    <!--<em class="fa fa-times fa-fw"></em>-->
+                                 <!--</span>-->
+                                        <!--</td>-->
+                                        <!--<td nowrap="">-->
+                                            <!--<button type="button" ng-click="uploadImages()" ng-disabled="item.isReady || item.isUploading || item.isSuccess" class="btn btn-info btn-xs">-->
+                                                <!--<span class="icon-cloud-upload mr"></span>Upload</button>-->
+                                            <!--<button type="button" ng-click="item.cancel()" ng-disabled="!item.isUploading" class="btn btn-warning btn-xs">-->
+                                                <!--<span class="icon-close mr"></span>Cancel</button>-->
+                                            <!--<button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">-->
+                                                <!--<span class="icon-trash mr"></span>Remove</button>-->
+                                        <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="panel">-->
+                        <!--<div class="panel-body">-->
+                            <!--<div>-->
+                                <!--<p>Queue progress:</p>-->
+                                <!--<div style="" class="progress progress-xs">-->
+                                    <!--<div role="progressbar" ng-style="{ 'width': uploader.progress + '%' }" class="progress-bar"></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<button type="button" ng-click="uploadImages()" ng-disabled="!uploader.getNotUploadedItems().length" class="btn btn-info btn-s">-->
+                                <!--<span class="icon-cloud-upload mr"></span>Upload all</button>-->
+                            <!--<button type="button" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading" class="btn btn-warning btn-s">-->
+                                <!--<span class="icon-close mr"></span>Cancel all</button>-->
+                            <!--<button type="button" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length" class="btn btn-danger btn-s">-->
+                                <!--<span class="icon-trash mr"></span>Remove all</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--客户地址——省市下拉框 start-->
+    <div class="panel panel-default">
+        <div class="panel-heading title" style="border-bottom: 1px solid #d9d9d9;">
+            <label style="font-size: 20px;font-weight: 700; padding: 5px 0px;">求助管理</label>
+            <div class="search" style="float: right; margin: 0px 0px 0px 0px;">
+                <input type="text" placeholder="输入搜索内容" class="form-control"
+                    style="width: 177px; height: 36px; margin: 5px 100px -3px 0px;" />
+                <button type="button" class="btn btn-default findButton" style="width: 36px; height: 36px; margin: -55px 0px 0px 200px;">
+                    <i class="icon-magnifier" style="margin: 0px 0px 0px -5px;"></i>
+                </button>
+                <button  type="button" class="btn btn-default findMore" style="width: 36px;height: 36px; margin: -55px 0px 0px -8px;" ng-click="showSearchArea()">
+                    <i class="fa fa-angle-double-down findMoreIcon" style="margin: 0px 0px 0px -5px;"></i>
+                </button>
+            </div>
+        </div>
+        <div class="searchArea" style="padding: 15px 15px;" ng-hide="show_edit">
+                <div style="float: left;margin-right: 50px;">
+                    <label> 时间段:</label>
+                    <input type="text" class="btn btn-default"/>
+                    <span style="margin: 0px 0px 0px -8px;">
+                        <button class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                    </span>
+                    <label>-</label>
+                    <input type="text" class="btn btn-default"/>
+                    <span class="endingTimeLabel"  style="margin: 0px 0px 0px -8px;">
+                        <button class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                    </span>
+                </div>
+                <div style="float: left;margin-right: 50px;">
+                    <label> 求助状态:</label>
+                    <select class="form-control helpStatusSearch" style="display: inline-block; margin: -2px 0px 0px 0px;width: 150px;">
+                    </select>
+                </div>
+            </div>
+            <div ng-hide="show_edit" style="clear:both; border-bottom: 1px solid #d9d9d9; padding-bottom: 15px;">
+        </div>
+        <div class="panel-body">
+            <label class="control-label y-label">客户地址：</label>
+            <select ng-model="selectProvince" class="span1">
+                <option ng-repeat="(key, value) in province">{{key}}</option>
+            </select>
+            <select ng-model="selectCity" ng-show="selectProvince" class="span1">
+                <option ng-repeat="city in province[selectProvince]">{{city}}</option>
+            </select>
+        </div>
+    </div>
+    <!--客户地址——省市下拉框 end-->
+</div>

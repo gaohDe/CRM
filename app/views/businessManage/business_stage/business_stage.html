@@ -1,0 +1,84 @@
+<div ng-controller="business_stageCtrl">
+    <div class="stage_body" style="border:none;">
+        <!--<div class="comment-content">-->
+            <!--ddddddddd-->
+            <!--<span class="icon commentArrow-icon"></span>-->
+            <!--<div class="comment-user">-->
+                <!--<a href="#">sdfnmk,</a>-->
+                <!--<span>{{msg.msg_time | date:'yyyy-MM-dd HH:mm:ss'}} </span>-->
+                <!--&lt;!&ndash;<a href="#" class="reply">回复</a>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="panel-heading" >
+            <span class="stage_font2">业务阶段设置</span>&nbsp;
+            <span class="stage_font1">合计{{length}}个阶段</span>
+            <a class=" a_addStage pull-right" ng-click="addStage()"  ><i class="fa fa-plus"></i>新建阶段</a>
+        </div>
+        <div style="padding:0;">
+            <!--左边栏阶段start-->
+            <div style="padding:0;width:22%;float:left">
+                <ul class="stage_left">
+                    <li  ng-repeat="stage in busi_stage" ng-click="stageSelect(stage)"
+                        ng-class="{stageSelected:selected.id==stage.id}" id="stage_{{stage.seq}}">
+                        <!--<a href="#" tooltip-placement="left" tooltip="阶段{{stage.seq}}" style="text-decoration: none;">-->
+                            <span class="stage_seq">{{stage.seq}}</span>
+                        <!--</a>-->
+                        <!--<a href="#" tooltip-placement="right" tooltip="{{stage.stage_describe}}" style="text-decoration: none;">-->
+                            {{stage.stage_name}}
+                        <!--</a>-->
+                    </li>
+                </ul>
+            </div>
+            <!--左边栏阶段end-->
+
+            <!--右边栏阶段详情start-->
+            <div class="col-sm-9 stage_info" id="stage_info_modal">
+                <div class="arrow" id="arrow_gh" style="border:solid 11px #fff;border-left-width:0;position:absolute;top:10px;width:0;height:0;border-right-color:#ecf3fc;left:-11px;"></div>
+                <div class="panel-heading" style="padding:0 ;margin:15px 15px 0;background: #ecf3fc;">
+                    <span ng-hide="hjitems" class="title_font">第{{busi_stage2.seq}}阶段信息</span>
+                    <span ng-show="hjitems" class="title_font">{{busi_stage2.id==null?'增加':busi_stage2.id!=null?'修改':''}}阶段信息</span>
+                </div>
+                <div class="panel-body" id="add_form">
+                    <form name="stage_form" ng-submit="save_stage(stage_form)" class="form-horizontal">
+                        <p class="pull-right stage_caozuo" ng-show="busi_stage2.id">
+                            <a  ng-click="editStage()" title="编辑阶段信息"><i class="fa fa-pencil"></i></a>
+                            <a  ng-click="delStage()" title="删除阶段"><i class="fa fa-trash-o"></i></a>
+                        </p>
+                        <div class="form-group">
+                            <label class="control-label y-label stage_label1">阶段名称：</label>
+                            <label class="col-sm-7 stage_label2" ng-hide="hjitems">{{busi_stage2.stage_name}}</label>
+                            <input class="col-sm-7 stage_input"  ng-show="hjitems"  required="required" name="stage_name" type="text" ng-model="busi_stage2.stage_name"/>
+                            <div style="width:6%;padding:0;" ng-show="hjitems">
+                                <code ng-show="validate_stage_input('stage_name', 'required')">必填！</code>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class=" control-label y-label stage_label1">阶段排序：</label>
+                            <label class="col-sm-7 stage_label2" ng-hide="hjitems">{{busi_stage2.seq}}</label>
+                            <input class="col-sm-7 stage_input"  ng-show="hjitems" required="required" name="seq" type="text" ng-model="busi_stage2.seq"/>
+                            <div style="width:6%;padding:0;" ng-show="hjitems">
+                                <code ng-show="validate_stage_input('seq', 'required')">必填！</code>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label y-label stage_label1" >阶段说明：</label>
+                            <label class="col-sm-7 stage_label2" ng-hide="hjitems">{{busi_stage2.stage_describe}}</label>
+                            <textarea class="col-sm-7 " style=" border-radius:2px;border:1px solid #aac4e0;width:75%;" ng-show="hjitems" required name="stage_describe" rows="3" type="text" ng-model="busi_stage2.stage_describe"/>
+                            <div style="width:6%;padding:0;" ng-show="hjitems">
+                                <code ng-show="validate_stage_input('stage_describe', 'required')">必填！</code>
+                            </div>
+                        </div>
+                        <div ng-show="hjitems" style="clear:both;padding-left:20px;">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-confim" ng-click="cancel()">取消</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--右边栏阶段详情end-->
+            <div style="clear:both;">
+
+            </div>
+        </div>
+    </div>
+</div>

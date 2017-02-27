@@ -1,0 +1,63 @@
+.fc-icon-fa {
+    font-family: FontAwesome !important;
+}
+
+.fc-button  {
+    color: #858585 !important;
+    line-height: 24px;
+    opacity: 0.6;
+    height: 24px !important;
+}
+
+.fc-state-default   {
+text-shadow:none !important;
+    /*background-color: #ffffff !important;*/
+}
+.fc-button-group{
+    font-size:12px;
+}
+.fc-center h2{
+    font-size:22px;
+}
+.fc-toolbar{
+    margin-bottom:5px !important;
+    /*line-height:24px !important;*/
+}
+.fc-widget-content{
+    height:100px !important;
+}
+/*.fc-event   {*/
+/*color: #333333;*/
+/*}*/
+
+.b-2x {
+    border-width: 5px;
+}
+
+.b-primary {
+    border-color: #7266BA;
+}
+
+/*.b-l {*/
+/*border-left: 1px solid #DEE5E7;*/
+/*}*/
+
+.b-warning {
+    border-color: #FAD733;
+}
+
+a {
+    color: #363F44;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.fc-view .fc-event {
+    padding: 4px 8px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.fc-day-grid-event {
+    margin: 1px 2px 0;
+    /*padding: 0px 1px;*/
+}
